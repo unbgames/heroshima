@@ -13,20 +13,15 @@
 
 TitleState::TitleState() {
     auto titleGO(new GameObject);
-    titleGO->AddComponent(new Sprite(*titleGO, "img/title.jpg"));
+    titleGO->AddComponent(new Sprite(*titleGO, "img/Japan_BG_Pixel.jpg"));
     AddObject(titleGO);
 
     auto fontGO(new GameObject);
-    Text *text = new Text(*fontGO, "font/Call me maybe.ttf", 60, Text::TextStyle::BLENDED, "Press space to continue...", {0, 0, 0, 255});
+    Text *text = new Text(*fontGO, "font/JAPAN.ttf", 60, Text::TextStyle::SOLID, "HEROshima", {255, 255, 255, 255});
     fontGO->AddComponent(text);
     Rect &fontBox = fontGO->box;
     fontBox.x = GAME_WIDTH/2 - fontBox.w/2;
-    fontBox.y = GAME_HEIGHT - fontBox.h;
-
-    fontGO->AddComponent(new PeriodicEvent(*fontGO, 0.4, [text] {
-        auto alpha = (text->GetColor().a != 0) ? 0 : 255;
-        text->setColor({0, 0, 0, (Uint8)alpha});
-    }));
+    fontBox.y = fontBox.h;
 
     AddObject(fontGO);
 
@@ -37,7 +32,7 @@ TitleState::~TitleState() {
 }
 
 void TitleState::LoadAssets() {
-
+    backgroundMusic.Open("audio/Japans-Victory-Theme.ogg");
 }
 
 void TitleState::Update(float dt) {
@@ -56,7 +51,9 @@ void TitleState::Render() {
 }
 
 void TitleState::Start() {
+    LoadAssets();
     StartArray();
+    backgroundMusic.Play();
 }
 
 void TitleState::Pause() {

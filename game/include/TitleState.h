@@ -7,6 +7,7 @@
 
 
 #include "State.h"
+#include "Music.h"
 
 class TitleState : public State {
 public:
@@ -20,6 +21,9 @@ public:
     void Start() override;
     void Pause() override;
     void Resume() override;
+
+private:
+    Music backgroundMusic;
 
 };
 
