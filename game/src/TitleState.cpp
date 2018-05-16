@@ -16,6 +16,13 @@ TitleState::TitleState() {
     titleGO->AddComponent(new Sprite(*titleGO, "img/Japan_BG_Pixel.jpg"));
     AddObject(titleGO);
 
+    auto redCircleGO(new GameObject);
+    redCircleGO->box.x = GAME_WIDTH/2 - redCircleGO->box.w/2;
+    Sprite *sprite = new Sprite(*redCircleGO, "img/circle_red.png");
+    sprite->SetScale(0.5F, 0.5F);
+    redCircleGO->AddComponent(sprite);
+    AddObject(redCircleGO);
+
     auto fontGO(new GameObject);
     Text *text = new Text(*fontGO, "font/JAPAN.ttf", 60, Text::TextStyle::SOLID, "HEROshima", {255, 255, 255, 255});
     fontGO->AddComponent(text);
