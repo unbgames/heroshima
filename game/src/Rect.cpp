@@ -24,6 +24,10 @@ Vec2 Rect::GetCenter() {
     return {x + (w/2), y + (h/2)};
 }
 
+Vec2 Rect::GetPos() {
+    return {x , y};
+}
+
 float Rect::DistRecs(Rect r) {
     Vec2 v = this->GetCenter();
     return v.Dist(r.GetCenter());

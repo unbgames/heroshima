@@ -3,7 +3,6 @@
 //
 
 #include "Text.h"
-#include <PeriodicEvent.h>
 #include "TitleState.h"
 #include "Sprite.h"
 #include "StageState.h"
@@ -16,6 +15,12 @@ TitleState::TitleState() {
     titleGO->AddComponent(new Sprite(*titleGO, "img/Japan_BG_Pixel.jpg"));
     AddObject(titleGO);
 
+    auto menuGO(new GameObject);
+    menuGO->box += {50, 250};
+    menu = new Menu(*menuGO);
+    menuGO->AddComponent(menu);
+    AddObject(menuGO);
+
     auto redCircleGO(new GameObject);
     redCircleGO->box.x = GAME_WIDTH/2 - redCircleGO->box.w/2;
     Sprite *sprite = new Sprite(*redCircleGO, "img/circle_red.png");
@@ -24,7 +29,7 @@ TitleState::TitleState() {
     AddObject(redCircleGO);
 
     auto fontGO(new GameObject);
-    Text *text = new Text(*fontGO, "font/JAPAN.ttf", 60, Text::TextStyle::SOLID, "HEROshima", {255, 255, 255, 255});
+    Text *text = new Text(*fontGO, "font/JAPAN.ttf", 70, Text::TextStyle::SOLID, "HEROshima", {255, 255, 255, 255});
     fontGO->AddComponent(text);
     Rect &fontBox = fontGO->box;
     fontBox.x = GAME_WIDTH/2 - fontBox.w/2;
@@ -49,12 +54,29 @@ void TitleState::Update(float dt) {
 
     quitRequested = inputManager.QuitRequested() || inputManager.KeyPress(ESCAPE_KEY);
     if (inputManager.KeyPress(SPACE_BAR_KEY)) {
+        Pause();
         Game::GetInstance().Push(new StageState());
+    }
+
+    if(menu->IsSelected()){
+        menu->SetSelected(false);
+        switch(menu->GetOption()){
+            case Menu::START:
+                Pause();
+                Game::GetInstance().Push(new StageState());
+                break;
+                
+            case Menu::EXIT:
+                Pause();
+                quitRequested = true;
+                break;
+        }
     }
 }
 
 void TitleState::Render() {
     RenderArray();
+    menu->Render();
 }
 
 void TitleState::Start() {

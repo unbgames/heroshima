@@ -20,6 +20,7 @@ public:
     Rect MulVec2(Vec2 v);
 
     Vec2 GetCenter();
+    Vec2 GetPos();
 
     float DistRecs(Rect r);
     float DistVec2(Vec2 v);

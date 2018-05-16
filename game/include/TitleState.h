@@ -8,6 +8,7 @@
 
 #include "State.h"
 #include "Music.h"
+#include "Menu.h"
 
 class TitleState : public State {
 public:
@@ -24,7 +25,7 @@ public:
 
 private:
     Music backgroundMusic;
-
+    Menu* menu;
 };
 
 
