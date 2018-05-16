@@ -62,4 +62,5 @@ void TitleState::Pause() {
 
 void TitleState::Resume() {
     Camera::pos = Vec2(0, 0);
+    backgroundMusic.Play();
 }
