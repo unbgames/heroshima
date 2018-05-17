@@ -41,18 +41,6 @@ StageState::StageState() {
     alien1GO->AddComponent(new Alien(*alien1GO, 5, 4));
     objectArray.emplace_back(alien1GO);
 
-    auto alien2GO(new GameObject);
-    Rect &alien2Box = alien2GO->box;
-    alien2Box += {112 + alien2Box.w/2, 800 + alien2Box.h/2};
-    alien2GO->AddComponent(new Alien(*alien2GO, 5, 0));
-    objectArray.emplace_back(alien2GO);
-
-    auto alien3GO(new GameObject);
-    Rect &alien3Box = alien3GO->box;
-    alien3Box += {712 + alien3Box.w/2, 900 + alien3Box.h/2};
-    alien3GO->AddComponent(new Alien(*alien3GO, 5, 7));
-    objectArray.emplace_back(alien3GO);
-
     quitRequested = false;
 }
 

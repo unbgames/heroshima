@@ -45,4 +45,6 @@ add_executable(HEROshima src/Main.cpp
         src/PeriodicEvent.cpp include/PeriodicEvent.h
         src/EndState.cpp include/EndState.h
         src/GameData.cpp include/GameData.h
-        src/Menu.cpp include/Menu.h)
+        src/Menu.cpp include/Menu.h
+        src/Stage1.cpp include/Stage1.h
+        src/Player.cpp include/Player.h)

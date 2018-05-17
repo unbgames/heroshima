@@ -23,7 +23,7 @@ Menu::Menu(GameObject &associated) : Component(associated), selected(false), opt
     options.emplace_back(controlsText);
     associated.AddComponent(controlsText);
 
-    controles.AddComponent(new Sprite(controles, "img/controles_old_style.png"));
+    controles.AddComponent(new Sprite(controles, "img/image.png"));
     controles.box += {controlsGO->box.x + controlsGO->box.w + 20, controlsGO->box.y};
 
     auto exitGO(new GameObject);

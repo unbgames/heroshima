@@ -22,6 +22,8 @@ class Sprite : public Component {
 public:
     explicit Sprite(GameObject& associated);
     explicit Sprite(GameObject& associated, string file, int frameCount = 1, float frameTime = 1, float secondsToSelfDestruct = 0);
+    explicit Sprite(GameObject &associated, string file, bool flip, int frameCount, float frameTime, float secondsToSelfDestruct = 0);
+
     ~Sprite() override;
 
     void Open(string file);
@@ -43,12 +45,15 @@ public:
     void SetFrameCount(int frameCount);
     void SetFrameTime(float);
 
+    void SetFlip(bool flip);
+
 private:
     shared_ptr<SDL_Texture> texture;
     int width;
     int height;
     SDL_Rect clipRect;
     Vec2 scale;
+    bool flip;
 
     int frameCount;
     int currentFrame;

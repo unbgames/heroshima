@@ -2,6 +2,7 @@
 // Created by edgar on 11/05/18.
 //
 
+#include <Stage1.h>
 #include "Text.h"
 #include "TitleState.h"
 #include "Sprite.h"
@@ -62,7 +63,7 @@ void TitleState::Update(float dt) {
         switch(menu->GetOption()){
             case Menu::NEW_GAME:
                 Pause();
-                Game::GetInstance().Push(new StageState());
+                Game::GetInstance().Push(new Stage1());
                 break;
 
             case Menu::CONTROLS:
