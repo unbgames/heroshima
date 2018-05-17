@@ -24,8 +24,9 @@ public:
     bool Is(string type) override;
 
     void setText(string text);
+    const string &getText() const;
     void setColor(SDL_Color color);
-    const SDL_Color &GetColor() const;
+    const SDL_Color &getColor() const;
     void setStyle(TextStyle style);
     void setFontFile(string fontFile);
     void setFontSize(int fontSize);
@@ -38,6 +39,8 @@ private:
     SDL_Texture* texture;
 
     string text;
+
+private:
     TextStyle style;
     string fontFile;
     int fontSize;

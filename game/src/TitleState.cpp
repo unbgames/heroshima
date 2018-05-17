@@ -29,7 +29,7 @@ TitleState::TitleState() {
     AddObject(redCircleGO);
 
     auto fontGO(new GameObject);
-    Text *text = new Text(*fontGO, "font/JAPAN.ttf", 70, Text::TextStyle::SOLID, "HEROshima", {255, 255, 255, 255});
+    Text *text = new Text(*fontGO, "font/JAPAN.ttf", 70, Text::TextStyle::BLENDED, "HEROshima", {255, 255, 255, 255});
     fontGO->AddComponent(text);
     Rect &fontBox = fontGO->box;
     fontBox.x = GAME_WIDTH/2 - fontBox.w/2;
@@ -69,6 +69,9 @@ void TitleState::Update(float dt) {
             case Menu::EXIT:
                 Pause();
                 quitRequested = true;
+                break;
+
+            default:
                 break;
         }
     }

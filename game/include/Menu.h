@@ -29,6 +29,8 @@ private:
     vector<Text*> options;
     int optSelected;
     bool selected;
+
+    int FindOption(const string &basic_string);
 };
 
 

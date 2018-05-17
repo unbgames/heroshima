@@ -85,6 +85,10 @@ void Text::RemakeTexture() {
 
 }
 
-const SDL_Color &Text::GetColor() const {
+const SDL_Color &Text::getColor() const {
     return color;
+}
+
+const string &Text::getText() const {
+    return text;
 }

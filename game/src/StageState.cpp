@@ -81,6 +81,7 @@ void StageState::Update(float dt) {
 
     if (Alien::alienCount == 0 || PenguinBody::player == nullptr) {
         GameData::playerVictory = PenguinBody::player != nullptr;
+        Pause();
         popRequested = true;
         Game::GetInstance().Push(new EndState());
     }

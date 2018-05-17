@@ -12,3 +12,7 @@ void Component::Start() {}
 
 void Component::NotifyCollision(GameObject &other) {}
 
+Rect Component::GetAssociatedBox() {
+    return associated.box;
+}
+

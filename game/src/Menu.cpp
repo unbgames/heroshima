@@ -27,17 +27,23 @@ Menu::~Menu() {
 }
 
 void Menu::Update(float dt){
-    InputManager instance = InputManager::GetInstance();
+    InputManager inputManager = InputManager::GetInstance();
 
-    if(instance.KeyPress(UP_ARROW_KEY)){
+    if(inputManager.KeyPress(UP_ARROW_KEY)){
         optSelected--;
         if(optSelected < 0) optSelected = (int)(options.size() - 1);
-    } else if(instance.KeyPress(DOWN_ARROW_KEY)){
+    } else if(inputManager.KeyPress(DOWN_ARROW_KEY)){
         optSelected++;
         if(optSelected == (int) options.size()) optSelected = 0;
     }
-    if(instance.KeyPress(ENTER_KEY)){
-        selected = true;
+
+    for (auto &option : options) {
+        if(option->GetAssociatedBox().Contains(inputManager.GetMouse())){
+            optSelected = FindOption(option->getText());
+            selected = inputManager.MouseRelease(LEFT_MOUSE_BUTTON) || inputManager.KeyPress(ENTER_KEY);
+        } else{
+            selected = inputManager.KeyPress(ENTER_KEY);
+        }
     }
 }
 
@@ -67,4 +73,12 @@ bool Menu::IsSelected(){
 
 void Menu::SetSelected(bool selected){
     this->selected = selected;
+}
+
+int Menu::FindOption(const string &basic_string) {
+    if(basic_string == "Start"){
+        return START;
+    } else if(basic_string == "Exit"){
+        return EXIT;
+    }
 }

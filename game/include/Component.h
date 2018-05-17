@@ -27,6 +27,8 @@ public:
 
     virtual void NotifyCollision(GameObject& other);
 
+    Rect GetAssociatedBox();
+
 protected:
     GameObject& associated;
 
