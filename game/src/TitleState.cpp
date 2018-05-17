@@ -15,12 +15,6 @@ TitleState::TitleState() {
     titleGO->AddComponent(new Sprite(*titleGO, "img/Japan_BG_Pixel.jpg"));
     AddObject(titleGO);
 
-    auto menuGO(new GameObject);
-    menuGO->box += {50, 250};
-    menu = new Menu(*menuGO);
-    menuGO->AddComponent(menu);
-    AddObject(menuGO);
-
     auto redCircleGO(new GameObject);
     redCircleGO->box.x = GAME_WIDTH/2 - redCircleGO->box.w/2;
     Sprite *sprite = new Sprite(*redCircleGO, "img/circle_red.png");
@@ -28,13 +22,18 @@ TitleState::TitleState() {
     redCircleGO->AddComponent(sprite);
     AddObject(redCircleGO);
 
+    auto menuGO(new GameObject);
+    menuGO->box += {50, 250};
+    menu = new Menu(*menuGO);
+    menuGO->AddComponent(menu);
+    AddObject(menuGO);
+
     auto fontGO(new GameObject);
     Text *text = new Text(*fontGO, "font/JAPAN.ttf", 70, Text::TextStyle::BLENDED, "HEROshima", {255, 255, 255, 255});
     fontGO->AddComponent(text);
     Rect &fontBox = fontGO->box;
     fontBox.x = GAME_WIDTH/2 - fontBox.w/2;
     fontBox.y = fontBox.h;
-
     AddObject(fontGO);
 
 }
@@ -61,12 +60,16 @@ void TitleState::Update(float dt) {
     if(menu->IsSelected()){
         menu->SetSelected(false);
         switch(menu->GetOption()){
-            case Menu::START:
+            case Menu::NEW_GAME:
                 Pause();
                 Game::GetInstance().Push(new StageState());
                 break;
+
+            case Menu::CONTROLS:
+
+                break;
                 
-            case Menu::EXIT:
+            case Menu::EXIT_GAME:
                 Pause();
                 quitRequested = true;
                 break;
@@ -80,6 +83,7 @@ void TitleState::Update(float dt) {
 void TitleState::Render() {
     RenderArray();
     menu->Render();
+
 }
 
 void TitleState::Start() {

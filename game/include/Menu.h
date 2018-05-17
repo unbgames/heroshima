@@ -2,13 +2,18 @@
 // Created by edgar on 16/05/18.
 //
 
-#ifndef SRC_MENU_H
-#define SRC_MENU_H
+#ifndef MENU_CLASS
+#define MENU_CLASS
 
 #define MENU_TYPE "Menu"
+#define LABEL_NEW_GAME "Novo Jogo"
+#define LABEL_CONTROLS "Controles"
+#define LABEL_EXIT_GAME "Sair"
+
 
 #include "Rect.h"
 #include "Text.h"
+#include "Sprite.h"
 
 class Menu : public Component {
 public:
@@ -23,14 +28,17 @@ public:
     bool IsSelected();
     void SetSelected(bool s);
 
-    enum { START, EXIT };
+    enum { NEW_GAME, CONTROLS, EXIT_GAME };
     
 private:
     vector<Text*> options;
     int optSelected;
     bool selected;
 
-    int FindOption(const string &basic_string);
+    GameObject controles;
+    bool showControles;
+
+    int FindOption(const string &optionText);
 };
 
 

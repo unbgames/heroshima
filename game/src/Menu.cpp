@@ -4,20 +4,31 @@
 
 #include <InputManager.h>
 #include <Resources.h>
+#include <Sprite.h>
 #include "Menu.h"
 
 Menu::Menu(GameObject &associated) : Component(associated), selected(false), optSelected(0) {
+    showControles = false;
     //Se atentar para a ordem de incersao
     //As opcoes devem estar na mesma posicao no enum
     auto startGO(new GameObject);
     startGO->box += associated.box.GetPos();
-    Text *startText = new Text(*startGO, "font/JAPAN.ttf", 60, Text::TextStyle::BLENDED, "Start", {255, 255, 255, 255});
+    Text *startText = new Text(*startGO, "font/JAPAN.ttf", 60, Text::TextStyle::BLENDED, LABEL_NEW_GAME, {255, 255, 255, 255});
     options.emplace_back(startText);
     associated.AddComponent(startText);
 
+    auto controlsGO(new GameObject);
+    controlsGO->box += associated.box.GetPos() + Vec2(0, startGO->box.h);
+    Text *controlsText = new Text(*controlsGO, "font/JAPAN.ttf", 60, Text::TextStyle::BLENDED, LABEL_CONTROLS, {255, 255, 255, 255});
+    options.emplace_back(controlsText);
+    associated.AddComponent(controlsText);
+
+    controles.AddComponent(new Sprite(controles, "img/nuke_pixel.png"));
+    controles.box += {controlsGO->box.x + controlsGO->box.w, controlsGO->box.y};
+
     auto exitGO(new GameObject);
-    exitGO->box += associated.box.GetPos() + Vec2(0, startGO->box.h);
-    Text *exitText = new Text(*exitGO, "font/JAPAN.ttf", 60, Text::TextStyle::BLENDED, "Exit", {255, 255, 255, 255});
+    exitGO->box += associated.box.GetPos() + Vec2(0, startGO->box.h + controlsGO->box.h);
+    Text *exitText = new Text(*exitGO, "font/JAPAN.ttf", 60, Text::TextStyle::BLENDED, LABEL_EXIT_GAME, {255, 255, 255, 255});
     options.emplace_back(exitText);
     associated.AddComponent(exitText);
 }
@@ -40,11 +51,20 @@ void Menu::Update(float dt){
     for (auto &option : options) {
         if(option->GetAssociatedBox().Contains(inputManager.GetMouse())){
             optSelected = FindOption(option->getText());
-            selected = inputManager.MouseRelease(LEFT_MOUSE_BUTTON) || inputManager.KeyPress(ENTER_KEY);
+            if(inputManager.MouseRelease(LEFT_MOUSE_BUTTON) || inputManager.KeyPress(ENTER_KEY)){
+                selected = true;
+                break;
+            }
         } else{
-            selected = inputManager.KeyPress(ENTER_KEY);
+            if(inputManager.KeyPress(ENTER_KEY)){
+                selected = true;
+                break;
+            }
+
         }
     }
+
+    showControles = optSelected == CONTROLS;
 }
 
 void Menu::Render(){
@@ -57,6 +77,7 @@ void Menu::Render(){
             options[i]->setColor(white);
         }
     }
+    if(showControles) controles.Render();
 }
 
 bool Menu::Is(string type) {
@@ -75,10 +96,12 @@ void Menu::SetSelected(bool selected){
     this->selected = selected;
 }
 
-int Menu::FindOption(const string &basic_string) {
-    if(basic_string == "Start"){
-        return START;
-    } else if(basic_string == "Exit"){
-        return EXIT;
+int Menu::FindOption(const string &optionText) {
+    if(optionText == LABEL_NEW_GAME){
+        return NEW_GAME;
+    } else if(optionText == LABEL_CONTROLS){
+        return CONTROLS;
+    } else if(optionText == LABEL_EXIT_GAME){
+        return EXIT_GAME;
     }
 }
