@@ -22,7 +22,6 @@ class Sprite : public Component {
 public:
     explicit Sprite(GameObject& associated);
     explicit Sprite(GameObject& associated, string file, int frameCount = 1, float frameTime = 1, float secondsToSelfDestruct = 0);
-    explicit Sprite(GameObject &associated, string file, bool flip, int frameCount, float frameTime, float secondsToSelfDestruct = 0);
 
     ~Sprite() override;
 

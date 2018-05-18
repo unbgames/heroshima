@@ -5,7 +5,6 @@
 #include <Stage1.h>
 #include "Text.h"
 #include "TitleState.h"
-#include "Sprite.h"
 #include "StageState.h"
 #include "InputManager.h"
 #include "Game.h"

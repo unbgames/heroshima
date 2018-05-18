@@ -57,7 +57,7 @@ void Stage1::Render() {
 }
 
 void Stage1::Start() {
-
+//    Camera::pos = Vec2(0, 0);
 }
 
 void Stage1::Pause() {

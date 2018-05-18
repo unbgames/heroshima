@@ -32,16 +32,6 @@ Sprite::Sprite(GameObject &associated, string file, int frameCount, float frameT
     Open(move(file));
 }
 
-Sprite::Sprite(GameObject &associated, string file, bool flip, int frameCount, float frameTime, float secondsToSelfDestruct) : Component(associated),
-                                                                                                                    texture(nullptr),
-                                                                                                                    scale(1, 1),
-                                                                                                                    frameCount(frameCount),
-                                                                                                                    frameTime(frameTime),
-                                                                                                                    selfDestructCount(*new Timer),
-                                                                                                                    secondsToSelfDestruct(secondsToSelfDestruct) {
-    Open(move(file));
-}
-
 Sprite::~Sprite() {
 //    Resources cuida da desalocagem
 }

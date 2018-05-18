@@ -3,17 +3,15 @@
 //
 
 #include <Collider.h>
-#include <Sprite.h>
 #include <InputManager.h>
 #include <Camera.h>
 #include "Player.h"
 
 Player *Player::player = nullptr;
 
-Player::Player(GameObject &associated) : Component(associated), speed(0, 0), linearSpeed(0), angle(0), hp(100), andando(false), direita(true) {
-    associated.AddComponent(new Sprite(associated, "img/spritesheet_kays_parado.png", 3, 0.3));
+Player::Player(GameObject &associated) : Component(associated), speed(0, 0), linearSpeed(0), angle(0), hp(100), andando(false), direita(true), estavaAndando(false) {
     associated.AddComponent(new Collider(associated));
-//    associated.AddComponent(new Sprite(associated, "img/spritesheet_kays_andando.png", 4, 0.2));
+    associated.AddComponent(new Sprite(associated, "img/spritesheet_kays_parado.png", 3, 0.3));
     player = this;
 }
 
@@ -27,6 +25,7 @@ void Player::Start() {
 
 void Player::Update(float dt) {
     InputManager inputManager = InputManager::GetInstance();
+    estavaAndando = andando;
 
     if (inputManager.IsKeyDown(A_KEY) || inputManager.IsKeyDown(D_KEY)){
         andando = true;
@@ -54,7 +53,16 @@ void Player::Update(float dt) {
 
 void Player::Render() {
     auto sprite = (Sprite*)associated.GetComponent(SPRITE_TYPE);
+    if(!estavaAndando && andando){
+        sprite->Open("img/spritesheet_kays_andando.png");
+        sprite->SetFrameCount( 4 );
+        sprite->SetFrameTime(0.2);
 
+    } else if(estavaAndando && !andando){
+        sprite->Open("img/spritesheet_kays_parado.png");
+        sprite->SetFrameCount( 3 );
+        sprite->SetFrameTime(0.3);
+    }
     sprite->SetFlip(!direita);
 }
 

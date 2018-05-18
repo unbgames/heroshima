@@ -9,6 +9,7 @@
 
 #include "Vec2.h"
 #include "Component.h"
+#include <Sprite.h>
 
 class Player :public Component {
 public:
@@ -29,6 +30,7 @@ private:
     float linearSpeed;
     float angle;
     bool andando;
+    bool estavaAndando;
     bool direita;
     int hp;
 
