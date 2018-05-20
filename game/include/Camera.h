@@ -7,7 +7,8 @@
 
 #include "GameObject.h"
 
-#define CAMERA_SPEED 300
+#define CAMERA_SPEED    300
+#define VERTICAL_OFFSET 150
 
 class Camera {
 public:

@@ -5,7 +5,9 @@
 #ifndef PLAYER_CLASS
 #define PLAYER_CLASS
 
-#define PLAYER_SPEED 200
+#define PLAYER_SPEED 100
+#define JUMP_SPEED   500
+#define GRAVITY      50.0f
 
 #include "Vec2.h"
 #include "Component.h"
@@ -27,8 +29,9 @@ public:
 
 private:
     Vec2 speed;
-    float linearSpeed;
-    float angle;
+    float verticalSpeed;
+    float horizontalSpeed;
+    bool onGround;
     bool andando;
     bool estavaAndando;
     bool direita;

@@ -7,11 +7,15 @@
 #include <Sprite.h>
 #include <CameraFollower.h>
 #include <Game.h>
+#include "TileMap.h"
+#include "Collider.h"
+#include "TileSet.h"
 #include <InputManager.h>
 #include "Stage1.h"
 
 Stage1::Stage1() {
     started = false;
+
     auto bgGO(new GameObject);
     bgGO->AddComponent(new CameraFollower(*bgGO));
     Sprite *bgSprite = new Sprite(*bgGO, "img/bg_temp.gif");
@@ -19,9 +23,17 @@ Stage1::Stage1() {
     bgGO->AddComponent(bgSprite);
     AddObject(bgGO);
 
+    auto mapGO(new GameObject);
+    mapGO->box.w = GAME_WIDTH;
+    mapGO->box.h = GAME_HEIGHT;
+    TileSet *tileSet = new TileSet(32, 32, "img/tileset-test.png");
+    TileMap *tileMap = new TileMap(*mapGO, "map/map-test.txt", tileSet);
+    mapGO->AddComponent(tileMap);
+    AddObject(mapGO);
+
     auto playerGO(new GameObject);
     playerGO->AddComponent(new Player(*playerGO));
-    playerGO->box += {0, GAME_HEIGHT - playerGO->box.h};
+    playerGO->box += {0, GAME_HEIGHT - playerGO->box.h - 32 * 2};
     Camera::Follow(playerGO);
     AddObject(playerGO);
 
@@ -57,6 +69,8 @@ void Stage1::Render() {
 }
 
 void Stage1::Start() {
+    StartArray();
+    LoadAssets();
 //    Camera::pos = Vec2(0, 0);
 }
 

@@ -3,7 +3,9 @@
 //
 
 #include <Camera.h>
+#include <Collider.h>
 
+#include "CollisionTile.h"
 #include "TileMap.h"
 #include "Game.h"
 
@@ -42,11 +44,35 @@ int &TileMap::At(int x, int y, int z) {
     return tileMatrix[x + (y * mapWidth) + (z * mapWidth * mapHeight)];
 }
 
+void TileMap::Start() {
+
+    // Set Collision Tiles
+    for (int i = 0; i < mapWidth; i++){
+        for (int j = 0; j < mapHeight; j++){
+
+            auto index = (unsigned)At(i, j, mapDepth - 1);
+            if (index >= 0 && index < tileSet->GetRows() * tileSet->GetColumns() - 1) {
+                auto *collisionGO = new GameObject;
+                collisionGO->box.x = (int)(i * tileSet->GetTileWidth() - Camera::pos.x - PARALLAX_FACTOR * (mapDepth - 1));
+                collisionGO->box.y = (int)(j * tileSet->GetTileHeight() - Camera::pos.y - PARALLAX_FACTOR * (mapDepth - 1));
+                collisionGO->box.w = tileSet->GetTileWidth();
+                collisionGO->box.h = tileSet->GetTileHeight();
+                auto collider = new Collider(*collisionGO);
+                collisionGO->AddComponent(collider);
+                auto collisionTile = new CollisionTile(*collisionGO);
+                collisionGO->AddComponent(collisionTile);
+                Game::GetInstance().GetCurrentState().AddObject(collisionGO);
+            }
+
+        }
+    }
+}
+
 void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
     for (int i = 0; i < mapWidth; i++){
         for (int j = 0; j < mapHeight; j++){
-            auto x = (int)(i * tileSet->GetTileWidth() - cameraX - PARALLAX_FACTOR * Camera::pos.x * layer);
-            auto y = (int)(j * tileSet->GetTileHeight() - cameraY - PARALLAX_FACTOR * Camera::pos.y * layer);
+            auto x = (int)(i * tileSet->GetTileWidth() - cameraX - PARALLAX_FACTOR * layer);
+            auto y = (int)(j * tileSet->GetTileHeight() - cameraY - PARALLAX_FACTOR * layer);
 
             tileSet->RenderTile((unsigned)At(i, j, layer), x, y);
         }

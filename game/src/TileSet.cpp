@@ -34,3 +34,11 @@ int TileSet::GetTileWidth() const {
 int TileSet::GetTileHeight() const {
     return tileHeight;
 }
+
+int TileSet::GetRows() const {
+    return rows;
+}
+
+int TileSet::GetColumns() const {
+    return columns;
+}

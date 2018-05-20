@@ -2,6 +2,8 @@
 // Created by edgar on 25/04/18.
 //
 
+#include <cmath>
+
 #include <Sprite.h>
 #include <PenguinCannon.h>
 #include <Game.h>

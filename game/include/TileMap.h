@@ -24,6 +24,8 @@ public:
 
     int& At(int x, int y, int z = 0);
 
+    void Start() override;
+
     void Render() override;
 
     void Update(float dt) override;
