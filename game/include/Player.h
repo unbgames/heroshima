@@ -24,6 +24,7 @@ public:
     bool Is(string type) override;
 
     void NotifyCollision(GameObject &other) override;
+    void Shoot(float angle);
 
     static Player* player;
 
@@ -32,9 +33,11 @@ private:
     float verticalSpeed;
     float horizontalSpeed;
     bool onGround;
-    bool andando;
-    bool estavaAndando;
-    bool direita;
+    bool walking;
+    bool wasWalking;
+    bool rightDirection;
+    bool shooting;
+    float shootingAngle;
     int hp;
 
 };

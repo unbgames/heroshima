@@ -43,7 +43,7 @@ TitleState::~TitleState() {
 }
 
 void TitleState::LoadAssets() {
-    backgroundMusic.Open("audio/Japans-Victory-Theme.ogg");
+    backgroundMusic.Open("audio/menu_music.ogg");
 }
 
 void TitleState::Update(float dt) {

@@ -6,11 +6,16 @@
 #include <InputManager.h>
 #include <Camera.h>
 #include <CollisionTile.h>
+#include <Bullet.h>
+#include <Game.h>
 #include "Player.h"
 
 Player *Player::player = nullptr;
 
-Player::Player(GameObject &associated) : Component(associated), speed(0, 0), verticalSpeed(0), horizontalSpeed(0), hp(100), andando(false), direita(true), estavaAndando(false), onGround(false) {
+Player::Player(GameObject &associated) : Component(associated), speed(0, 0), verticalSpeed(0), horizontalSpeed(0), hp(100) {
+    rightDirection = (true);
+    walking = wasWalking = onGround = shooting = false;
+    shootingAngle = 0;
     associated.AddComponent(new Collider(associated));
     associated.AddComponent(new Sprite(associated, "img/spritesheet_kays_parado.png", 3, 0.3));
     player = this;
@@ -26,30 +31,38 @@ void Player::Start() {
 
 void Player::Update(float dt) {
     InputManager inputManager = InputManager::GetInstance();
-    estavaAndando = andando;
+    wasWalking = walking;
+
+    shooting = inputManager.IsKeyDown(SPACE_BAR_KEY);
 
     if (inputManager.IsKeyDown(A_KEY) || inputManager.IsKeyDown(D_KEY)){
-        andando = true;
+        walking = true;
         if (inputManager.IsKeyDown(A_KEY)){
             verticalSpeed -= PLAYER_SPEED * dt;
-            direita = false;
+            rightDirection = false;
+            shootingAngle = 180;
         }
         if (inputManager.IsKeyDown(D_KEY)){
             verticalSpeed += PLAYER_SPEED * dt;
-            direita = true;
+            rightDirection = true;
+            shootingAngle = 0;
         }
     } else{
 
-        andando = false;
+        walking = false;
+    }
+
+    if(shooting){
+        this->Shoot(shootingAngle);
     }
 
     // Verifica se está no chão para poder pular
     if (onGround) {
 
-//        if (inputManager.IsKeyDown(W_KEY)) {
-//            horizontalSpeed -= JUMP_SPEED * dt;
-//            onGround = false;
-//        }
+        if (inputManager.IsKeyDown(W_KEY)) {
+            horizontalSpeed -= JUMP_SPEED * dt;
+            onGround = false;
+        }
 
     } else {
         // Adiciona gravidade
@@ -72,17 +85,17 @@ void Player::Update(float dt) {
 
 void Player::Render() {
     auto sprite = (Sprite*)associated.GetComponent(SPRITE_TYPE);
-    if(!estavaAndando && andando){
+    if(!wasWalking && walking){
         sprite->Open("img/spritesheet_kays_andando.png");
         sprite->SetFrameCount( 4 );
         sprite->SetFrameTime(0.2);
 
-    } else if(estavaAndando && !andando){
+    } else if(wasWalking && !walking){
         sprite->Open("img/spritesheet_kays_parado.png");
         sprite->SetFrameCount( 3 );
         sprite->SetFrameTime(0.3);
     }
-    sprite->SetFlip(!direita);
+    sprite->SetFlip(!rightDirection);
 }
 
 bool Player::Is(string type) {
@@ -97,4 +110,14 @@ void Player::NotifyCollision(GameObject &other) {
         horizontalSpeed = 0;
         onGround = true;
     }
+}
+
+void Player::Shoot(float angle) {
+    auto bulletGo = new GameObject;
+    bulletGo->box.x = associated.box.GetCenter().x - bulletGo->box.w/2;
+    bulletGo->box.y = associated.box.GetCenter().y - bulletGo->box.h/2;
+
+    bulletGo->AddComponent(new Bullet(*bulletGo, angle, 300, 20, 1000, "img/minionbullet2.png", 3, 0.01, true));
+
+    Game::GetInstance().GetCurrentState().AddObject(bulletGo);
 }
