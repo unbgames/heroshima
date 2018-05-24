@@ -24,7 +24,6 @@ Sprite::Sprite(GameObject& associated) : Component(associated), texture(nullptr)
 Sprite::Sprite(GameObject &associated, string file, int frameCount, float frameTime, float secondsToSelfDestruct) : Component(associated),
                                                                                        texture(nullptr),
                                                                                        scale(1, 1),
-                                                                                       flip(false),
                                                                                        frameCount(frameCount),
                                                                                        frameTime(frameTime),
                                                                                        selfDestructCount(*new Timer),
@@ -56,7 +55,7 @@ void Sprite::Render() {
 
 void Sprite::Render(float x, float y) {
     SDL_Rect dst = { (int)x, (int)y, (int)(clipRect.w * scale.x), (int)(clipRect.h * scale.x) };
-    auto flipType = flip ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
+    auto flipType = associated.orientation == GameObject::LEFT ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
     SDL_RenderCopyEx(Game::GetInstance().GetRenderer(), texture.get(), &clipRect, &dst, associated.angleDeg, nullptr , flipType);
 //    SDL_RenderDrawRect(Game::GetInstance().GetRenderer(), &dst);//debug
 }
@@ -133,10 +132,5 @@ void Sprite::SetFrameCount(int frameCount) {
 void Sprite::SetFrameTime(float) {
     this->frameTime = frameTime;
 }
-
-void Sprite::SetFlip(bool flip) {
-    this->flip = flip;
-}
-
 
 

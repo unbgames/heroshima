@@ -44,15 +44,12 @@ public:
     void SetFrameCount(int frameCount);
     void SetFrameTime(float);
 
-    void SetFlip(bool flip);
-
 private:
     shared_ptr<SDL_Texture> texture;
     int width;
     int height;
     SDL_Rect clipRect;
     Vec2 scale;
-    bool flip;
 
     int frameCount;
     int currentFrame;

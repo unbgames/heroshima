@@ -32,12 +32,15 @@ public:
 
     Rect box;
     double angleDeg;
+    enum Orientation { RIGHT, LEFT };
+    Orientation orientation;
 
 
 private:
     vector<unique_ptr<Component>> components;
     bool isDead;
     bool started;
+
 
 };
 

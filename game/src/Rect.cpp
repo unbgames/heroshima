@@ -49,6 +49,14 @@ Rect Rect::operator+=(Vec2 v) {
     return *this = SumVec2(v);
 }
 
+Rect Rect::operator-(Vec2 offset) {
+    return SubVec2(offset);
+}
+
+Rect Rect::operator-=(Vec2 v) {
+    return *this = SubVec2(v);
+}
+
 Rect Rect::operator*(Vec2 scale) {
     return MulVec2(scale);
 }

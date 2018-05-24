@@ -4,7 +4,9 @@
 
 #include "GameObject.h"
 
-GameObject::GameObject() : isDead(false), started(false), angleDeg(0) {}
+GameObject::GameObject() : isDead(false), started(false), angleDeg(0), orientation(RIGHT) {
+
+}
 
 GameObject::~GameObject() {
     for(auto it = components.rbegin(); it != components.rend(); ++it) {

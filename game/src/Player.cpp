@@ -1,23 +1,29 @@
-//
-// Created by edgar on 17/05/18.
-//
+#include <memory>
+#include <string>
 
-#include <Collider.h>
-#include <InputManager.h>
-#include <Camera.h>
-#include <CollisionTile.h>
-#include <Bullet.h>
-#include <Game.h>
+#include "InputManager.h"
+#include "Collider.h"
+#include "GameObject.h"
+#include "PlayerBody.h"
+#include "Game.h"
+#include "Component.h"
+#include "CollisionTile.h"
+#include "Sprite.h"
 #include "Player.h"
 
-Player *Player::player = nullptr;
+using std::weak_ptr;
+using std::string;
 
-Player::Player(GameObject &associated) : Component(associated), speed(0, 0), verticalSpeed(0), horizontalSpeed(0), hp(100) {
-    rightDirection = (true);
-    walking = wasWalking = onGround = shooting = false;
-    shootingAngle = 0;
+Player *Player::player = nullptr;
+Player::Player(GameObject &associated)
+        : Component(associated) {
+
     associated.AddComponent(new Collider(associated));
-    associated.AddComponent(new Sprite(associated, "img/spritesheet_kays_parado.png", 3, 0.3));
+    Sprite* img = new Sprite(associated, "img/tarma_inferior_repouso.png");
+    associated.box.w = img->GetWidth();
+    associated.box.y = img->GetWidth();
+    associated.AddComponent(img);
+
     player = this;
 }
 
@@ -26,98 +32,86 @@ Player::~Player() {
 }
 
 void Player::Start() {
-    Component::Start();
+    jumpState = FALLING;
+    movementState = RESTING;
+
+    auto pBodyGO = new GameObject;
+    pBodyGO->AddComponent(new PlayerBody(*pBodyGO,
+        Game::GetInstance().GetCurrentState().GetObjectPtr(&associated)));
+    pBody = Game::GetInstance().GetCurrentState().AddObject(pBodyGO);
+
 }
 
 void Player::Update(float dt) {
-    InputManager inputManager = InputManager::GetInstance();
-    wasWalking = walking;
 
-    shooting = inputManager.IsKeyDown(SPACE_BAR_KEY);
-
-    if (inputManager.IsKeyDown(A_KEY) || inputManager.IsKeyDown(D_KEY)){
-        walking = true;
-        if (inputManager.IsKeyDown(A_KEY)){
-            verticalSpeed -= PLAYER_SPEED * dt;
-            rightDirection = false;
-            shootingAngle = 180;
-        }
-        if (inputManager.IsKeyDown(D_KEY)){
-            verticalSpeed += PLAYER_SPEED * dt;
-            rightDirection = true;
-            shootingAngle = 0;
-        }
-    } else{
-
-        walking = false;
+    GameObject &bodyGO = *pBody.lock();
+    if (bodyGO.IsDead()) {
+        associated.RequestDelete();
     }
 
-    if(shooting){
-        this->Shoot(shootingAngle);
-    }
-
-    // Verifica se está no chão para poder pular
-    if (onGround) {
-
-        if (inputManager.IsKeyDown(W_KEY)) {
-            horizontalSpeed -= JUMP_SPEED * dt;
-            onGround = false;
+    if (InputManager::GetInstance().IsKeyDown(A_KEY) || InputManager::GetInstance().IsKeyDown(D_KEY)) {
+        movementState = WALKING;
+        if (InputManager::GetInstance().IsKeyDown(A_KEY)){
+            associated.box.x -= PLAYER_SPEED * dt;
+            associated.orientation = GameObject::LEFT;
         }
-
+        if (InputManager::GetInstance().IsKeyDown(D_KEY)){
+            associated.box.x += PLAYER_SPEED * dt;
+            associated.orientation = GameObject::RIGHT;
+        }
     } else {
+        movementState = RESTING;
+    }
+
+    if (jumpState == JUMPING || jumpState == FALLING) {
+
         // Adiciona gravidade
         horizontalSpeed += GRAVITY * dt;
+
+        // Se começar a cair mudar de estado
+        if (horizontalSpeed > 0) jumpState = FALLING;
+
+    } else {
+
+        if (InputManager::GetInstance().KeyPress(W_KEY)) {
+            horizontalSpeed -= JUMP_SPEED * dt;
+            jumpState = JUMPING;
+        } else {
+            jumpState = FALLING;
+        }
     }
-    onGround = false;
 
     speed = Vec2(verticalSpeed, horizontalSpeed);
     associated.box += speed;
 
     // Recomeça o movimento
     verticalSpeed = 0;
-    speed = {0, 0};
-
-    if(hp <= 0){
-        associated.RequestDelete();
-        Camera::Unfollow();
-    }
 }
 
 void Player::Render() {
-    auto sprite = (Sprite*)associated.GetComponent(SPRITE_TYPE);
-    if(!wasWalking && walking){
-        sprite->Open("img/spritesheet_kays_andando.png");
-        sprite->SetFrameCount( 4 );
-        sprite->SetFrameTime(0.2);
 
-    } else if(wasWalking && !walking){
-        sprite->Open("img/spritesheet_kays_parado.png");
-        sprite->SetFrameCount( 3 );
-        sprite->SetFrameTime(0.3);
+    auto sprite = (Sprite*)associated.GetComponent(SPRITE_TYPE);
+    if (movementState == WALKING) {
+        sprite->Open("img/tarma_inferior_andando.png");
+        sprite->SetFrameCount(12);
+        sprite->SetFrameTime(0.5);
+
+    } else if (movementState == RESTING) {
+        sprite->Open("img/tarma_inferior_repouso.png");
+        sprite->SetFrameCount(1);
+        sprite->SetFrameTime(0);
     }
-    sprite->SetFlip(!rightDirection);
 }
 
 bool Player::Is(string type) {
-    return false;
+    return PLAYER_T == type;
 }
 
 void Player::NotifyCollision(GameObject &other) {
-    Component::NotifyCollision(other);
     auto collisionTile = (CollisionTile*) other.GetComponent(COLLISION_TILE_T);
-    if (collisionTile != nullptr) {
-        associated.box.y -= horizontalSpeed;
+    if (collisionTile != nullptr && jumpState == FALLING) {
         horizontalSpeed = 0;
-        onGround = true;
+        associated.box.y =  other.box.y - associated.box.h;
+        jumpState = COLLIDING;
     }
-}
-
-void Player::Shoot(float angle) {
-    auto bulletGo = new GameObject;
-    bulletGo->box.x = associated.box.GetCenter().x - bulletGo->box.w/2;
-    bulletGo->box.y = associated.box.GetCenter().y - bulletGo->box.h/2;
-
-    bulletGo->AddComponent(new Bullet(*bulletGo, angle, 300, 20, 1000, "img/minionbullet2.png", 3, 0.01, true));
-
-    Game::GetInstance().GetCurrentState().AddObject(bulletGo);
 }

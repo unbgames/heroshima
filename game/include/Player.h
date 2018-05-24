@@ -1,22 +1,31 @@
-//
-// Created by edgar on 17/05/18.
-//
-
-#ifndef PLAYER_CLASS
-#define PLAYER_CLASS
-
-#define PLAYER_SPEED 100
-#define JUMP_SPEED   500
-#define GRAVITY      50.0f
+#ifndef PLAYER_H
+#define PLAYER_H
 
 #include "Vec2.h"
+#include "PlayerBody.h"
 #include "Component.h"
-#include <Sprite.h>
+#include "Sprite.h"
 
-class Player :public Component {
+#define PLAYER_SPEED  100
+#define JUMP_SPEED    400
+#define GRAVITY       50.0f
+#define PLAYER_T "Player"
+
+class Player : public Component {
+
+    enum MoveState { WALKING, RESTING };
+    enum JumpState { JUMPING, FALLING, COLLIDING };
+    MoveState movementState;
+    JumpState jumpState;
+    weak_ptr<GameObject> pBody;
+
+    Vec2 speed;
+    float verticalSpeed;
+    float horizontalSpeed;
+
 public:
-    Player(GameObject &associated);
-    virtual ~Player();
+    Player(GameObject& associated);
+    ~Player();
 
     void Start() override;
     void Update(float dt) override;
@@ -24,23 +33,9 @@ public:
     bool Is(string type) override;
 
     void NotifyCollision(GameObject &other) override;
-    void Shoot(float angle);
 
     static Player* player;
-
-private:
-    Vec2 speed;
-    float verticalSpeed;
-    float horizontalSpeed;
-    bool onGround;
-    bool walking;
-    bool wasWalking;
-    bool rightDirection;
-    bool shooting;
-    float shootingAngle;
-    int hp;
-
 };
 
 
-#endif //SRC_PLAYER_H
+#endif // PLAYER_H
