@@ -2,11 +2,13 @@
 #define PLAYER_BODY_H
 
 #include <string>
+#include <memory>
 
 #include "GameObject.h"
 #include "Component.h"
 
 using std::string;
+using std::weak_ptr;
 
 
 #define PLAYER_BODY_T "PlayerBody"

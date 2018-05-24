@@ -35,7 +35,6 @@ PlayerBody::PlayerBody(GameObject &associated, weak_ptr<GameObject> player)
 }
 
 void PlayerBody::Start() {
-    Component::Start();
 }
 
 void PlayerBody::Update(float dt) {
@@ -76,7 +75,7 @@ void PlayerBody::Render() {
 }
 
 bool PlayerBody::Is(string type) {
-    return false;
+    return type == PLAYER_BODY_T;
 }
 
 void PlayerBody::Shoot(float angle) {
