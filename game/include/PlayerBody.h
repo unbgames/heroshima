@@ -14,13 +14,15 @@ using std::weak_ptr;
 #define PLAYER_BODY_T "PlayerBody"
 #define BODY_OFFSET_VERTICAL 8
 #define BODY_OFFSET_HORIZONTAL 5
+#define BODY_OFFSET_SHOOT 15
 
 class PlayerBody : public Component {
 
-enum BodyState { RESTING, SHOOTING };
-BodyState state;
+    enum BodyState { RESTING, SHOOTING };
+    BodyState state;
 
-weak_ptr<GameObject> player;
+    weak_ptr<GameObject> player;
+    int offset = 0;
 
 public:
     PlayerBody(GameObject& associated, weak_ptr<GameObject> player);
@@ -31,6 +33,7 @@ public:
     bool Is(string type) override;
 
     void Shoot(float angle);
+
 };
 
 
