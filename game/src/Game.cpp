@@ -38,21 +38,20 @@ Game::Game(string title, int width, int height) : dt(0), frameStart(0) {
             exit(1);
         }
 
-        //Inicializa os sons
-        int flagsMIX = (/*MIX_INIT_MP3 |*/ MIX_INIT_OGG);
-        int initMIX = Mix_Init(flagsMIX);
-        if ((initMIX & flagsMIX) != flagsMIX) {
-            cout << "Unable to Mix_Init: " << SDL_GetError() << endl;
-            exit(1);
-        }
-
+        //Determina quantos sons sera capaz de reproduzir simultaneamente. Padrao 8
+        //Mix_AllocateChannels(32);
         if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) != 0) {
             cout << "Unable to Mix_OpenAudio: " << SDL_GetError() << endl;
             exit(1);
         }
 
-        //Determina quantos sons sera capaz de reproduzir simultaneamente. Padrao 8
-        //Mix_AllocateChannels(32);
+        //Inicializa os sons
+        int flagsMIX = (MIX_INIT_MP3 | MIX_INIT_OGG);
+        int initMIX = Mix_Init(flagsMIX);
+        if ((initMIX & flagsMIX) != flagsMIX) {
+            cout << "Unable to Mix_Init: " << SDL_GetError() << endl;
+            exit(1);
+        }
 
         //Inicializa as fontes
         if (TTF_Init() != 0) {
