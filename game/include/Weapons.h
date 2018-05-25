@@ -6,7 +6,7 @@
 
 using std::string;
 
-class Guns{
+class Weapons{
 public:
     static Gun *pistol;
     static Gun *heavy;

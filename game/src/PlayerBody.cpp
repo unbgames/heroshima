@@ -6,7 +6,7 @@
 #include "InputManager.h"
 #include "Collider.h"
 #include "Player.h"
-#include "Guns.h"
+#include "Weapons.h"
 
 using std::string;
 using std::weak_ptr;
@@ -14,7 +14,7 @@ using std::weak_ptr;
 PlayerBody::PlayerBody(GameObject &associated, weak_ptr<GameObject> player)
     : Component(associated) {
 
-    gun = Guns::heavy;
+    gun = Weapons::heavy;
 
     this->player = player;
     GameObject &playerGO = *player.lock();
@@ -67,7 +67,7 @@ void PlayerBody::Update(float dt) {
     }
 
     if(gun->getType() == GunType::HEAVY && gun->getAmmo() <= 0){
-        gun = Guns::pistol;
+        gun = Weapons::pistol;
         cout << "Troca de arma" << endl;
     }
 
