@@ -15,8 +15,7 @@ using std::weak_ptr;
 using std::string;
 
 Player *Player::player = nullptr;
-Player::Player(GameObject &associated)
-        : Component(associated) {
+Player::Player(GameObject &associated) : Component(associated) {
 
     associated.AddComponent(new Collider(associated));
     Sprite* img = new Sprite(associated, "img/tarma_inferior_repouso.png");
@@ -36,8 +35,7 @@ void Player::Start() {
     movementState = RESTING;
 
     auto pBodyGO = new GameObject;
-    pBodyGO->AddComponent(new PlayerBody(*pBodyGO,
-        Game::GetInstance().GetCurrentState().GetObjectPtr(&associated)));
+    pBodyGO->AddComponent(new PlayerBody(*pBodyGO, Game::GetInstance().GetCurrentState().GetObjectPtr(&associated)));
     pBody = Game::GetInstance().GetCurrentState().AddObject(pBodyGO);
 
 }

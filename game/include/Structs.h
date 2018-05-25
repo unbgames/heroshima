@@ -29,5 +29,8 @@ typedef struct Projectile{
     Projectile();
 };
 
+enum GunType{
+    PISTOL, HEAVY
+};
 
 #endif //SRC_STRUCTS_H

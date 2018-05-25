@@ -6,11 +6,7 @@
 #include "InputManager.h"
 #include "Collider.h"
 #include "Player.h"
-#include "GameObject.h"
-#include "Sprite.h"
 #include "Guns.h"
-#include "Component.h"
-#include "PlayerBody.h"
 
 using std::string;
 using std::weak_ptr;
@@ -27,17 +23,18 @@ PlayerBody::PlayerBody(GameObject &associated, weak_ptr<GameObject> player)
     }
 
     associated.AddComponent(new Collider(associated));
-    Sprite* img = new Sprite(associated, "img/tarma_superior_repouso.png", 4, 0.5f);
+    Sprite* img = new Sprite(associated, gun->getSpriteRest().sprite, gun->getSpriteRest().frameCount, gun->getSpriteRest().frameTime);
     associated.orientation = playerGO.orientation;
-    associated.box.x = (playerGO.orientation == GameObject::LEFT ? -1 : 1) * BODY_OFFSET_HORIZONTAL + playerGO.box.GetCenter().x - img->GetWidth() / 2;
-    associated.box.y = BODY_OFFSET_VERTICAL + playerGO.box.y - img->GetHeight();
-    associated.box.w = img->GetWidth();
-    associated.box.h = img->GetHeight();
+    associated.box = {
+            (playerGO.orientation == GameObject::LEFT ? -1 : 1) * BODY_OFFSET_HORIZONTAL + playerGO.box.GetCenter().x - img->GetWidth() / 2,
+            BODY_OFFSET_VERTICAL + playerGO.box.y - img->GetHeight(),
+            img->GetWidth(),
+            img->GetHeight()
+    };
     associated.AddComponent(img);
 }
 
-void PlayerBody::Start() {
-}
+void PlayerBody::Start() {}
 
 void PlayerBody::Update(float dt) {
     GameObject &playerGO = *player.lock();
@@ -50,12 +47,16 @@ void PlayerBody::Update(float dt) {
     associated.orientation = playerGO.orientation;
 
     if (InputManager::GetInstance().IsKeyDown(SPACE_BAR_KEY)) {
-        if(shootCooldownTimer.Get() >= gun->getCooldownTime() && gun->getAmmo() > 0) {
+        if(shootCooldownTimer.Get() >= gun->getCooldownTime() && (gun->getAmmo() > 0 || gun->getAmmo() == -1)) {
             state = SHOOTING;
             int shootAngle = (playerGO.orientation == GameObject::LEFT ? 180 : 0);
             Shoot(shootAngle);
             shootCooldownTimer.Restart();
-            gun->decrementAmmo();
+
+            if(gun->getAmmo() != -1) {
+                gun->decrementAmmo();
+            }
+
             cout << "ammo: "<<gun->getAmmo() << endl;
             offset = (playerGO.orientation == GameObject::LEFT ? -1 : 1) * gun->getSpriteShoot().offset;
         }
@@ -64,6 +65,12 @@ void PlayerBody::Update(float dt) {
         state = RESTING;
         offset = (playerGO.orientation == GameObject::LEFT ? -1 : 1) * gun->getSpriteRest().offset;
     }
+
+    if(gun->getType() == GunType::HEAVY && gun->getAmmo() <= 0){
+        gun = Guns::pistol;
+        cout << "Troca de arma" << endl;
+    }
+
     shootCooldownTimer.Update(dt);
 }
 

@@ -5,13 +5,12 @@
 #include "Gun.h"
 #include <utility>
 
-Gun::Gun(int damage, int ammo, float cooldownTime, const Sprites &spriteRest, const Sprites &spriteWalk,
-         const Sprites &spriteShoot, const Projectile &projectile) : damage(damage), ammo(ammo),
-                                                                               cooldownTime(cooldownTime),
-                                                                               rest(spriteRest),
-                                                                               walk(spriteWalk),
-                                                                               shoot(spriteShoot),
-                                                                               projectile(projectile) {}
+using std::move;
+
+Gun::Gun(GunType type, int damage, int ammo, float cooldownTime, Sprites spriteRest, Sprites spriteWalk,
+         Sprites spriteShoot, Projectile projectile) :
+        type(type), damage(damage), ammo(ammo), cooldownTime(cooldownTime), rest(move(spriteRest)), walk(move(spriteWalk)),
+        shoot(move(spriteShoot)),projectile(move(projectile)) {}
 
 Gun::Gun() {}
 
@@ -45,5 +44,9 @@ const Sprites &Gun::getSpriteShoot() const {
 
 const Projectile &Gun::getProjectile() const {
     return projectile;
+}
+
+GunType Gun::getType() const {
+    return type;
 }
 

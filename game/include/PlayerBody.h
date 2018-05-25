@@ -16,19 +16,8 @@ using std::weak_ptr;
 #define PLAYER_BODY_T "PlayerBody"
 #define BODY_OFFSET_VERTICAL 17
 #define BODY_OFFSET_HORIZONTAL 10
-#define BODY_OFFSET_SHOOT 30
 
 class PlayerBody : public Component {
-
-    enum BodyState { RESTING, SHOOTING };
-    BodyState state;
-
-    Gun *gun;
-
-    weak_ptr<GameObject> player;
-    int offset = 0;
-    Timer shootCooldownTimer;
-
 public:
     PlayerBody(GameObject& associated, weak_ptr<GameObject> player);
 
@@ -40,6 +29,16 @@ public:
     void Shoot(float angle);
 
     Gun *getGun() const;
+
+private:
+    enum BodyState { RESTING, SHOOTING };
+    BodyState state;
+
+    Gun *gun;
+
+    weak_ptr<GameObject> player;
+    int offset = 0;
+    Timer shootCooldownTimer;
 
 };
 

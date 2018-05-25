@@ -12,17 +12,6 @@
 #define PLAYER_T "Player"
 
 class Player : public Component {
-
-    enum MoveState { WALKING, RESTING };
-    enum JumpState { JUMPING, FALLING, COLLIDING };
-    MoveState movementState;
-    JumpState jumpState;
-    weak_ptr<GameObject> pBody;
-
-    Vec2 speed;
-    float verticalSpeed;
-    float horizontalSpeed;
-
 public:
     Player(GameObject& associated);
     ~Player();
@@ -35,6 +24,18 @@ public:
     void NotifyCollision(GameObject &other) override;
 
     static Player* player;
+
+private:
+    enum MoveState { WALKING, RESTING };
+    enum JumpState { JUMPING, FALLING, COLLIDING };
+    MoveState movementState;
+    JumpState jumpState;
+    weak_ptr<GameObject> pBody;
+
+    Vec2 speed;
+    float verticalSpeed;
+    float horizontalSpeed;
+
 };
 
 
