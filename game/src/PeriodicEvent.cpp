@@ -5,13 +5,13 @@
 #include "PeriodicEvent.h"
 
 PeriodicEvent::PeriodicEvent(GameObject &associated, float period, ActionCallback cb) : Component(associated), period(period), timer(Timer()) {
-    _callback = move(cb);
+    callback = move(cb);
 }
 
 void PeriodicEvent::Update(float dt) {
     timer.Update(dt);
     if(timer.Get() >= period){
-        run();
+        callback();
         timer.Restart();
     }
 }

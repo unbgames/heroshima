@@ -1,5 +1,6 @@
 #include <string>
 #include <memory>
+#include <Animation.h>
 
 #include "Bullet.h"
 #include "Game.h"
@@ -68,7 +69,12 @@ void PlayerBody::Update(float dt) {
 
     if(gun->getType() == GunType::HEAVY && gun->getAmmo() <= 0){
         gun = Weapons::pistol;
-        cout << "Troca de arma" << endl;
+//        auto troca(new GameObject);
+//        Sprite* img = new Sprite(*troca, "img/nuke_pixel.png");
+//        Animation* animation = new Animation(*troca, associated.box.GetCenter(), associated.box.GetCenter() - Vec2(100, 100), 3);
+//        troca->AddComponent(img);
+//        troca->AddComponent(animation);
+//        Game::GetInstance().GetCurrentState().AddObject(troca);
     }
 
     shootCooldownTimer.Update(dt);

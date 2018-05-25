@@ -13,14 +13,7 @@
 
 class PeriodicEvent : public Component {
 public:
-    typedef function<void()> ActionCallback;
-
     PeriodicEvent(GameObject &associated, float period, ActionCallback cb);
-
-    void run()
-    {
-        _callback();
-    }
 
     void Update(float dt) override;
     void Render() override;
@@ -30,7 +23,7 @@ private:
     float period;
     Timer timer;
 
-    ActionCallback _callback;
+    ActionCallback callback;
 };
 
 

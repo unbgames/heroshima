@@ -52,4 +52,4 @@ add_executable(HEROshima src/Main.cpp
         src/PlayerBody.cpp include/PlayerBody.h
         include/Gun.h src/Gun.cpp
         include/Weapons.h src/Weapons.cpp
-        src/Structs.cpp include/Structs.h)
+        src/Structs.cpp include/Structs.h src/Animation.cpp include/Animation.h)
