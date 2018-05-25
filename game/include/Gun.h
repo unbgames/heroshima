@@ -6,28 +6,9 @@
 #define GUN_H
 
 #include <string>
+#include "Structs.h"
 
 using std::string;
-
-typedef struct Sprites{
-    string sprite;
-    int offset;
-    int frameCount;
-    float frameTime;
-
-    Sprites(string sprite, int offset, int frameCount, float frameTime);
-    Sprites();
-};
-
-typedef struct Projectile{
-    string sprite;
-    float speed;
-    int frameCount;
-    float frameTime;
-
-    Projectile(string sprite, float speed, int frameCount, float frameTime);
-    Projectile();
-};
 
 class Gun {
 public:
@@ -53,7 +34,7 @@ private:
     int ammo;
     float cooldownTime;
 
-    Sprites spriteRest, spriteWalk, spriteShoot;
+    Sprites rest, walk, shoot;
     Projectile projectile;
 
 };
