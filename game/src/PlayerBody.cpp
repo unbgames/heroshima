@@ -8,15 +8,17 @@
 #include "Player.h"
 #include "GameObject.h"
 #include "Sprite.h"
+#include "Guns.h"
 #include "Component.h"
 #include "PlayerBody.h"
 
 using std::string;
 using std::weak_ptr;
 
-
 PlayerBody::PlayerBody(GameObject &associated, weak_ptr<GameObject> player)
     : Component(associated) {
+
+    gun = Guns::automatic;
 
     this->player = player;
     GameObject &playerGO = *player.lock();
@@ -48,23 +50,29 @@ void PlayerBody::Update(float dt) {
     associated.orientation = playerGO.orientation;
 
     if (InputManager::GetInstance().IsKeyDown(SPACE_BAR_KEY)) {
-        state = SHOOTING;
-        int shootAngle = (playerGO.orientation == GameObject::LEFT ? 180 : 0);
-        Shoot(shootAngle);
-        offset = (playerGO.orientation == GameObject::LEFT ? -1 : 1) * BODY_OFFSET_SHOOT;
+        if(shootCooldownTimer.Get() >= gun->getCooldownTime() && gun->getAmmo() > 0) {
+            state = SHOOTING;
+            int shootAngle = (playerGO.orientation == GameObject::LEFT ? 180 : 0);
+            Shoot(shootAngle);
+            shootCooldownTimer.Restart();
+            gun->decrementAmmo();
+            cout << "ammo: "<<gun->getAmmo() << endl;
+            offset = (playerGO.orientation == GameObject::LEFT ? -1 : 1) * gun->getSpriteOffset();
+        }
 
     } else {
         state = RESTING;
         offset = (playerGO.orientation == GameObject::LEFT ? -1 : 1) * BODY_OFFSET_HORIZONTAL;
     }
+    shootCooldownTimer.Update(dt);
 }
 
 void PlayerBody::Render() {
     auto sprite = (Sprite*)associated.GetComponent(SPRITE_TYPE);
     if (state == SHOOTING) {
-        sprite->Open("img/tarma_superior_atirando.png");
-        sprite->SetFrameCount(10);
-        sprite->SetFrameTime(0.5f);
+        sprite->Open(gun->getSprite());
+        sprite->SetFrameCount(gun->getSpriteFrameCount());
+        sprite->SetFrameTime(gun->getSpriteFrameTime());
 
     } else if (state == RESTING) {
         sprite->Open("img/tarma_superior_repouso.png");
@@ -86,6 +94,6 @@ void PlayerBody::Shoot(float angle) {
         bulletGo->box.x = associated.box.GetPos().x - associated.box.w + bulletGo->box.w;
         bulletGo->box.y = associated.box.GetPos().y + associated.box.h/2 - bulletGo->box.h - 7;
     }
-    bulletGo->AddComponent(new Bullet(*bulletGo, angle, 700, 20, 1000, "img/minionbullet2.png", 3, 0.01, true));
+    bulletGo->AddComponent(new Bullet(*bulletGo, angle, gun->getProjectileSpeed(), gun->getDamage(), 1000, "img/minionbullet2.png", gun->getProjectileFrameCount(), gun->getProjectileFrameTime(), true));
     Game::GetInstance().GetCurrentState().AddObject(bulletGo);
 }

@@ -95,7 +95,6 @@ void Player::Render() {
         sprite->Open("img/tarma_inferior_andando.png");
         sprite->SetFrameCount(12);
         sprite->SetFrameTime(0.5);
-        cout << sprite->GetCurrentFrame()<<endl;
 
     } else if (movementState == RESTING) {
         sprite->Open("img/tarma_inferior_repouso.png");

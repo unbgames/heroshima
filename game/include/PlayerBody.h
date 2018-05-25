@@ -6,6 +6,8 @@
 
 #include "GameObject.h"
 #include "Component.h"
+#include "Timer.h"
+#include "Gun.h"
 
 using std::string;
 using std::weak_ptr;
@@ -21,8 +23,11 @@ class PlayerBody : public Component {
     enum BodyState { RESTING, SHOOTING };
     BodyState state;
 
+    Gun *gun;
+
     weak_ptr<GameObject> player;
     int offset = 0;
+    Timer shootCooldownTimer;
 
 public:
     PlayerBody(GameObject& associated, weak_ptr<GameObject> player);
