@@ -12,9 +12,9 @@ using std::weak_ptr;
 
 
 #define PLAYER_BODY_T "PlayerBody"
-#define BODY_OFFSET_VERTICAL 8
-#define BODY_OFFSET_HORIZONTAL 5
-#define BODY_OFFSET_SHOOT 15
+#define BODY_OFFSET_VERTICAL 17
+#define BODY_OFFSET_HORIZONTAL 10
+#define BODY_OFFSET_SHOOT 30
 
 class PlayerBody : public Component {
 

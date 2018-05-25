@@ -80,12 +80,12 @@ bool PlayerBody::Is(string type) {
 void PlayerBody::Shoot(float angle) {
     auto bulletGo = new GameObject;
     if(associated.orientation == GameObject::RIGHT){
-        bulletGo->box.x = associated.box.GetPos().x + associated.box.w + bulletGo->box.w - 7;
+        bulletGo->box.x = associated.box.GetPos().x + associated.box.w + bulletGo->box.w;
         bulletGo->box.y = associated.box.GetPos().y + associated.box.h/2 + bulletGo->box.h - 7;
     } else {
-        bulletGo->box.x = associated.box.GetPos().x - associated.box.w/2 - bulletGo->box.w - 7;
+        bulletGo->box.x = associated.box.GetPos().x - associated.box.w + bulletGo->box.w;
         bulletGo->box.y = associated.box.GetPos().y + associated.box.h/2 - bulletGo->box.h - 7;
     }
-    bulletGo->AddComponent(new Bullet(*bulletGo, angle, 300, 20, 1000, "img/minionbullet2.png", 3, 0.01, true));
+    bulletGo->AddComponent(new Bullet(*bulletGo, angle, 700, 20, 1000, "img/minionbullet2.png", 3, 0.01, true));
     Game::GetInstance().GetCurrentState().AddObject(bulletGo);
 }

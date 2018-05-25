@@ -6,7 +6,7 @@
 #include "Component.h"
 #include "Sprite.h"
 
-#define PLAYER_SPEED  100
+#define PLAYER_SPEED  300
 #define JUMP_SPEED    400
 #define GRAVITY       50.0f
 #define PLAYER_T "Player"

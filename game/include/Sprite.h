@@ -40,6 +40,8 @@ public:
     void SetScale(float scaleX, float scaleY);
     Vec2 GetScale();
 
+    int GetCurrentFrame() const;
+
     void SetFrame(int frame);
     void SetFrameCount(int frameCount);
     void SetFrameTime(float);
