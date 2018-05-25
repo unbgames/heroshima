@@ -9,41 +9,52 @@
 
 using std::string;
 
+typedef struct Sprites{
+    string sprite;
+    int offset;
+    int frameCount;
+    float frameTime;
+
+    Sprites(string sprite, int offset, int frameCount, float frameTime);
+    Sprites();
+};
+
+typedef struct Projectile{
+    string sprite;
+    float speed;
+    int frameCount;
+    float frameTime;
+
+    Projectile(string sprite, float speed, int frameCount, float frameTime);
+    Projectile();
+};
+
 class Gun {
 public:
-    Gun();
 
-    Gun(int damage, int ammo, string sprite, int spriteOffset, int spriteFrameCount, float spriteFrameTime,
-        float cooldownTime, float projectileSpeed, int projectileFrameCount, float projectileFrameTime);
+    Gun(int damage, int ammo, float cooldownTime, const Sprites &spriteRest, const Sprites &spriteWalk,
+        const Sprites &spriteShoot, const Projectile &projectile);
+
+    Gun();
 
     int getDamage() const;
     int getAmmo() const;
-
-    const string &getSprite() const;
-    int getSpriteOffset() const;
-    int getSpriteFrameCount() const;
-    float getSpriteFrameTime() const;
-
     float getCooldownTime() const;
-    float getProjectileSpeed() const;
-    int getProjectileFrameCount() const;
-    float getProjectileFrameTime() const;
-
     void decrementAmmo();
+
+    const Sprites &getSpriteRest() const;
+    const Sprites &getSpriteWalk() const;
+    const Sprites &getSpriteShoot() const;
+
+    const Projectile &getProjectile() const;
 
 private:
     int damage;
     int ammo;
-
-    string sprite;
-    int spriteOffset;
-    int spriteFrameCount;
-    float spriteFrameTime;
-
     float cooldownTime;
-    float projectileSpeed;
-    int projectileFrameCount;
-    float projectileFrameTime;
+
+    Sprites spriteRest, spriteWalk, spriteShoot;
+    Projectile projectile;
 
 };
 

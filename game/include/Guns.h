@@ -9,6 +9,6 @@ using std::string;
 class Guns{
 public:
     static Gun *pistol;
-    static Gun *automatic;
+    static Gun *heavy;
 
 };

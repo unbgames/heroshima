@@ -39,6 +39,8 @@ public:
 
     void Shoot(float angle);
 
+    Gun *getGun() const;
+
 };
 
 

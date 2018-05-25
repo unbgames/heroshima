@@ -18,7 +18,7 @@ using std::weak_ptr;
 PlayerBody::PlayerBody(GameObject &associated, weak_ptr<GameObject> player)
     : Component(associated) {
 
-    gun = Guns::automatic;
+    gun = Guns::heavy;
 
     this->player = player;
     GameObject &playerGO = *player.lock();
@@ -57,12 +57,12 @@ void PlayerBody::Update(float dt) {
             shootCooldownTimer.Restart();
             gun->decrementAmmo();
             cout << "ammo: "<<gun->getAmmo() << endl;
-            offset = (playerGO.orientation == GameObject::LEFT ? -1 : 1) * gun->getSpriteOffset();
+            offset = (playerGO.orientation == GameObject::LEFT ? -1 : 1) * gun->getSpriteShoot().offset;
         }
 
     } else {
         state = RESTING;
-        offset = (playerGO.orientation == GameObject::LEFT ? -1 : 1) * BODY_OFFSET_HORIZONTAL;
+        offset = (playerGO.orientation == GameObject::LEFT ? -1 : 1) * gun->getSpriteRest().offset;
     }
     shootCooldownTimer.Update(dt);
 }
@@ -70,14 +70,14 @@ void PlayerBody::Update(float dt) {
 void PlayerBody::Render() {
     auto sprite = (Sprite*)associated.GetComponent(SPRITE_TYPE);
     if (state == SHOOTING) {
-        sprite->Open(gun->getSprite());
-        sprite->SetFrameCount(gun->getSpriteFrameCount());
-        sprite->SetFrameTime(gun->getSpriteFrameTime());
+        sprite->Open(gun->getSpriteShoot().sprite);
+        sprite->SetFrameCount(gun->getSpriteShoot().frameCount);
+        sprite->SetFrameTime(gun->getSpriteShoot().frameTime);
 
     } else if (state == RESTING) {
-        sprite->Open("img/tarma_superior_repouso.png");
-        sprite->SetFrameCount(4);
-        sprite->SetFrameTime(1);
+        sprite->Open(gun->getSpriteRest().sprite);
+        sprite->SetFrameCount(gun->getSpriteRest().frameCount);
+        sprite->SetFrameTime(gun->getSpriteRest().frameTime);
     }
 }
 
@@ -94,6 +94,10 @@ void PlayerBody::Shoot(float angle) {
         bulletGo->box.x = associated.box.GetPos().x - associated.box.w + bulletGo->box.w;
         bulletGo->box.y = associated.box.GetPos().y + associated.box.h/2 - bulletGo->box.h - 7;
     }
-    bulletGo->AddComponent(new Bullet(*bulletGo, angle, gun->getProjectileSpeed(), gun->getDamage(), 1000, "img/minionbullet2.png", gun->getProjectileFrameCount(), gun->getProjectileFrameTime(), true));
+    bulletGo->AddComponent(new Bullet(*bulletGo, angle, gun->getProjectile().speed, gun->getDamage(), 1000, gun->getProjectile().sprite, gun->getProjectile().frameCount, gun->getProjectile().frameTime, true));
     Game::GetInstance().GetCurrentState().AddObject(bulletGo);
+}
+
+Gun *PlayerBody::getGun() const {
+    return gun;
 }
