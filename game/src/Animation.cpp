@@ -4,22 +4,40 @@
 
 #include "Animation.h"
 
-Animation::Animation(GameObject &associated) : Component(associated) {}
+Animation::Animation(GameObject &associated) : Component(associated), startOffset(0) {
+    timer = Timer();
+}
 
-Animation::Animation(GameObject &associated, float duration) : Component(associated), duration(duration) {}
+Animation::Animation(GameObject &associated, float duration) : Component(associated), duration(duration), startOffset(0) {
+    timer = Timer();
+}
+
+Animation::Animation(GameObject &associated, float duration, float startOffset) : 
+        Component(associated), duration(duration + startOffset), startOffset(startOffset) {
+    timer = Timer();
+}
 
 Animation::Animation(GameObject &associated, float duration, ActionCallback &onAnimationEnd)
-        : Component(associated), duration(duration), onAnimationEnd(onAnimationEnd) {}
+        : Component(associated), duration(duration), onAnimationEnd(onAnimationEnd), startOffset(0) {
+    timer = Timer();
+}
+        
+Animation::Animation(GameObject &associated, float duration, float startOffset, ActionCallback &onAnimationEnd)
+        : Component(associated), duration(duration + startOffset), onAnimationEnd(onAnimationEnd), startOffset(startOffset) {
+    timer = Timer();
+}
 
 void Animation::Update(float dt) {
-    if(elapsed < duration) {
-        onAnimate(dt);
-    } else{
-        if(onAnimationEnd){
-            onAnimationEnd();
+    if(timer.Get() >= startOffset) {
+        if (timer.Get() < duration) {
+            onAnimate(dt);
+        } else {
+            if (onAnimationEnd) {
+                onAnimationEnd();
+            }
         }
     }
-    elapsed += dt;
+    timer.Update(dt);
 }
 
 void Animation::Render() {}

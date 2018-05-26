@@ -9,12 +9,15 @@
 
 
 #include "Component.h"
+#include "Timer.h"
 
 class Animation : public Component {
 public:
     Animation(GameObject &associated);
     Animation(GameObject &associated, float duration);
+    Animation(GameObject &associated, float duration, float startOffset);
     Animation(GameObject &associated, float duration, ActionCallback &onAnimationEnd);
+    Animation(GameObject &associated, float duration, float startOffset, ActionCallback &onAnimationEnd);
 
     void Update(float dt) override;
     void Render() override;
@@ -23,8 +26,9 @@ public:
     virtual void onAnimate(float dt) = 0;
 
 protected:
+    float startOffset;
     float duration;
-    float elapsed;
+    Timer timer;
 
     ActionCallback onAnimationEnd;
 
