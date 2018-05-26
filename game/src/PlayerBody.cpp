@@ -121,15 +121,17 @@ void PlayerBody::DropGun() {
 
     Animation* animation = new LineTween(*troca, 1,
                                      associated.box.GetCenter(),
-                                     associated.box.GetCenter() + Vec2(75, -50),
+                                     associated.box.GetCenter() + Vec2((associated.orientation == Orientation::LEFT ? 75 : - 75), -50),
                                      [troca] {troca->RequestDelete();} );
 
-    Animation* rotation = new RotationTween(*troca, 2, associated.orientation, 360);
+    Animation* rotation = new RotationTween(*troca, 1,
+            associated.orientation == Orientation::RIGHT ? Orientation::LEFT : Orientation ::RIGHT, 360);
 
     PeriodicEvent* blink = new PeriodicEvent(*troca, 0.1,
                                              [img] {img->SetVisible(false);},
                                              [img] {img->SetVisible(true);});
 
+    troca->orientation = associated.orientation;
     troca->AddComponent(img);
     troca->AddComponent(blink);
     troca->AddComponent(animation);

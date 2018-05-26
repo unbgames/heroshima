@@ -11,7 +11,7 @@ Gun *Weapons::pistol = new Gun(20, -1 /*for infinite ammo*/, 0.5f,
         Projectile("img/minionbullet2.png", 700, 3, 0.01f));
 
 
-Gun *Weapons::heavy = new Gun(50, 10, 0.01f,
+Gun *Weapons::heavy = new Gun(50, 50, 0.01f,
         Sprites("img/tarma_heavy_rest.png", 20, 4, 0.5f),
         Sprites("img/tarma_heavy_walk.png", 30, 12, 0.4f),
         Sprites("img/tarma_heavy_shoot.png", 38, 4, 0.4f),
