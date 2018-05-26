@@ -1,6 +1,8 @@
 #include <string>
 #include <memory>
 #include <Animation.h>
+#include <Tween.h>
+#include <PeriodicEvent.h>
 
 #include "Bullet.h"
 #include "Game.h"
@@ -67,19 +69,8 @@ void PlayerBody::Update(float dt) {
         offset = (playerGO.orientation == GameObject::LEFT ? -1 : 1) * gun->getSpriteRest().offset;
     }
 
-    if(gun->getType() == GunType::HEAVY && gun->getAmmo() <= 0){
-        auto troca(new GameObject);
-        Sprite* img = new Sprite(*troca, "img/heavy_machine_gun.png");
-
-        Animation* animation = new Animation(*troca,
-                associated.box.GetCenter(),
-                associated.box.GetCenter() + Vec2(50, -50), 0.4,
-                [] {cout<<"end of animation"<<endl;} );
-
-        troca->AddComponent(img);
-        troca->AddComponent(animation);
-        Game::GetInstance().GetCurrentState().AddObject(troca);
-
+    if(gun == Weapons::heavy && gun->getAmmo() <= 0){
+        DropGun();
         gun = Weapons::pistol;
     }
 
@@ -117,6 +108,27 @@ void PlayerBody::Shoot(float angle) {
     Game::GetInstance().GetCurrentState().AddObject(bulletGo);
 }
 
-Gun *PlayerBody::getGun() const {
-    return gun;
+void PlayerBody::DropGun() {
+    auto troca(new GameObject);
+    Sprite* img;
+
+    if(gun == Weapons::heavy){
+        img = new Sprite(*troca, "img/heavy_machine_gun.png");
+    } else{
+        img = new Sprite(*troca, "img/heavy_machine_gun.png");
+    }
+
+    Animation* animation = new Tween(*troca,
+                                     associated.box.GetCenter(),
+                                     associated.box.GetCenter() + Vec2(75, -50), 1,
+                                     [troca] {troca->RequestDelete();} );
+
+    PeriodicEvent *blink = new PeriodicEvent(*troca, 0.1,
+                                             [img] {img->SetVisible(false);},
+                                             [img] {img->SetVisible(true);});
+
+    troca->AddComponent(img);
+    troca->AddComponent(blink);
+    troca->AddComponent(animation);
+    Game::GetInstance().GetCurrentState().AddObject(troca);
 }

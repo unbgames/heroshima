@@ -12,6 +12,7 @@ public:
 
     void Update(float dt);
     void Restart();
+    void Set(float t);
     float Get();
 
 private:

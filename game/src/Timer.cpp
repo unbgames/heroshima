@@ -14,6 +14,10 @@ void Timer::Restart() {
     time = 0;
 }
 
+void Timer::Set(float t) {
+    time = t;
+}
+
 float Timer::Get() {
     return time;
 }

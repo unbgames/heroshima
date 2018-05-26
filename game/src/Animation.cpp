@@ -6,25 +6,15 @@
 
 Animation::Animation(GameObject &associated) : Component(associated) {}
 
-Animation::Animation(GameObject &associated, const Vec2 &from, const Vec2 &to, float duration, ActionCallback onAnimationEnd) :
-        Component(associated), from(from), to(to), duration(duration), elapsed(0), onAnimationEnd(move(onAnimationEnd)) {
-    associated.box.x = from.x - associated.box.w/2;
-    associated.box.y = from.y - associated.box.h/2;
-}
+Animation::Animation(GameObject &associated, float duration) : Component(associated), duration(duration) {}
 
-Animation::Animation(GameObject &associated, const Vec2 &from, const Vec2 &to, float duration) :
-        Component(associated), from(from), to(to), duration(duration), elapsed(0) {
-    associated.box.x = from.x - associated.box.w/2;
-    associated.box.y = from.y - associated.box.h/2;
-}
+Animation::Animation(GameObject &associated, float duration, ActionCallback &onAnimationEnd)
+        : Component(associated), duration(duration), onAnimationEnd(onAnimationEnd) {}
 
 void Animation::Update(float dt) {
     if(elapsed < duration) {
-        float linearSpeed = ((from - to).Mag())/duration;
-        associated.box += Vec2(linearSpeed*dt, 0).Rotate((to - from).InclX());
-
+        onAnimate(dt);
     } else{
-        associated.RequestDelete();
         if(onAnimationEnd){
             onAnimationEnd();
         }

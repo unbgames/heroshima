@@ -7,9 +7,9 @@
 
 using std::move;
 
-Gun::Gun(GunType type, int damage, int ammo, float cooldownTime, Sprites spriteRest, Sprites spriteWalk,
+Gun::Gun(int damage, int ammo, float cooldownTime, Sprites spriteRest, Sprites spriteWalk,
          Sprites spriteShoot, Projectile projectile) :
-        type(type), damage(damage), ammo(ammo), cooldownTime(cooldownTime), rest(move(spriteRest)), walk(move(spriteWalk)),
+        damage(damage), ammo(ammo), cooldownTime(cooldownTime), rest(move(spriteRest)), walk(move(spriteWalk)),
         shoot(move(spriteShoot)),projectile(move(projectile)) {}
 
 Gun::Gun() {}
@@ -44,9 +44,5 @@ const Sprites &Gun::getSpriteShoot() const {
 
 const Projectile &Gun::getProjectile() const {
     return projectile;
-}
-
-GunType Gun::getType() const {
-    return type;
 }
 

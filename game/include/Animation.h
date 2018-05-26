@@ -13,21 +13,16 @@
 class Animation : public Component {
 public:
     Animation(GameObject &associated);
-
-    Animation(GameObject &associated, const Vec2 &from, const Vec2 &to, float duration,
-              ActionCallback onAnimationEnd);
-
-    Animation(GameObject &associated, const Vec2 &from, const Vec2 &to, float duration);
+    Animation(GameObject &associated, float duration);
+    Animation(GameObject &associated, float duration, ActionCallback &onAnimationEnd);
 
     void Update(float dt) override;
-
     void Render() override;
-
     bool Is(string type) override;
 
-private:
-    Vec2 from;
-    Vec2 to;
+    virtual void onAnimate(float dt) = 0;
+
+protected:
     float duration;
     float elapsed;
 

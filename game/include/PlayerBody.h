@@ -27,8 +27,7 @@ public:
     bool Is(string type) override;
 
     void Shoot(float angle);
-
-    Gun *getGun() const;
+    void DropGun();
 
 private:
     enum BodyState { RESTING, SHOOTING };
