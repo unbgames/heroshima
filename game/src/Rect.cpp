@@ -28,6 +28,11 @@ Vec2 Rect::GetPos() {
     return {x , y};
 }
 
+void Rect::SetPos(Vec2 v) {
+    x = v.x;
+    y = v.x;
+}
+
 float Rect::DistRecs(Rect r) {
     Vec2 v = this->GetCenter();
     return v.Dist(r.GetCenter());
@@ -39,6 +44,12 @@ float Rect::DistVec2(Vec2 v) {
 
 bool Rect::Contains(Vec2 v) {
     return (v.x < (x + w) && v.x >= x) && (v.y < (y + h) && v.y >= y);
+}
+
+string Rect::toString() {
+    char buffer [50];
+    sprintf (buffer, "(%.2f, %.2f, %.2f, %.2f)\n", x, y, w, h);
+    return buffer;
 }
 
 Rect Rect::operator+(Vec2 offset) {

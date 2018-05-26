@@ -55,6 +55,12 @@ Vec2 Vec2::RotateDeg(const float angDeg) {
     return {(x * cos(ang)) - (y * sin(ang)), (y * cos(ang)) + (x * sin(ang))};
 }
 
+string Vec2::toString() {
+    char buffer [50];
+    sprintf (buffer, "(%.2f, %.2f)\n", x, y);
+    return buffer;
+}
+
 Vec2 Vec2::operator+(const Vec2& v) {
     return Sum(v);
 }
