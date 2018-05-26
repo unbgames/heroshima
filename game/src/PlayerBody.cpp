@@ -68,13 +68,19 @@ void PlayerBody::Update(float dt) {
     }
 
     if(gun->getType() == GunType::HEAVY && gun->getAmmo() <= 0){
+        auto troca(new GameObject);
+        Sprite* img = new Sprite(*troca, "img/heavy_machine_gun.png");
+
+        Animation* animation = new Animation(*troca,
+                associated.box.GetCenter(),
+                associated.box.GetCenter() + Vec2(50, -50), 0.4,
+                [] {cout<<"end of animation"<<endl;} );
+
+        troca->AddComponent(img);
+        troca->AddComponent(animation);
+        Game::GetInstance().GetCurrentState().AddObject(troca);
+
         gun = Weapons::pistol;
-//        auto troca(new GameObject);
-//        Sprite* img = new Sprite(*troca, "img/nuke_pixel.png");
-//        Animation* animation = new Animation(*troca, associated.box.GetCenter(), associated.box.GetCenter() - Vec2(100, 100), 3);
-//        troca->AddComponent(img);
-//        troca->AddComponent(animation);
-//        Game::GetInstance().GetCurrentState().AddObject(troca);
     }
 
     shootCooldownTimer.Update(dt);

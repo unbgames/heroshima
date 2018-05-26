@@ -33,6 +33,11 @@ void Rect::SetPos(Vec2 v) {
     y = v.x;
 }
 
+void Rect::SetCenter(Vec2 v) {
+    x = v.x - w/2;
+    y = v.x - h/2;
+}
+
 float Rect::DistRecs(Rect r) {
     Vec2 v = this->GetCenter();
     return v.Dist(r.GetCenter());
