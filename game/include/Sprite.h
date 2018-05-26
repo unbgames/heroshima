@@ -46,6 +46,9 @@ public:
     void SetFrameCount(int frameCount);
     void SetFrameTime(float);
 
+    bool IsVisible();
+    void SetVisible(bool visible);
+
 private:
     shared_ptr<SDL_Texture> texture;
     int width;
@@ -60,6 +63,8 @@ private:
 
     Timer selfDestructCount;
     float secondsToSelfDestruct;
+
+    bool isVisible;
 
 };
 

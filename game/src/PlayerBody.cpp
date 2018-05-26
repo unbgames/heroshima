@@ -1,5 +1,9 @@
 #include <string>
 #include <memory>
+#include <Animation.h>
+#include <LineTween.h>
+#include <PeriodicEvent.h>
+#include <RotationTween.h>
 
 #include "Bullet.h"
 #include "Game.h"
@@ -26,7 +30,7 @@ PlayerBody::PlayerBody(GameObject &associated, weak_ptr<GameObject> player)
     Sprite* img = new Sprite(associated, gun->getSpriteRest().sprite, gun->getSpriteRest().frameCount, gun->getSpriteRest().frameTime);
     associated.orientation = playerGO.orientation;
     associated.box = {
-            (playerGO.orientation == GameObject::LEFT ? -1 : 1) * BODY_OFFSET_HORIZONTAL + playerGO.box.GetCenter().x - img->GetWidth() / 2,
+            (playerGO.orientation == Orientation::LEFT ? -1 : 1) * BODY_OFFSET_HORIZONTAL + playerGO.box.GetCenter().x - img->GetWidth() / 2,
             BODY_OFFSET_VERTICAL + playerGO.box.y - img->GetHeight(),
             img->GetWidth(),
             img->GetHeight()
@@ -49,7 +53,7 @@ void PlayerBody::Update(float dt) {
     if (InputManager::GetInstance().IsKeyDown(SPACE_BAR_KEY)) {
         if(shootCooldownTimer.Get() >= gun->getCooldownTime() && (gun->getAmmo() > 0 || gun->getAmmo() == -1)) {
             state = SHOOTING;
-            int shootAngle = (playerGO.orientation == GameObject::LEFT ? 180 : 0);
+            int shootAngle = (playerGO.orientation == Orientation::LEFT ? 180 : 0);
             Shoot(shootAngle);
             shootCooldownTimer.Restart();
 
@@ -58,17 +62,17 @@ void PlayerBody::Update(float dt) {
             }
 
             cout << "ammo: "<<gun->getAmmo() << endl;
-            offset = (playerGO.orientation == GameObject::LEFT ? -1 : 1) * gun->getSpriteShoot().offset;
+            offset = (playerGO.orientation == Orientation::LEFT ? -1 : 1) * gun->getSpriteShoot().offset;
         }
 
     } else {
         state = RESTING;
-        offset = (playerGO.orientation == GameObject::LEFT ? -1 : 1) * gun->getSpriteRest().offset;
+        offset = (playerGO.orientation == Orientation::LEFT ? -1 : 1) * gun->getSpriteRest().offset;
     }
 
-    if(gun->getType() == GunType::HEAVY && gun->getAmmo() <= 0){
+    if(gun == Weapons::heavy && gun->getAmmo() <= 0){
+        DropGun();
         gun = Weapons::pistol;
-        cout << "Troca de arma" << endl;
     }
 
     shootCooldownTimer.Update(dt);
@@ -94,7 +98,7 @@ bool PlayerBody::Is(string type) {
 
 void PlayerBody::Shoot(float angle) {
     auto bulletGo = new GameObject;
-    if(associated.orientation == GameObject::RIGHT){
+    if(associated.orientation == Orientation::RIGHT){
         bulletGo->box.x = associated.box.GetPos().x + associated.box.w + bulletGo->box.w;
         bulletGo->box.y = associated.box.GetPos().y + associated.box.h/2 + bulletGo->box.h - 7;
     } else {
@@ -105,6 +109,32 @@ void PlayerBody::Shoot(float angle) {
     Game::GetInstance().GetCurrentState().AddObject(bulletGo);
 }
 
-Gun *PlayerBody::getGun() const {
-    return gun;
+void PlayerBody::DropGun() {
+    auto troca(new GameObject);
+    Sprite* img;
+
+    if(gun == Weapons::heavy){
+        img = new Sprite(*troca, "img/heavy_machine_gun.png");
+    } else{
+        img = new Sprite(*troca, "img/heavy_machine_gun.png");
+    }
+
+    Animation* animation = new LineTween(*troca, 1,
+                                     associated.box.GetCenter(),
+                                     associated.box.GetCenter() + Vec2((associated.orientation == Orientation::LEFT ? 75 : - 75), -50),
+                                     [troca] {troca->RequestDelete();} );
+
+    Animation* rotation = new RotationTween(*troca, 1,
+            associated.orientation == Orientation::RIGHT ? Orientation::LEFT : Orientation ::RIGHT, 360);
+
+    PeriodicEvent* blink = new PeriodicEvent(*troca, 0.1,
+                                             [img] {img->SetVisible(false);},
+                                             [img] {img->SetVisible(true);});
+
+    troca->orientation = associated.orientation;
+    troca->AddComponent(img);
+    troca->AddComponent(blink);
+    troca->AddComponent(animation);
+    troca->AddComponent(rotation);
+    Game::GetInstance().GetCurrentState().AddObject(troca);
 }

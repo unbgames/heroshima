@@ -21,10 +21,14 @@ public:
 
     Vec2 GetCenter();
     Vec2 GetPos();
+    void SetPos(Vec2 v);
+    void SetCenter(Vec2 v);
 
     float DistRecs(Rect r);
     float DistVec2(Vec2 v);
     bool Contains(Vec2 v);
+
+    string toString();
 
     Rect operator+(Vec2 offset);
     Rect operator+=(Vec2 v);

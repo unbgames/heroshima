@@ -19,7 +19,8 @@ Sprite::Sprite(GameObject& associated) : Component(associated), texture(nullptr)
                                          timeElapsed(0),
                                          currentFrame(0),
                                          selfDestructCount(*new Timer),
-                                         secondsToSelfDestruct(0) { }
+                                         secondsToSelfDestruct(0),
+                                         isVisible(true) { }
 
 Sprite::Sprite(GameObject &associated, string file, int frameCount, float frameTime, float secondsToSelfDestruct) : Component(associated),
                                                                                        texture(nullptr),
@@ -27,7 +28,8 @@ Sprite::Sprite(GameObject &associated, string file, int frameCount, float frameT
                                                                                        frameCount(frameCount),
                                                                                        frameTime(frameTime),
                                                                                        selfDestructCount(*new Timer),
-                                                                                       secondsToSelfDestruct(secondsToSelfDestruct) {
+                                                                                       secondsToSelfDestruct(secondsToSelfDestruct),
+                                                                                       isVisible(true) {
     Open(move(file));
 }
 
@@ -55,8 +57,11 @@ void Sprite::Render() {
 
 void Sprite::Render(float x, float y) {
     SDL_Rect dst = { (int)x, (int)y, (int)(clipRect.w * scale.x), (int)(clipRect.h * scale.x) };
-    auto flipType = associated.orientation == GameObject::LEFT ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
-    SDL_RenderCopyEx(Game::GetInstance().GetRenderer(), texture.get(), &clipRect, &dst, associated.angleDeg, nullptr , flipType);
+    auto flipType = associated.orientation == Orientation::LEFT ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
+
+    if(isVisible){
+        SDL_RenderCopyEx(Game::GetInstance().GetRenderer(), texture.get(), &clipRect, &dst, associated.angleDeg, nullptr , flipType);
+    }
 //    SDL_RenderDrawRect(Game::GetInstance().GetRenderer(), &dst);//debug
 }
 
@@ -137,4 +142,10 @@ int Sprite::GetCurrentFrame() const {
     return currentFrame;
 }
 
+bool Sprite::IsVisible() {
+    return isVisible;
+}
 
+void Sprite::SetVisible(bool visible) {
+    isVisible = visible;
+}

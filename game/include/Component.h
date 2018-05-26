@@ -8,11 +8,14 @@
 #define COMPONENT_CLASS
 
 #include <iostream>
+#include <functional>
 #include "GameObject.h"
 
 using namespace std;
 
 class GameObject;
+
+typedef function<void()> ActionCallback;
 
 class Component {
 public:

@@ -11,26 +11,29 @@
 
 #define PERIODIC_EVENT_TYPE "PeriodicEvent"
 
+/**
+ * Periodic Event Component
+ * You can define an action (callback) to be executed as soon as a defined time (periodTime) has passed,
+ * If you prefer, you can set the specific rest time (restTime), and the action that will occur after him (restCallback)
+ */
+
 class PeriodicEvent : public Component {
 public:
-    typedef function<void()> ActionCallback;
-
-    PeriodicEvent(GameObject &associated, float period, ActionCallback cb);
-
-    void run()
-    {
-        _callback();
-    }
+    explicit PeriodicEvent(GameObject &associated, float periodTime, ActionCallback cb, ActionCallback restCallback = nullptr, float restTime = 0, float startOffset = 0);
 
     void Update(float dt) override;
     void Render() override;
     bool Is(string type) override;
 
 private:
-    float period;
+    float startOffset;
+    float periodTime;
+    float restTime;
     Timer timer;
+    bool call;
 
-    ActionCallback _callback;
+    ActionCallback callback;
+    ActionCallback restCallback;
 };
 
 

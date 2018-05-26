@@ -29,8 +29,6 @@ typedef struct Projectile{
     Projectile();
 };
 
-enum GunType{
-    PISTOL, HEAVY
-};
+enum Orientation { RIGHT, LEFT };
 
 #endif //SRC_STRUCTS_H

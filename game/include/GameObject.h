@@ -10,6 +10,7 @@
 #include <memory>
 #include "Rect.h"
 #include "Component.h"
+#include "Structs.h"
 
 using namespace std;
 
@@ -32,7 +33,7 @@ public:
 
     Rect box;
     double angleDeg;
-    enum Orientation { RIGHT, LEFT };
+
     Orientation orientation;
 
 
