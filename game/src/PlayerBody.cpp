@@ -1,7 +1,7 @@
 #include <string>
 #include <memory>
 #include <Animation.h>
-#include <Tween.h>
+#include <LineTween.h>
 #include <PeriodicEvent.h>
 
 #include "Bullet.h"
@@ -118,7 +118,7 @@ void PlayerBody::DropGun() {
         img = new Sprite(*troca, "img/heavy_machine_gun.png");
     }
 
-    Animation* animation = new Tween(*troca,
+    Animation* animation = new LineTween(*troca,
                                      associated.box.GetCenter(),
                                      associated.box.GetCenter() + Vec2(75, -50), 1,
                                      [troca] {troca->RequestDelete();} );
