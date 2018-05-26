@@ -3,34 +3,17 @@
 //
 
 #include "Animation.h"
+#include <utility>
 
-Animation::Animation(GameObject &associated) : Component(associated), startOffset(0) {
-    timer = Timer();
-}
-
-Animation::Animation(GameObject &associated, float duration) : Component(associated), duration(duration), startOffset(0) {
-    timer = Timer();
-}
-
-Animation::Animation(GameObject &associated, float duration, float startOffset) : 
-        Component(associated), duration(duration + startOffset), startOffset(startOffset) {
-    timer = Timer();
-}
-
-Animation::Animation(GameObject &associated, float duration, ActionCallback &onAnimationEnd)
-        : Component(associated), duration(duration), onAnimationEnd(onAnimationEnd), startOffset(0) {
-    timer = Timer();
-}
-        
-Animation::Animation(GameObject &associated, float duration, float startOffset, ActionCallback &onAnimationEnd)
-        : Component(associated), duration(duration + startOffset), onAnimationEnd(onAnimationEnd), startOffset(startOffset) {
+Animation::Animation(GameObject &associated, float duration, ActionCallback onAnimationEnd, float startOffset)
+        : Component(associated), duration(duration + startOffset), onAnimationEnd(move(onAnimationEnd)), startOffset(startOffset) {
     timer = Timer();
 }
 
 void Animation::Update(float dt) {
     if(timer.Get() >= startOffset) {
         if (timer.Get() < duration) {
-            onAnimate(dt);
+            onAnimationUpdate(dt);
         } else {
             if (onAnimationEnd) {
                 onAnimationEnd();

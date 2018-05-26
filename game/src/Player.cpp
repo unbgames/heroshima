@@ -51,11 +51,11 @@ void Player::Update(float dt) {
         movementState = WALKING;
         if (InputManager::GetInstance().IsKeyDown(A_KEY)){
             associated.box.x -= PLAYER_SPEED * dt;
-            associated.orientation = GameObject::LEFT;
+            associated.orientation = Orientation::LEFT;
         }
         if (InputManager::GetInstance().IsKeyDown(D_KEY)){
             associated.box.x += PLAYER_SPEED * dt;
-            associated.orientation = GameObject::RIGHT;
+            associated.orientation = Orientation::RIGHT;
         }
     } else {
         movementState = RESTING;

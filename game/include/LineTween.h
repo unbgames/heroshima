@@ -9,10 +9,10 @@
 
 class LineTween : public Animation {
 public:
-    LineTween(GameObject &associated);
-    LineTween(GameObject &associated, const Vec2 &from, const Vec2 &to, float duration, ActionCallback onAnimationEnd);
+    explicit LineTween(GameObject &associated, float duration, const Vec2 &from, const Vec2 &to,
+                       ActionCallback onAnimationEnd = nullptr, float startOffset = 0);
 
-    void onAnimate(float dt) override;
+    void onAnimationUpdate(float dt) override;
 
 private:
     Vec2 from;

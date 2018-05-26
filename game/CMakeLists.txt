@@ -54,5 +54,5 @@ add_executable(HEROshima src/Main.cpp
         include/Weapons.h src/Weapons.cpp
         src/Structs.cpp include/Structs.h
         src/Animation.cpp include/Animation.h
-        src/LineTween.cpp include/LineTween.h)
+        src/LineTween.cpp include/LineTween.h src/RotationTween.cpp include/RotationTween.h)
 

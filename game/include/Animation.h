@@ -13,17 +13,13 @@
 
 class Animation : public Component {
 public:
-    Animation(GameObject &associated);
-    Animation(GameObject &associated, float duration);
-    Animation(GameObject &associated, float duration, float startOffset);
-    Animation(GameObject &associated, float duration, ActionCallback &onAnimationEnd);
-    Animation(GameObject &associated, float duration, float startOffset, ActionCallback &onAnimationEnd);
+    explicit Animation(GameObject &associated, float duration, ActionCallback onAnimationEnd = nullptr, float startOffset = 0);
 
     void Update(float dt) override;
     void Render() override;
     bool Is(string type) override;
 
-    virtual void onAnimate(float dt) = 0;
+    virtual void onAnimationUpdate(float dt) = 0;
 
 protected:
     float startOffset;

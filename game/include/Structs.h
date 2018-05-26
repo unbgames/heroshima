@@ -29,4 +29,6 @@ typedef struct Projectile{
     Projectile();
 };
 
+enum Orientation { RIGHT, LEFT };
+
 #endif //SRC_STRUCTS_H

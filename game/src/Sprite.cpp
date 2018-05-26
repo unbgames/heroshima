@@ -57,7 +57,7 @@ void Sprite::Render() {
 
 void Sprite::Render(float x, float y) {
     SDL_Rect dst = { (int)x, (int)y, (int)(clipRect.w * scale.x), (int)(clipRect.h * scale.x) };
-    auto flipType = associated.orientation == GameObject::LEFT ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
+    auto flipType = associated.orientation == Orientation::LEFT ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
 
     if(isVisible){
         SDL_RenderCopyEx(Game::GetInstance().GetRenderer(), texture.get(), &clipRect, &dst, associated.angleDeg, nullptr , flipType);
