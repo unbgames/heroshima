@@ -5,38 +5,10 @@
 #include "PeriodicEvent.h"
 #include <utility>
 
-PeriodicEvent::PeriodicEvent(GameObject &associated, float periodTime, ActionCallback cb) :
-        Component(associated), periodTime(periodTime),
-        callback(move(cb)), timer(Timer()),
-        startOffset(0), restTime(this->periodTime), restCallback(nullptr) {
-    call = false;
-}
-
-PeriodicEvent::PeriodicEvent(GameObject &associated, float periodTime, ActionCallback cb, float startOffset) :
+PeriodicEvent::PeriodicEvent(GameObject &associated, float periodTime, ActionCallback cb, ActionCallback restCallback, float restTime, float startOffset) :
         Component(associated), periodTime(periodTime + startOffset),
-        callback(move(cb)), timer(Timer()),
-        startOffset(startOffset), restTime(this->periodTime), restCallback(nullptr){
-    call = false;
-}
-
-PeriodicEvent::PeriodicEvent(GameObject &associated, float periodTime, ActionCallback cb, float startOffset, float restTime) :
-        Component(associated), periodTime(periodTime + startOffset),
-        callback(move(cb)), timer(Timer()),
-        startOffset(startOffset), restTime(this->periodTime + restTime), restCallback(nullptr){
-    call = false;
-}
-
-PeriodicEvent::PeriodicEvent(GameObject &associated, float periodTime, ActionCallback cb, float startOffset, float restTime, ActionCallback restCallback) :
-        Component(associated), periodTime(periodTime + startOffset),
-        callback(move(cb)), timer(Timer()),
-        startOffset(startOffset), restTime(this->periodTime + restTime), restCallback(move(restCallback)){
-    call = false;
-}
-
-PeriodicEvent::PeriodicEvent(GameObject &associated, float periodTime, ActionCallback cb, ActionCallback restCallback) :
-        Component(associated), periodTime(periodTime),
-        callback(move(cb)), timer(Timer()),
-        startOffset(0), restTime(periodTime * 2), restCallback(move(restCallback)){
+        callback(move(cb)), restCallback(move(restCallback)), timer(Timer()),
+        restTime((restTime == 0 ? periodTime : restTime) + periodTime + startOffset), startOffset(startOffset) {
     call = false;
 }
 

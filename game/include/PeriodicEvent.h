@@ -19,11 +19,7 @@
 
 class PeriodicEvent : public Component {
 public:
-    PeriodicEvent(GameObject &associated, float periodTime, ActionCallback cb);
-    PeriodicEvent(GameObject &associated, float periodTime, ActionCallback cb, float startOffset);
-    PeriodicEvent(GameObject &associated, float periodTime, ActionCallback cb, float startOffset, float restTime);
-    PeriodicEvent(GameObject &associated, float periodTime, ActionCallback cb, float startOffset, float restTime, ActionCallback restCallback);
-    PeriodicEvent(GameObject &associated, float periodTime, ActionCallback cb, ActionCallback restCallback);
+    explicit PeriodicEvent(GameObject &associated, float periodTime, ActionCallback cb, ActionCallback restCallback = nullptr, float restTime = 0, float startOffset = 0);
 
     void Update(float dt) override;
     void Render() override;
