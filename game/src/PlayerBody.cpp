@@ -4,6 +4,7 @@
 #include <LineTween.h>
 #include <PeriodicEvent.h>
 #include <RotationTween.h>
+#include <Crate.h>
 
 #include "Bullet.h"
 #include "Game.h"
@@ -38,7 +39,16 @@ PlayerBody::PlayerBody(GameObject &associated, weak_ptr<GameObject> player)
     associated.AddComponent(img);
 }
 
-void PlayerBody::Start() {}
+void PlayerBody::Start() {
+    //** Crate
+    auto crateGO(new GameObject);
+    Sprite* img = new Sprite(*crateGO, "img/heavy_crate.png");
+    //TODO instanciar subclasse de crate, não crate diretamente
+    Crate* heavyCrate = new Crate(*crateGO, associated.box.GetPos() + Vec2(1000, 0));
+    crateGO->AddComponent(img);
+    crateGO->AddComponent(heavyCrate);
+    Game::GetInstance().GetCurrentState().AddObject(crateGO);
+}
 
 void PlayerBody::Update(float dt) {
     GameObject &playerGO = *player.lock();
