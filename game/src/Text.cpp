@@ -9,12 +9,13 @@
 #include "../include/Text.h"
 
 Text::Text(GameObject &associated, string fontFile, int fontSize, TextStyle style, string text, SDL_Color color) : Component(associated),
-                                                                                                                   fontFile(move(fontFile)),
-                                                                                                                   fontSize(fontSize),
-                                                                                                                   style(style),
-                                                                                                                   text(move(text)),
-                                                                                                                   color(color),
-                                                                                                                   texture(nullptr) {
+                                                                                                                   fontFile(move(fontFile)) {
+
+    this->fontSize = fontSize;
+    this->style = style;
+    this->text = move(text);
+    this->color = color;
+    this->texture = nullptr;
     RemakeTexture();
 }
 

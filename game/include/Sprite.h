@@ -27,6 +27,7 @@ public:
 
     void Open(string file);
     void SetClip(int x, int y, int w, int h);
+    SDL_Rect GetClip() const;
     int GetSpriteWidth();
     int GetWidth();
     int GetHeight();
@@ -44,7 +45,7 @@ public:
 
     void SetFrame(int frame);
     void SetFrameCount(int frameCount);
-    void SetFrameTime(float);
+    void SetFrameTime(float frameTime);
 
     bool IsVisible();
     void SetVisible(bool visible);
@@ -55,6 +56,8 @@ private:
     int height;
     SDL_Rect clipRect;
     Vec2 scale;
+
+    string currentSprite;
 
     int frameCount;
     int currentFrame;

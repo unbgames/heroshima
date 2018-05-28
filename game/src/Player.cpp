@@ -1,3 +1,4 @@
+#include <iostream>
 #include <memory>
 #include <string>
 
@@ -47,8 +48,17 @@ void Player::Update(float dt) {
         associated.RequestDelete();
     }
 
+    auto sprite = (Sprite*)associated.GetComponent(SPRITE_TYPE);
     if (InputManager::GetInstance().IsKeyDown(A_KEY) || InputManager::GetInstance().IsKeyDown(D_KEY)) {
+
+        // Atualiza a animação
         movementState = WALKING;
+        sprite->Open("img/tarma_inferior_andando.png");
+        associated.box.w = sprite->GetWidth();
+        associated.box.h = sprite->GetHeight();
+        sprite->SetFrameCount(8);
+        sprite->SetFrameTime(0.06f);
+
         if (InputManager::GetInstance().IsKeyDown(A_KEY)){
             associated.box.x -= PLAYER_SPEED * dt;
             associated.orientation = Orientation::LEFT;
@@ -59,6 +69,13 @@ void Player::Update(float dt) {
         }
     } else {
         movementState = RESTING;
+
+        // Atualiza a animação
+        sprite->Open("img/tarma_inferior_repouso.png");
+        associated.box.w = sprite->GetWidth();
+        associated.box.h = sprite->GetHeight();
+        sprite->SetFrameCount(1);
+        sprite->SetFrameTime(0);
     }
 
     if (jumpState == JUMPING || jumpState == FALLING) {
@@ -88,17 +105,7 @@ void Player::Update(float dt) {
 
 void Player::Render() {
 
-    auto sprite = (Sprite*)associated.GetComponent(SPRITE_TYPE);
-    if (movementState == WALKING) {
-        sprite->Open("img/tarma_inferior_andando.png");
-        sprite->SetFrameCount(12);
-        sprite->SetFrameTime(0.5);
 
-    } else if (movementState == RESTING) {
-        sprite->Open("img/tarma_inferior_repouso.png");
-        sprite->SetFrameCount(1);
-        sprite->SetFrameTime(0);
-    }
 }
 
 bool Player::Is(string type) {

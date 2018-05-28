@@ -7,7 +7,11 @@
 #include <Sprite.h>
 #include "Menu.h"
 
-Menu::Menu(GameObject &associated) : Component(associated), selected(false), optSelected(0) {
+Menu::Menu(GameObject &associated) : Component(associated) {
+
+    this->selected = false;
+    this->optSelected = 0;
+
     showControles = false;
     //Se atentar para a ordem de incersao
     //As opcoes devem estar na mesma posicao no enum
@@ -97,11 +101,12 @@ void Menu::SetSelected(bool selected){
 }
 
 int Menu::FindOption(const string &optionText) {
-    if(optionText == LABEL_NEW_GAME){
-        return NEW_GAME;
-    } else if(optionText == LABEL_CONTROLS){
+    if(optionText == LABEL_CONTROLS){
         return CONTROLS;
     } else if(optionText == LABEL_EXIT_GAME){
         return EXIT_GAME;
     }
+
+    // optionText = LABEL_NEW_GAME
+    return NEW_GAME;
 }

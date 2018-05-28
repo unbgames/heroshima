@@ -6,9 +6,12 @@
 #include <utility>
 
 PeriodicEvent::PeriodicEvent(GameObject &associated, float periodTime, ActionCallback cb, ActionCallback restCallback, float restTime, float startOffset) :
-        Component(associated), periodTime(periodTime + startOffset),
-        callback(move(cb)), restCallback(move(restCallback)), timer(Timer()),
-        restTime((restTime == 0 ? periodTime : restTime) + periodTime + startOffset), startOffset(startOffset) {
+        Component(associated), periodTime(periodTime + startOffset), callback(move(cb))  {
+
+    this->restCallback = move(restCallback),
+    timer = Timer();
+    this->restTime = (restTime == 0 ? periodTime : restTime) + periodTime + startOffset;
+    this->startOffset = startOffset;
     call = false;
 }
 

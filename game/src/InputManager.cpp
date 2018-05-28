@@ -7,7 +7,11 @@
 #include "InputManager.h"
 
 
-InputManager::InputManager() : updateCounter(0), quitRequested(false), mouseX(0), mouseY(0){
+InputManager::InputManager() : mouseX(0), mouseY(0){
+
+    this->updateCounter = 0;
+    this->quitRequested = false;
+
     memset(mouseState, 0, sizeof(mouseState));
     memset(mouseUpdate, 0, sizeof(mouseUpdate));
 }

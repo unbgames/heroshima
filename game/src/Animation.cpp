@@ -6,8 +6,11 @@
 #include <utility>
 
 Animation::Animation(GameObject &associated, float duration, ActionCallback onAnimationEnd, float startOffset)
-        : Component(associated), duration(duration + startOffset), onAnimationEnd(move(onAnimationEnd)), startOffset(startOffset) {
-    timer = Timer();
+        : Component(associated), duration(duration + startOffset) {
+
+    this->onAnimationEnd = move(onAnimationEnd);
+    this->startOffset = startOffset;
+    this->timer = Timer();
 }
 
 void Animation::Update(float dt) {

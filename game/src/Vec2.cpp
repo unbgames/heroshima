@@ -47,12 +47,12 @@ float Vec2::Incl(Vec2 v) {
 }
 
 Vec2 Vec2::Rotate(const float ang) {
-    return {(x * cos(ang)) - (y * sin(ang)), (y * cos(ang)) + (x * sin(ang))};
+    return {(x * (float)cos(ang)) - (y * (float)sin(ang)), (y * (float)cos(ang)) + (x * (float)sin(ang))};
 }
 
 Vec2 Vec2::RotateDeg(const float angDeg) {
-    auto ang = (float)angDeg * (M_PI/180.0f);//deg to rad
-    return {(x * cos(ang)) - (y * sin(ang)), (y * cos(ang)) + (x * sin(ang))};
+    auto ang = angDeg * (M_PI/180.0f);//deg to rad
+    return {(x * (float)cos(ang)) - (y * (float)sin(ang)), (y * (float)cos(ang)) + (x * (float)sin(ang))};
 }
 
 string Vec2::toString() {

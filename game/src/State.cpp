@@ -42,26 +42,26 @@ bool State::QuitRequested() {
 }
 
 void State::StartArray() {
-    for(int i = 0; i < objectArray.size(); i++){
+    for(unsigned i = 0; i < objectArray.size(); i++){
         objectArray[i].get()->Start();
     }
     started = true;
 }
 
 void State::UpdateArray(float dt) {
-    for(int i = 0; i < objectArray.size(); i++){
+    for(unsigned i = 0; i < objectArray.size(); i++){
         objectArray[i].get()->Update(dt);
     }
 }
 
 void State::RenderArray() {
-    for(int i = 0; i < objectArray.size(); i++){
+    for(unsigned i = 0; i < objectArray.size(); i++){
         objectArray[i].get()->Render();
     }
 }
 
 void State::IsDeadArray() {
-    for(int i = 0; i < objectArray.size(); i++) {
+    for(unsigned i = 0; i < objectArray.size(); i++) {
         if (objectArray[i]->IsDead()) {
             objectArray.erase(objectArray.begin() + i);
         }
@@ -77,8 +77,8 @@ void State::setDebug(bool debug) {
 }
 
 void State::TestCollision() {
-    for (int i = 0; i < objectArray.size(); i++) {
-        for(int j = i+1; j < objectArray.size(); j++){
+    for (unsigned i = 0; i < objectArray.size(); i++) {
+        for(unsigned j = i+1; j < objectArray.size(); j++){
             auto &objA = objectArray[i];
             auto &objB = objectArray[j];
 
