@@ -15,7 +15,6 @@ class Animation : public Component {
 public:
     explicit Animation(GameObject &associated, float duration, ActionCallback onAnimationEnd = nullptr, float startOffset = 0);
 
-    void Update(float dt) override;
     void Render() override;
     bool Is(string type) override;
 
@@ -27,6 +26,10 @@ protected:
     Timer timer;
 
     ActionCallback onAnimationEnd;
+
+private:
+    //Update(dt) must be private so that Animation subclasses won't override it
+    void Update(float dt) override;
 
 };
 

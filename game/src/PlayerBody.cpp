@@ -113,6 +113,7 @@ void PlayerBody::DropGun() {
     auto troca(new GameObject);
     Sprite* img;
 
+    //TODO fazer a lógica para as demais armas aqui
     if(gun == Weapons::heavy){
         img = new Sprite(*troca, "img/heavy_machine_gun.png");
     } else{
