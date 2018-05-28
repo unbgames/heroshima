@@ -9,7 +9,7 @@
 
 using std::string;
 
-typedef struct Sprites{
+struct Sprites{
     string sprite;
     int offset;
     int frameCount;
@@ -19,7 +19,7 @@ typedef struct Sprites{
     Sprites();
 };
 
-typedef struct Projectile{
+struct Projectile{
     string sprite;
     float speed;
     int frameCount;

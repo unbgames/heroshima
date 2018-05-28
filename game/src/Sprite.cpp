@@ -12,24 +12,28 @@
 #include "../include/Sprite.h"
 #include "Game.h"
 
-Sprite::Sprite(GameObject& associated) : Component(associated), texture(nullptr),
-                                         scale(1, 1),
-                                         frameCount(0),
-                                         frameTime(0),
-                                         timeElapsed(0),
-                                         currentFrame(0),
-                                         selfDestructCount(*new Timer),
-                                         secondsToSelfDestruct(0),
-                                         isVisible(true) { }
+Sprite::Sprite(GameObject& associated) :
+    Component(associated), texture(nullptr), scale(1, 1), selfDestructCount(*new Timer),
+    secondsToSelfDestruct(0) {
 
-Sprite::Sprite(GameObject &associated, string file, int frameCount, float frameTime, float secondsToSelfDestruct) : Component(associated),
-                                                                                       texture(nullptr),
-                                                                                       scale(1, 1),
-                                                                                       frameCount(frameCount),
-                                                                                       frameTime(frameTime),
-                                                                                       selfDestructCount(*new Timer),
-                                                                                       secondsToSelfDestruct(secondsToSelfDestruct),
-                                                                                       isVisible(true) {
+    frameCount = 0;
+    frameTime = 0;
+    timeElapsed = 0;
+    currentFrame = 0;
+    currentSprite = "";
+    isVisible = true;
+}
+
+Sprite::Sprite(GameObject &associated, string file, int frameCount, float frameTime, float secondsToSelfDestruct)
+    : Component(associated), texture(nullptr),  scale(1, 1), selfDestructCount(*new Timer),
+      secondsToSelfDestruct(secondsToSelfDestruct) {
+
+    this->frameCount = frameCount;
+    this->frameTime = frameTime;
+    timeElapsed = 0;
+    currentFrame = 0;
+    currentSprite = "";
+    isVisible = true;
     Open(move(file));
 }
 
@@ -38,8 +42,14 @@ Sprite::~Sprite() {
 }
 
 void Sprite::Open(string file) {
-    texture = Resources::GetImage(move(file));
 
+    // Se for o mesmo sprite não abre denovo o sprite
+    if (texture != nullptr && currentSprite == file) {
+        return;
+    }
+
+    currentSprite = file;
+    texture = Resources::GetImage(move(file));
     SDL_QueryTexture(texture.get(), nullptr, nullptr, &width, &height);
     associated.box.w = GetWidth();
     associated.box.h = GetHeight();
@@ -49,6 +59,10 @@ void Sprite::Open(string file) {
 void Sprite::SetClip(int x, int y, int w, int h) {
     clipRect.x = x; clipRect.y = y;
     clipRect.h = h; clipRect.w = w;
+}
+
+SDL_Rect Sprite::GetClip() const {
+    return clipRect;
 }
 
 void Sprite::Render() {
@@ -128,13 +142,15 @@ void Sprite::SetFrame(int frame) {
 }
 
 void Sprite::SetFrameCount(int frameCount) {
-    this->frameCount = frameCount;
-    //currentFrame = 0;
-    associated.box.w = GetWidth();
-    SetClip(0, clipRect.y, GetWidth(), clipRect.h);
+    if (this->frameCount != frameCount) {
+        this->frameCount = frameCount;
+        currentFrame = 0;
+        associated.box.w = GetWidth();
+        SetClip(0, clipRect.y, GetWidth(), clipRect.h);
+    }
 }
 
-void Sprite::SetFrameTime(float) {
+void Sprite::SetFrameTime(float frameTime) {
     this->frameTime = frameTime;
 }
 

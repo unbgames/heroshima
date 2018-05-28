@@ -5,7 +5,7 @@
 #ifndef STAGE1_CLASS
 #define STAGE1_CLASS
 
-
+#include "Music.h"
 #include "State.h"
 
 class Stage1 : public State {
@@ -20,6 +20,9 @@ public:
     void Start() override;
     void Pause() override;
     void Resume() override;
+
+private:
+    Music backgroundMusic;
 };
 
 

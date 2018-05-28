@@ -32,7 +32,7 @@ Alien::~Alien() {
 
 void Alien::Start() {
     auto minionSize = minionArray.size();
-    for(int i = 0; i < minionSize; i++){
+    for(unsigned i = 0; i < minionSize; i++){
         auto *minionGO = new GameObject;
 
         //espaca os minions igualmente na orbita em funcao da quantidade
@@ -114,7 +114,7 @@ bool Alien::Is(string type) {
 int Alien::NearestMinion(const Vec2 &target) const {
     float minimum = ((*minionArray[0].lock()).box.GetCenter() - target).Mag();
     int location = 0;
-    for(int i = 0; i < minionArray.size(); i++){
+    for(unsigned i = 0; i < minionArray.size(); i++){
         float dist = ((*minionArray[i].lock()).box.GetCenter() - target).Mag();
         if (dist < minimum ){
             minimum = dist;

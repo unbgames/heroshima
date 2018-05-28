@@ -33,8 +33,8 @@ PlayerBody::PlayerBody(GameObject &associated, weak_ptr<GameObject> player)
     associated.box = {
             (playerGO.orientation == Orientation::LEFT ? -1 : 1) * BODY_OFFSET_HORIZONTAL + playerGO.box.GetCenter().x - img->GetWidth() / 2,
             BODY_OFFSET_VERTICAL + playerGO.box.y - img->GetHeight(),
-            img->GetWidth(),
-            img->GetHeight()
+            (float)img->GetWidth(),
+            (float)img->GetHeight()
     };
     associated.AddComponent(img);
 }

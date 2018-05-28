@@ -4,8 +4,12 @@
 
 #include "GameObject.h"
 
-GameObject::GameObject() : isDead(false), started(false), angleDeg(0), orientation(RIGHT) {
+GameObject::GameObject() {
 
+    this->isDead = false;
+    this->orientation = RIGHT;
+    this->started = false;
+    this->angleDeg = 0;
 }
 
 GameObject::~GameObject() {
@@ -50,7 +54,7 @@ void GameObject::AddComponent(Component *cpt) {
 }
 
 void GameObject::RemoveComponent(Component *cpt) {
-    for(int i = 0; i < components.size(); ++i){
+    for(unsigned i = 0; i < components.size(); ++i){
         if(components[i].get() == cpt){
             components.erase(components.begin() + i);
             break;
@@ -59,7 +63,7 @@ void GameObject::RemoveComponent(Component *cpt) {
 }
 
 Component *GameObject::GetComponent(string type) {
-    for(int i = 0; i < components.size(); i++){
+    for(unsigned i = 0; i < components.size(); i++){
         if(components[i]->Is(type)){
             return components[i].get();
         }
@@ -68,7 +72,7 @@ Component *GameObject::GetComponent(string type) {
 }
 
 void GameObject::NotifyCollision(GameObject &other) {
-    for(int i = 0; i < components.size(); i++){
+    for(unsigned i = 0; i < components.size(); i++){
         components[i]->NotifyCollision(other);
     }
 }

@@ -19,10 +19,12 @@ using namespace std;
 
 Game* Game::instance = nullptr;
 
-Game::Game(string title, int width, int height) : dt(0), frameStart(0) {
+Game::Game(string title, int width, int height) {
     if(instance == nullptr) {
 
         instance = this;
+        dt = 0 ;
+        frameStart = 0;
 
         //Inicializa a SDL
         if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) != 0) {

@@ -51,7 +51,7 @@ void TileMap::Start() {
         for (int j = 0; j < mapHeight; j++){
 
             auto index = (unsigned)At(i, j, mapDepth - 1);
-            if (index >= 0 && index < tileSet->GetRows() * tileSet->GetColumns() - 1) {
+            if (index < (unsigned)(tileSet->GetRows() * tileSet->GetColumns()) - 1) {
                 auto *collisionGO = new GameObject;
                 collisionGO->box.x = (int)(i * tileSet->GetTileWidth() - Camera::pos.x - PARALLAX_FACTOR * (mapDepth - 1));
                 collisionGO->box.y = (int)(j * tileSet->GetTileHeight() - Camera::pos.y - PARALLAX_FACTOR * (mapDepth - 1));
