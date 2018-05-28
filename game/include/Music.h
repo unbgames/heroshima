@@ -6,6 +6,7 @@
 #define MUSIC_CLASS
 
 #include <iostream>
+#include <memory>
 
 #define INCLUDE_SDL_MIXER
 #include "SDL_include.h"

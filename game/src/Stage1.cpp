@@ -41,7 +41,7 @@ Stage1::Stage1() {
 }
 
 void Stage1::LoadAssets() {
-
+    backgroundMusic.Open("audio/stageState.ogg");
 }
 
 void Stage1::Update(float dt) {
@@ -71,6 +71,7 @@ void Stage1::Render() {
 void Stage1::Start() {
     StartArray();
     LoadAssets();
+    backgroundMusic.Play();
 //    Camera::pos = Vec2(0, 0);
 }
 
