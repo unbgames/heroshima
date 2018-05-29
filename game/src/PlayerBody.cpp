@@ -42,13 +42,6 @@ PlayerBody::PlayerBody(GameObject &associated, weak_ptr<GameObject> player)
 }
 
 void PlayerBody::Start() {
-    //** Crate
-    auto crateGO(new GameObject);
-    Sprite* img = new Sprite(*crateGO, "img/heavy_crate.png");
-    Crate* heavyCrate = new WeaponCrate(*crateGO, associated.box.GetPos() + Vec2(1000, 0), Weapons::heavy);
-    crateGO->AddComponent(img);
-    crateGO->AddComponent(heavyCrate);
-    Game::GetInstance().GetCurrentState().AddObject(crateGO);
 }
 
 void PlayerBody::Update(float dt) {

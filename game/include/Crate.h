@@ -20,7 +20,7 @@ public:
 protected:
     explicit Crate(GameObject &associated, Vec2 initialPosition, bool startFalling = true);
 
-    virtual void OnCatch() = 0;
+    virtual void onCatch() = 0;
 
 private:
     //These must be private so that Crate's subclasses won't be able to override them

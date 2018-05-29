@@ -5,6 +5,7 @@
 #include <Player.h>
 #include <CollisionTile.h>
 #include <Collider.h>
+#include <Camera.h>
 #include "Crate.h"
 
 Crate::Crate(GameObject &associated, Vec2 initialPosition, bool startFalling) :
@@ -12,7 +13,7 @@ Crate::Crate(GameObject &associated, Vec2 initialPosition, bool startFalling) :
     associated.box.x = initialPosition.x;
 
     if(startFalling) {
-        associated.box.y = -2*associated.box.h;
+        associated.box.y = -3*associated.box.h;
     } else{
         associated.box.y = initialPosition.y;
     }
@@ -27,7 +28,6 @@ void Crate::Update(float dt) {
 
     speed = Vec2(0, verticalSpeed);
     associated.box += speed;
-
 }
 
 void Crate::Render() {}
@@ -45,6 +45,6 @@ void Crate::NotifyCollision(GameObject &other) {
 
     auto player = (Player*) other.GetComponent(PLAYER_T);
     if(player){
-        OnCatch();
+        onCatch();
     }
 }

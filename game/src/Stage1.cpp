@@ -11,6 +11,10 @@
 #include "Collider.h"
 #include "TileSet.h"
 #include <InputManager.h>
+#include <Crate.h>
+#include <WeaponCrate.h>
+#include <Weapons.h>
+#include <HealthCrate.h>
 #include "Stage1.h"
 
 Stage1::Stage1() {
@@ -73,6 +77,17 @@ void Stage1::Start() {
     LoadAssets();
     backgroundMusic.Play();
 //    Camera::pos = Vec2(0, 0);
+
+    //** Weapon Crate
+    auto weaponCrateGO(new GameObject);
+    weaponCrateGO->AddComponent(new Sprite(*weaponCrateGO, "img/heavy_crate.png"));
+    weaponCrateGO->AddComponent(new WeaponCrate(*weaponCrateGO, Vec2(800, 0), Weapons::heavy));
+    AddObject(weaponCrateGO);
+
+    //** Life Crate
+    auto lifeCrateGO(new GameObject);
+    lifeCrateGO->AddComponent(new HealthCrate(*lifeCrateGO, Vec2(1000, 0), 1));
+    AddObject(lifeCrateGO);
 }
 
 void Stage1::Pause() {

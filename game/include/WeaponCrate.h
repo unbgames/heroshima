@@ -14,7 +14,7 @@ public:
     explicit WeaponCrate(GameObject &associated, const Vec2 &initialPosition, Gun* gun, bool startFalling = true);
 
 protected:
-    void OnCatch() override;
+    void onCatch() override;
 
 private:
     Gun* gun;
