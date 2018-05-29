@@ -11,6 +11,7 @@ WeaponCrate::WeaponCrate(GameObject &associated, const Vec2 &initialPosition, Gu
 }
 
 void WeaponCrate::OnCatch() {
+    gun->setAmmo(gun->getFull());
     Player::playerBody->SetGun(gun);
     associated.RequestDelete();
 }

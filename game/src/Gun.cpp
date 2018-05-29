@@ -10,7 +10,7 @@ using std::move;
 Gun::Gun(int damage, int ammo, float cooldownTime, Sprites spriteRest, Sprites spriteWalk,
          Sprites spriteShoot, Projectile projectile) :
         damage(damage), ammo(ammo), cooldownTime(cooldownTime), rest(move(spriteRest)), walk(move(spriteWalk)),
-        shoot(move(spriteShoot)),projectile(move(projectile)) {}
+        shoot(move(spriteShoot)),projectile(move(projectile)), full(ammo) {}
 
 Gun::Gun() {}
 
@@ -44,5 +44,13 @@ const Sprites &Gun::getSpriteShoot() const {
 
 const Projectile &Gun::getProjectile() const {
     return projectile;
+}
+
+int Gun::getFull() const {
+    return full;
+}
+
+void Gun::setAmmo(int ammo) {
+    Gun::ammo = ammo;
 }
 

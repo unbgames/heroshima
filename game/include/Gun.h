@@ -20,6 +20,8 @@ public:
 
     int getDamage() const;
     int getAmmo() const;
+    void setAmmo(int ammo);
+    int getFull() const;
     float getCooldownTime() const;
     void decrementAmmo();
 
@@ -32,6 +34,11 @@ public:
 private:
     int damage;
     int ammo;
+
+private:
+    int full;
+
+private:
     float cooldownTime;
 
     Sprites rest, walk, shoot;

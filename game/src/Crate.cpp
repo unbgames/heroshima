@@ -12,7 +12,7 @@ Crate::Crate(GameObject &associated, Vec2 initialPosition, bool startFalling) :
     associated.box.x = initialPosition.x;
 
     if(startFalling) {
-        associated.box.y = -associated.box.h;
+        associated.box.y = -2*associated.box.h;
     } else{
         associated.box.y = initialPosition.y;
     }
