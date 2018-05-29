@@ -27,7 +27,7 @@ private:
     void Update(float dt) override;
     void NotifyCollision(GameObject &other) override;
     Vec2 speed;
-    float verticalSpeed;
+    bool fell;
 
 };
 

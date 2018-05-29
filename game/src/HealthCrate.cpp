@@ -15,6 +15,12 @@ HealthCrate::HealthCrate(GameObject &associated, const Vec2 &initialPosition, in
         Crate(associated, initialPosition, startFalling), health(health) {
     Sprite* lifeCrateImg = new Sprite(associated, "img/life_item.png");
     associated.AddComponent(lifeCrateImg);
+
+    if(startFalling) {
+        associated.box.y = -3*associated.box.h;
+    } else{
+        associated.box.y = initialPosition.y;
+    }
 }
 
 void HealthCrate::onCatch() {
