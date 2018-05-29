@@ -7,25 +7,33 @@
 #include <Collider.h>
 #include "Crate.h"
 
-Crate::Crate(GameObject &associated, Vec2 position) : Component(associated), position(position) {
-    associated.box.x = position.x;
-    associated.box.y = -associated.box.h;
+Crate::Crate(GameObject &associated, Vec2 initialPosition, bool startFalling) :
+        Component(associated) {
+    associated.box.x = initialPosition.x;
+
+    if(startFalling) {
+        associated.box.y = -associated.box.h;
+    } else{
+        associated.box.y = initialPosition.y;
+    }
+
     associated.AddComponent(new Collider(associated));
 }
 
 void Crate::Update(float dt) {
-    if(Player::player->GetAssociatedBox().x > associated.box.x - 400){
+    if(Player::player->GetAssociatedBox().x > associated.box.x - CRATE_OFFSET){
         verticalSpeed += GRAVITY * dt;
     }
 
     speed = Vec2(0, verticalSpeed);
     associated.box += speed;
+
 }
 
 void Crate::Render() {}
 
 bool Crate::Is(string type) {
-    return type == WEAPON_CRATE_TYPE;
+    return type == CRATE_TYPE;
 }
 
 void Crate::NotifyCollision(GameObject &other) {
@@ -33,5 +41,10 @@ void Crate::NotifyCollision(GameObject &other) {
     if (collisionTile != nullptr) {
         associated.box.y =  other.box.y - associated.box.h;
         verticalSpeed = 0;
+    }
+
+    auto player = (Player*) other.GetComponent(PLAYER_T);
+    if(player){
+        OnCatch();
     }
 }

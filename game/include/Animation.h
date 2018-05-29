@@ -24,13 +24,13 @@ protected:
 
     float startOffset;
     float duration;
-    Timer timer;
 
     ActionCallback onAnimationEnd;
 
 private:
     //Update(dt) must be private so that Animation's subclasses won't be able to override it
     void Update(float dt) override;
+    Timer timer;
 
 };
 

@@ -5,6 +5,7 @@
 #include <PeriodicEvent.h>
 #include <RotationTween.h>
 #include <Crate.h>
+#include <WeaponCrate.h>
 
 #include "Bullet.h"
 #include "Game.h"
@@ -19,7 +20,7 @@ using std::weak_ptr;
 PlayerBody::PlayerBody(GameObject &associated, weak_ptr<GameObject> player)
     : Component(associated) {
 
-    gun = Weapons::heavy;
+    gun = Weapons::pistol;
 
     this->player = player;
     GameObject &playerGO = *player.lock();
@@ -43,8 +44,7 @@ void PlayerBody::Start() {
     //** Crate
     auto crateGO(new GameObject);
     Sprite* img = new Sprite(*crateGO, "img/heavy_crate.png");
-    //TODO instanciar subclasse de crate, não crate diretamente
-    Crate* heavyCrate = new Crate(*crateGO, associated.box.GetPos() + Vec2(1000, 0));
+    Crate* heavyCrate = new WeaponCrate(*crateGO, associated.box.GetPos() + Vec2(1000, 0), Weapons::heavy);
     crateGO->AddComponent(img);
     crateGO->AddComponent(heavyCrate);
     Game::GetInstance().GetCurrentState().AddObject(crateGO);
@@ -82,7 +82,7 @@ void PlayerBody::Update(float dt) {
 
     if(gun == Weapons::heavy && gun->getAmmo() <= 0){
         DropGun();
-        gun = Weapons::pistol;
+        SetGun(Weapons::pistol);
     }
 
     shootCooldownTimer.Update(dt);
@@ -148,4 +148,8 @@ void PlayerBody::DropGun() {
     troca->AddComponent(animation);
     troca->AddComponent(rotation);
     Game::GetInstance().GetCurrentState().AddObject(troca);
+}
+
+void PlayerBody::SetGun(Gun *gun) {
+    this->gun = gun;
 }

@@ -16,6 +16,7 @@ using std::weak_ptr;
 using std::string;
 
 Player *Player::player = nullptr;
+PlayerBody *Player::playerBody = nullptr;
 Player::Player(GameObject &associated) : Component(associated) {
 
     associated.AddComponent(new Collider(associated));
@@ -36,7 +37,8 @@ void Player::Start() {
     movementState = RESTING;
 
     auto pBodyGO = new GameObject;
-    pBodyGO->AddComponent(new PlayerBody(*pBodyGO, Game::GetInstance().GetCurrentState().GetObjectPtr(&associated)));
+    playerBody = new PlayerBody(*pBodyGO, Game::GetInstance().GetCurrentState().GetObjectPtr(&associated));
+    pBodyGO->AddComponent(playerBody);
     pBody = Game::GetInstance().GetCurrentState().AddObject(pBodyGO);
 
 }

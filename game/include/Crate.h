@@ -5,30 +5,29 @@
 #ifndef WEAPONCRATE_H
 #define WEAPONCRATE_H
 
-#define WEAPON_CRATE_TYPE "Crate"
+#define CRATE_TYPE "Crate"
+#define CRATE_OFFSET 400
 
 
 #include "Component.h"
-#include "Gun.h"
 
 class Crate : public Component{
 public:
-    //TODO make constructor protected
-    Crate(GameObject &associated, Vec2 position);
 
     void Render() override;
     bool Is(string type) override;
 
-    void NotifyCollision(GameObject &other) override;
-
 protected:
-    Vec2 speed;
-    Vec2 position;
-    float verticalSpeed;
+    explicit Crate(GameObject &associated, Vec2 initialPosition, bool startFalling = true);
+
+    virtual void OnCatch() = 0;
 
 private:
-    //Update(dt) must be private so that Crate's subclasses won't be able to override it
+    //These must be private so that Crate's subclasses won't be able to override them
     void Update(float dt) override;
+    void NotifyCollision(GameObject &other) override;
+    Vec2 speed;
+    float verticalSpeed;
 
 };
 
