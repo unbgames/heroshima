@@ -24,6 +24,7 @@ public:
     void NotifyCollision(GameObject &other) override;
 
     static Player* player;
+    static PlayerBody* playerBody;
 
 private:
     enum MoveState { WALKING, RESTING };

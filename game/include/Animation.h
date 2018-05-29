@@ -13,23 +13,24 @@
 
 class Animation : public Component {
 public:
-    explicit Animation(GameObject &associated, float duration, ActionCallback onAnimationEnd = nullptr, float startOffset = 0);
-
     void Render() override;
     bool Is(string type) override;
 
     virtual void onAnimationUpdate(float dt) = 0;
 
 protected:
+    //Only Animation subclasses must instatiate it
+    explicit Animation(GameObject &associated, float duration, ActionCallback onAnimationEnd = nullptr, float startOffset = 0);
+
     float startOffset;
     float duration;
-    Timer timer;
 
     ActionCallback onAnimationEnd;
 
 private:
-    //Update(dt) must be private so that Animation subclasses won't override it
+    //Update(dt) must be private so that Animation's subclasses won't be able to override it
     void Update(float dt) override;
+    Timer timer;
 
 };
 

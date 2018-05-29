@@ -4,6 +4,9 @@
 #include <LineTween.h>
 #include <PeriodicEvent.h>
 #include <RotationTween.h>
+#include <Crate.h>
+#include <WeaponCrate.h>
+#include <Sound.h>
 
 #include "Bullet.h"
 #include "Game.h"
@@ -18,7 +21,7 @@ using std::weak_ptr;
 PlayerBody::PlayerBody(GameObject &associated, weak_ptr<GameObject> player)
     : Component(associated) {
 
-    gun = Weapons::heavy;
+    gun = Weapons::pistol;
 
     this->player = player;
     GameObject &playerGO = *player.lock();
@@ -38,7 +41,8 @@ PlayerBody::PlayerBody(GameObject &associated, weak_ptr<GameObject> player)
     associated.AddComponent(img);
 }
 
-void PlayerBody::Start() {}
+void PlayerBody::Start() {
+}
 
 void PlayerBody::Update(float dt) {
     GameObject &playerGO = *player.lock();
@@ -72,7 +76,7 @@ void PlayerBody::Update(float dt) {
 
     if(gun == Weapons::heavy && gun->getAmmo() <= 0){
         DropGun();
-        gun = Weapons::pistol;
+        SetGun(Weapons::pistol);
     }
 
     shootCooldownTimer.Update(dt);
@@ -106,6 +110,8 @@ void PlayerBody::Shoot(float angle) {
         bulletGo->box.y = associated.box.GetPos().y + associated.box.h/2 - bulletGo->box.h - 7;
     }
     bulletGo->AddComponent(new Bullet(*bulletGo, angle, gun->getProjectile().speed, gun->getDamage(), 1000, gun->getProjectile().sprite, gun->getProjectile().frameCount, gun->getProjectile().frameTime, true));
+    auto sound(new Sound(*bulletGo, "audio/tiro.ogg"));
+    sound->Play();
     Game::GetInstance().GetCurrentState().AddObject(bulletGo);
 }
 
@@ -138,4 +144,12 @@ void PlayerBody::DropGun() {
     troca->AddComponent(animation);
     troca->AddComponent(rotation);
     Game::GetInstance().GetCurrentState().AddObject(troca);
+}
+
+void PlayerBody::SetGun(Gun *gun) {
+    this->gun = gun;
+    //FIXME garantir que esse GO eh deletado apos terminar de tocar o som
+    auto bulletGO(new GameObject);
+    auto recharge(new Sound(*bulletGO, "audio/recarregar.ogg"));
+    recharge->Play();
 }

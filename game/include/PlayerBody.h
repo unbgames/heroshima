@@ -28,6 +28,7 @@ public:
 
     void Shoot(float angle);
     void DropGun();
+    void SetGun(Gun* gun);
 
 private:
     enum BodyState { RESTING, SHOOTING };
