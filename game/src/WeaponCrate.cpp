@@ -17,11 +17,9 @@ void WeaponCrate::OnCatch() {
     Player::playerBody->SetGun(gun);
     associated.RequestDelete();
 
-    //TODO garantir que esse GO eh deletado apos terminar de tocar o som
+    //FIXME garantir que esse GO eh deletado apos terminar de tocar o som
     auto bulletGO(new GameObject);
     auto sound(new Sound(*bulletGO, "audio/heavy_machine_gun.wav"));
-    auto recharge(new Sound(*bulletGO, "audio/recarregar.ogg"));
     sound->Play();
-    recharge->Play();
 
 }
