@@ -19,7 +19,7 @@ Crate::Crate(GameObject &associated, Vec2 initialPosition, bool startFalling) :
         associated.box.y = initialPosition.y;
     }
 
-    associated.AddComponent(new Collider(associated));
+    associated.AddComponent(new Collider(associated, {0.8, 0.8}));
 }
 
 void Crate::Update(float dt) {
