@@ -7,6 +7,7 @@
 
 #define MENU_HUD_TYPE "MenuHUD"
 #define MARGIN_TOP 10
+#define MARGIN_LEFT 10
 
 #include "Component.h"
 #include "Clock.h"
@@ -14,7 +15,7 @@
 
 class MenuHUD : public Component {
 public:
-    explicit MenuHUD(GameObject &associated, bool isClock = true);
+    explicit MenuHUD(GameObject &associated, bool isClock = true, bool isFace = true);
 
     void Update(float dt) override;
     void Render() override;
@@ -22,11 +23,13 @@ public:
 
 private:
     Clock* clock;
-    Text* clockText;
-
+    GameObject* clockGO;
     bool isClock;
-
     void AddClock();
+
+    GameObject* faceGO;
+    bool isFace;
+    void AddFace();
 };
 
 

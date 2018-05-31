@@ -4,18 +4,31 @@
 
 #include <Game.h>
 #include <CameraFollower.h>
+#include <Sprite.h>
 #include "MenuHUD.h"
 
-MenuHUD::MenuHUD(GameObject &associated, bool isClock) : Component(associated), isClock(isClock) {
+MenuHUD::MenuHUD(GameObject &associated, bool isClock, bool isFace) :
+        Component(associated), isClock(isClock), isFace(isFace) {
     if(isClock){
         AddClock();
     }
+
+    if(isFace){
+        AddFace();
+    }
+
 }
 
 void MenuHUD::Update(float dt) {
     if(isClock) {
         clock->Update(dt);
-        clockText->SetText(clock->GetMinutesString() + ":" + clock->GetSecondsString());
+        Text *clockText = (Text*)(clockGO->GetComponent(TEXT_TYPE));
+        if(clockText) clockText->SetText(clock->GetMinutesString() + ":" + clock->GetSecondsString());
+    }
+
+    if(isFace) {
+        Sprite* faceSprite = (Sprite*)(faceGO->GetComponent(SPRITE_TYPE));
+        //TODO set sprites according to player's emotions
     }
 }
 
@@ -28,13 +41,18 @@ bool MenuHUD::Is(string type) {
 }
 
 void MenuHUD::AddClock() {
-    auto clockGO(new GameObject);
-    Text *text = new Text(*clockGO, "font/Japanese.ttf", 60, Text::BLENDED, "00:00", {255, 255, 255, 255});
-    clockText = text;
-    clockGO->AddComponent(clockText);
+    clockGO = new GameObject();
+    clockGO->AddComponent(new Text(*clockGO, "font/Japanese.ttf", 80, Text::BLENDED, "00:00", {255, 255, 255, 255}));
     clockGO->AddComponent(new CameraFollower(*clockGO, Vec2((GAME_WIDTH/2) - clockGO->box.w/2, MARGIN_TOP)));
 
     clock = new Clock();
 
     Game::GetInstance().GetCurrentState().AddObject(clockGO);
+}
+
+void MenuHUD::AddFace() {
+    faceGO = new GameObject();
+    faceGO->AddComponent(new Sprite(*faceGO, "img/tarma_face.png"));
+    faceGO->AddComponent(new CameraFollower(*faceGO, {MARGIN_LEFT, MARGIN_TOP}));
+    Game::GetInstance().GetCurrentState().AddObject(faceGO);
 }
