@@ -127,8 +127,8 @@ void PlayerBody::DropGun() {
     }
 
     Animation* animation = new LineTween(*troca, 1,
-                                     associated.box.GetCenter(),
-                                     associated.box.GetCenter() + Vec2((associated.orientation == Orientation::LEFT ? 75 : - 75), -50),
+                                     associated.box.GetCenter() - troca->box.GetCenter(),
+                                     associated.box.GetCenter() - troca->box.GetCenter() + Vec2((associated.orientation == Orientation::LEFT ? 75 : - 75), -50),
                                      [troca] {troca->RequestDelete();} );
 
     Animation* rotation = new RotationTween(*troca, 1,

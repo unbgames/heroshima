@@ -7,8 +7,8 @@
 
 LineTween::LineTween(GameObject &associated, float duration, const Vec2 &from, const Vec2 &to, ActionCallback onAnimationEnd, float startOffset) :
         Animation(associated, duration, move(onAnimationEnd), startOffset), from(from), to(to) {
-    associated.box.x = from.x - associated.box.w/2;
-    associated.box.y = from.y - associated.box.h/2;
+    associated.box.x = from.x;
+    associated.box.y = from.y;
 }
 
 void LineTween::onAnimationUpdate(float dt) {
