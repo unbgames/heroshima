@@ -94,3 +94,8 @@ const SDL_Color &Text::getColor() const {
 const string &Text::getText() const {
     return text;
 }
+
+void Text::SetAlpha(Uint8 alpha) {
+    color = {color.r, color.g, color.b, alpha};
+    RemakeTexture();
+}

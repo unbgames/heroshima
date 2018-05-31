@@ -9,6 +9,7 @@
 #include <LineTween.h>
 #include <Game.h>
 #include <Camera.h>
+#include <PeriodicEvent.h>
 #include "HealthCrate.h"
 
 HealthCrate::HealthCrate(GameObject &associated, const Vec2 &initialPosition, int health, bool startFalling) :
@@ -26,17 +27,21 @@ HealthCrate::HealthCrate(GameObject &associated, const Vec2 &initialPosition, in
 void HealthCrate::onCatch() {
     associated.RequestDelete();
 
-    //FIXME colocar o texto alinhado corretamente na tela
-//    auto catchGO(new GameObject);
-//    auto recharge(new Sound(*catchGO, "audio/recarregar.ogg"));
-//    recharge->Play();
-//    catchGO->AddComponent(recharge);
-//    catchGO->AddComponent(new Text(*catchGO, "font/Call me maybe.ttf", 60, Text::BLENDED, "1", {255,255,255,255}));
-//    catchGO->AddComponent(new LineTween(*catchGO, 10,
-//                                        associated.box.GetCenter() - catchGO->box.GetCenter(),
-//                                        associated.box.GetCenter() - catchGO->box.GetCenter() + Vec2(0, -50),
-//                                        [catchGO] {catchGO->RequestDelete();} ));
-//
-//    Game::GetInstance().GetCurrentState().AddObject(catchGO);
+    auto catchGO(new GameObject);
+    auto recharge(new Sound(*catchGO, "audio/recarregar.ogg"));
+    recharge->Play();
+    catchGO->AddComponent(recharge);
+    Text *text = new Text(*catchGO, "font/Japanese.ttf", 30, Text::BLENDED, "+" + to_string(health), {255, 255, 255, 255});
+    catchGO->AddComponent(text);
+    catchGO->AddComponent(new LineTween(*catchGO, 1.5,
+                                        associated.box.GetCenter() - catchGO->box.GetCenter(),
+                                        associated.box.GetCenter() - catchGO->box.GetCenter() + Vec2(0, -50),
+                                        [catchGO] {catchGO->RequestDelete();} ));
+
+    catchGO->AddComponent(new PeriodicEvent(*catchGO, 0.1,
+                                             [text] {text->SetAlpha(0);},
+                                             [text] {text->SetAlpha(255);}, 0.1, 0.5));
+
+    Game::GetInstance().GetCurrentState().AddObject(catchGO);
 
 }

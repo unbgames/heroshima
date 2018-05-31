@@ -27,6 +27,7 @@ public:
     const string &getText() const;
     void setColor(SDL_Color color);
     const SDL_Color &getColor() const;
+    void SetAlpha(Uint8 alpha);
     void setStyle(TextStyle style);
     void setFontFile(string fontFile);
     void setFontSize(int fontSize);
