@@ -5,8 +5,8 @@
 #include "PeriodicEvent.h"
 #include <utility>
 
-PeriodicEvent::PeriodicEvent(GameObject &associated, float periodTime, ActionCallback cb, ActionCallback restCallback, float restTime, float startOffset) :
-        Component(associated), periodTime(periodTime + startOffset), callback(move(cb))  {
+PeriodicEvent::PeriodicEvent(GameObject &associated, float periodTime, ActionCallback callback, ActionCallback restCallback, float restTime, float startOffset) :
+        Component(associated), periodTime(periodTime + startOffset), callback(move(callback))  {
 
     this->restCallback = move(restCallback),
     timer = Timer();

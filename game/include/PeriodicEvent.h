@@ -18,7 +18,7 @@
  *
  * @param associated the GameObject associated to this component
  * @param periodTime period to call the first callback
- * @param cb the callback to be called periodically by periodTime
+ * @param callback the callback to be called periodically by periodTime
  * @peram restCallback the second callback to be called periodically by restTime (after the first callback)
  * @param restTime period to call the second callback (default = 0, so both callbacks will have the same period when not passed)
  * @param startOffset time offset to start the first callback period
@@ -26,7 +26,7 @@
 
 class PeriodicEvent : public Component {
 public:
-    explicit PeriodicEvent(GameObject &associated, float periodTime, ActionCallback cb, ActionCallback restCallback = nullptr, float restTime = 0, float startOffset = 0);
+    explicit PeriodicEvent(GameObject &associated, float periodTime, ActionCallback callback, ActionCallback restCallback = nullptr, float restTime = 0, float startOffset = 0);
 
     void Update(float dt) override;
     void Render() override;
