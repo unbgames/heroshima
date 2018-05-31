@@ -23,14 +23,14 @@ public:
     void Render() override;
     bool Is(string type) override;
 
-    void setText(string text);
-    const string &getText() const;
-    void setColor(SDL_Color color);
-    const SDL_Color &getColor() const;
+    void SetText(string text);
+    const string &GetText() const;
+    void SetColor(SDL_Color color);
+    const SDL_Color &GetColor() const;
     void SetAlpha(Uint8 alpha);
-    void setStyle(TextStyle style);
-    void setFontFile(string fontFile);
-    void setFontSize(int fontSize);
+    void SetStyle(TextStyle style);
+    void SetFontFile(string fontFile);
+    void SetFontSize(int fontSize);
 
 
 private:

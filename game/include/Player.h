@@ -26,6 +26,11 @@ public:
     static Player* player;
     static PlayerBody* playerBody;
 
+    int GetHp() const;
+    void SetHp(int hp);
+    void IncremmentHp();
+    void DecrementHp();
+
 private:
     enum MoveState { WALKING, RESTING };
     enum JumpState { JUMPING, FALLING, COLLIDING };
@@ -36,6 +41,7 @@ private:
     Vec2 speed;
     float verticalSpeed;
     float horizontalSpeed;
+    int hp;
 
 };
 

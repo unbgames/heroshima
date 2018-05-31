@@ -39,26 +39,26 @@ bool Text::Is(string type) {
     return type == TEXT_TYPE;
 }
 
-void Text::setText(string text) {
+void Text::SetText(string text) {
     Text::text = move(text);
     RemakeTexture();
 }
 
-void Text::setColor(SDL_Color color) {
+void Text::SetColor(SDL_Color color) {
     Text::color = color;
     RemakeTexture();
 }
 
-void Text::setStyle(TextStyle style) {
+void Text::SetStyle(TextStyle style) {
     Text::style = style;
     RemakeTexture();
 }
 
-void Text::setFontFile(string fontFile) {
+void Text::SetFontFile(string fontFile) {
     Text::fontFile = move(fontFile);
 }
 
-void Text::setFontSize(int fontSize) {
+void Text::SetFontSize(int fontSize) {
     Text::fontSize = fontSize;
     RemakeTexture();
 }
@@ -87,11 +87,11 @@ void Text::RemakeTexture() {
 
 }
 
-const SDL_Color &Text::getColor() const {
+const SDL_Color &Text::GetColor() const {
     return color;
 }
 
-const string &Text::getText() const {
+const string &Text::GetText() const {
     return text;
 }
 

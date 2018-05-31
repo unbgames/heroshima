@@ -17,7 +17,7 @@ using std::string;
 
 Player *Player::player = nullptr;
 PlayerBody *Player::playerBody = nullptr;
-Player::Player(GameObject &associated) : Component(associated) {
+Player::Player(GameObject &associated) : Component(associated), hp(1) {
 
     associated.AddComponent(new Collider(associated));
     Sprite* img = new Sprite(associated, "img/tarma_inferior_repouso.png");
@@ -121,4 +121,20 @@ void Player::NotifyCollision(GameObject &other) {
         associated.box.y =  other.box.y - associated.box.h;
         jumpState = COLLIDING;
     }
+}
+
+int Player::GetHp() const {
+    return hp;
+}
+
+void Player::SetHp(int hp) {
+    this->hp = hp;
+}
+
+void Player::IncremmentHp() {
+    this->hp++;
+}
+
+void Player::DecrementHp() {
+    this->hp--;
 }
