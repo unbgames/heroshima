@@ -42,6 +42,8 @@ void HealthCrate::onCatch() {
                                              [text] {text->SetAlpha(0);},
                                              [text] {text->SetAlpha(255);}, 0.1, 0.5));
 
+    Player::player->SetHp(Player::player->GetHp() + health);
+
     Game::GetInstance().GetCurrentState().AddObject(catchGO);
 
 }
