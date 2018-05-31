@@ -60,5 +60,6 @@ add_executable(HEROshima src/Main.cpp
         src/WeaponCrate.cpp include/WeaponCrate.h
         src/WeaponCrate.cpp include/WeaponCrate.h
         src/HealthCrate.cpp include/HealthCrate.h
-        src/Gravity.cpp include/Gravity.h)
+        src/Gravity.cpp include/Gravity.h
+        src/Clock.cpp include/Clock.h)
 
