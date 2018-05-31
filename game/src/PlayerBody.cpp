@@ -132,7 +132,7 @@ void PlayerBody::DropGun() {
                                      [troca] {troca->RequestDelete();} );
 
     Animation* rotation = new RotationTween(*troca, 1,
-            associated.orientation == Orientation::RIGHT ? Orientation::LEFT : Orientation ::RIGHT, 360);
+            360, associated.orientation == Orientation::RIGHT ? Orientation::LEFT : Orientation ::RIGHT);
 
     PeriodicEvent* blink = new PeriodicEvent(*troca, 0.1,
                                              [img] {img->SetVisible(false);},

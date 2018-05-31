@@ -11,6 +11,17 @@
 #include "Component.h"
 #include "Timer.h"
 
+/**
+ * TimerEvent Component
+ * Lets you call a callback after a certain amount of time.
+ *
+ * @param associated the GameObject associated to this component
+ * @param timeToEvent amount of time in seconds to call the callback
+ * @param the callback to be called
+ *
+ * @note When the callback ends, the associated GameObject is auto destroyed
+ * */
+
 class TimerEvent : public Component {
 public:
     TimerEvent(GameObject &associated, float timeToEvent, ActionCallback callback);

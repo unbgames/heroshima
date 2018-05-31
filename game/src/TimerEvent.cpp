@@ -3,9 +3,10 @@
 //
 
 #include "TimerEvent.h"
+#include <utility>
 
 TimerEvent::TimerEvent(GameObject &associated, float timeToEvent, ActionCallback callback) :
-        Component(associated), timeToEvent(timeToEvent), callback(callback) {
+        Component(associated), timeToEvent(timeToEvent), callback(move(callback)) {
     timer = Timer();
 }
 
