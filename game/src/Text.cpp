@@ -29,9 +29,10 @@ void Text::Update(float dt) {}
 
 void Text::Render() {
     auto box = associated.box;
-    SDL_Rect srcRect = {0, 0, (int)box.w, (int)box.h};
-    SDL_Rect dstRect = {(int)(box + Camera::pos).x, (int)(box + Camera::pos).y, srcRect.w, srcRect.h};
-    SDL_RenderCopyEx(Game::GetInstance().GetRenderer(), texture, &srcRect, &dstRect, associated.angleDeg, nullptr, SDL_FLIP_NONE);
+    auto renderPos = (Vec2(box.x, box.y) - Camera::pos);
+    SDL_Rect clipRect = { 0, 0, (int) box.w, (int) box.h };
+    SDL_Rect dstRect = { (int)(renderPos.x), (int)(renderPos.y), clipRect.w, clipRect.h };
+    SDL_RenderCopyEx(Game::GetInstance().GetRenderer(),  texture,  &clipRect,  &dstRect,  associated.angleDeg,  nullptr,  SDL_FLIP_NONE);
 }
 
 bool Text::Is(string type) {
