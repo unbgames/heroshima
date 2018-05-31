@@ -54,7 +54,7 @@ void Menu::Update(float dt){
 
     for (auto &option : options) {
         if(option->GetAssociatedBox().Contains(inputManager.GetMouse())){
-            optSelected = FindOption(option->getText());
+            optSelected = FindOption(option->GetText());
             if(inputManager.MouseRelease(LEFT_MOUSE_BUTTON) || inputManager.KeyPress(ENTER_KEY)){
                 selected = true;
                 break;
@@ -76,9 +76,9 @@ void Menu::Render(){
     SDL_Color white = {255, 255, 255, 255};
     for(unsigned int i = 0; i < options.size(); i++){
         if((int) i == optSelected){
-            options[i]->setColor(red);
+            options[i]->SetColor(red);
         } else{
-            options[i]->setColor(white);
+            options[i]->SetColor(white);
         }
     }
     if(showControles) controles.Render();
