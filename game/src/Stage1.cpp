@@ -4,17 +4,15 @@
 
 #include <Camera.h>
 #include <Player.h>
-#include <Sprite.h>
 #include <CameraFollower.h>
 #include <Game.h>
 #include "TileMap.h"
-#include "Collider.h"
-#include "TileSet.h"
 #include <InputManager.h>
 #include <Crate.h>
 #include <WeaponCrate.h>
 #include <Weapons.h>
 #include <HealthCrate.h>
+#include <MenuHUD.h>
 #include "Stage1.h"
 
 Stage1::Stage1() {
@@ -76,7 +74,10 @@ void Stage1::Start() {
     StartArray();
     LoadAssets();
     backgroundMusic.Play();
-//    Camera::pos = Vec2(0, 0);
+
+    auto menuHUDGO(new GameObject);
+    menuHUDGO->AddComponent(new MenuHUD(*menuHUDGO));
+    AddObject(menuHUDGO);
 
     //** Weapon Crate
     auto weaponCrateGO(new GameObject);
