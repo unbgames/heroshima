@@ -20,7 +20,9 @@ void Camera::Unfollow() {
 
 void Camera::Update(float dt) {
     if(focus != nullptr){
-        pos = {focus->box.x - GAME_WIDTH/2, focus->box.y - GAME_HEIGHT + VERTICAL_OFFSET};
+        if(focus->box.y < GAME_HEIGHT){
+            pos = {focus->box.x - GAME_WIDTH/2, focus->box.y - GAME_HEIGHT + VERTICAL_OFFSET};
+        }   
     } else {
         InputManager inputManager = InputManager::GetInstance();
 

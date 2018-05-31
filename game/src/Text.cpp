@@ -3,10 +3,10 @@
 //
 
 #include <Game.h>
-#include "../include/Camera.h"
+#include <Camera.h>
 
-#include "../include/Resources.h"
-#include "../include/Text.h"
+#include <Resources.h>
+#include "Text.h"
 
 Text::Text(GameObject &associated, string fontFile, int fontSize, TextStyle style, string text, SDL_Color color) : Component(associated),
                                                                                                                    fontFile(move(fontFile)) {
