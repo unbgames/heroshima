@@ -5,18 +5,22 @@
 #include <Game.h>
 #include <CameraFollower.h>
 #include <Sprite.h>
+#include <LifeManager.h>
 #include "MenuHUD.h"
 
-MenuHUD::MenuHUD(GameObject &associated, bool isClock, bool isFace) :
+MenuHUD::MenuHUD(GameObject &associated, bool isFace, bool isLife, bool isClock) :
         Component(associated), isClock(isClock), isFace(isFace) {
-    if(isClock){
-        AddClock();
-    }
-
     if(isFace){
         AddFace();
     }
 
+    if(isLife){
+        AddLife();
+    }
+
+    if(isClock){
+        AddClock();
+    }
 }
 
 void MenuHUD::Update(float dt) {
@@ -40,6 +44,19 @@ bool MenuHUD::Is(string type) {
     return type == MENU_HUD_TYPE;
 }
 
+void MenuHUD::AddFace() {
+    faceGO = new GameObject();
+    faceGO->AddComponent(new Sprite(*faceGO, "img/tarma_face.png"));
+    faceGO->AddComponent(new CameraFollower(*faceGO, {MARGIN_LEFT, MARGIN_TOP}));
+    Game::GetInstance().GetCurrentState().AddObject(faceGO);
+}
+
+void MenuHUD::AddLife() {
+    auto life = new GameObject();
+    life->AddComponent(new LifeManager(*life, {faceGO->box.w, 0}));
+    Game::GetInstance().GetCurrentState().AddObject(life);
+}
+
 void MenuHUD::AddClock() {
     clockGO = new GameObject();
     clockGO->AddComponent(new Text(*clockGO, "font/Japanese.ttf", 80, Text::BLENDED, "00:00", {255, 255, 255, 255}));
@@ -48,11 +65,4 @@ void MenuHUD::AddClock() {
     clock = new Clock();
 
     Game::GetInstance().GetCurrentState().AddObject(clockGO);
-}
-
-void MenuHUD::AddFace() {
-    faceGO = new GameObject();
-    faceGO->AddComponent(new Sprite(*faceGO, "img/tarma_face.png"));
-    faceGO->AddComponent(new CameraFollower(*faceGO, {MARGIN_LEFT, MARGIN_TOP}));
-    Game::GetInstance().GetCurrentState().AddObject(faceGO);
 }

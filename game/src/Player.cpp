@@ -17,7 +17,7 @@ using std::string;
 
 Player *Player::player = nullptr;
 PlayerBody *Player::playerBody = nullptr;
-Player::Player(GameObject &associated) : Component(associated), hp(1) {
+Player::Player(GameObject &associated) : Component(associated), hp(3) {
 
     associated.AddComponent(new Collider(associated));
     Sprite* img = new Sprite(associated, "img/tarma_inferior_repouso.png");
@@ -49,6 +49,10 @@ void Player::Update(float dt) {
     if (bodyGO.IsDead()) {
         associated.RequestDelete();
     }
+
+    //To test the life indicator
+    if(InputManager::GetInstance().MousePress(RIGHT_MOUSE_BUTTON))DecrementHp();
+    if(InputManager::GetInstance().MousePress(LEFT_MOUSE_BUTTON))IncremmentHp();
 
     auto sprite = (Sprite*)associated.GetComponent(SPRITE_TYPE);
     if (InputManager::GetInstance().IsKeyDown(A_KEY) || InputManager::GetInstance().IsKeyDown(D_KEY)) {
