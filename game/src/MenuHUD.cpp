@@ -8,14 +8,14 @@
 #include <LifeManager.h>
 #include "MenuHUD.h"
 
-MenuHUD::MenuHUD(GameObject &associated, bool isFace, bool isLife, bool isClock) :
+MenuHUD::MenuHUD(GameObject &associated, bool isFace, bool isLifeIndicator, bool isClock) :
         Component(associated), isClock(isClock), isFace(isFace) {
     if(isFace){
         AddFace();
     }
 
-    if(isLife){
-        AddLife();
+    if(isLifeIndicator){
+        AddLifeIndicator();
     }
 
     if(isClock){
@@ -51,10 +51,9 @@ void MenuHUD::AddFace() {
     Game::GetInstance().GetCurrentState().AddObject(faceGO);
 }
 
-void MenuHUD::AddLife() {
-    auto life = new GameObject();
-    life->AddComponent(new LifeManager(*life, {faceGO->box.w, 0}));
-    Game::GetInstance().GetCurrentState().AddObject(life);
+void MenuHUD::AddLifeIndicator() {
+    new LifeManager({faceGO->box.w + MARGIN_LEFT, 0});
+    LifeManager::Update();
 }
 
 void MenuHUD::AddClock() {

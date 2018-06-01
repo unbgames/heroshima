@@ -8,7 +8,6 @@
 #include <Player.h>
 #include <LineTween.h>
 #include <Game.h>
-#include <Camera.h>
 #include <PeriodicEvent.h>
 #include "HealthCrate.h"
 

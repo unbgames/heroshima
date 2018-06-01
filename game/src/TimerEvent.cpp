@@ -16,7 +16,6 @@ void TimerEvent::Update(float dt) {
     if(timer.Get() >= timeToEvent) {
         if(callback){
             callback();
-            associated.RequestDelete();
         }
     }
 }

@@ -15,7 +15,7 @@
 
 class MenuHUD : public Component {
 public:
-    explicit MenuHUD(GameObject &associated, bool isFace = true, bool isLife = true, bool isClock = true);
+    explicit MenuHUD(GameObject &associated, bool isFace = true, bool isLifeIndicator = true, bool isClock = true);
 
     void Update(float dt) override;
     void Render() override;
@@ -28,7 +28,7 @@ private:
 
     GameObject* lifeGO;
     bool isLife;
-    void AddLife();
+    void AddLifeIndicator();
 
     Clock* clock;
     GameObject* clockGO;

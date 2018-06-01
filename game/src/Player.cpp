@@ -1,13 +1,11 @@
 #include <iostream>
 #include <memory>
-#include <string>
+#include <LifeManager.h>
 
 #include "InputManager.h"
 #include "Collider.h"
-#include "GameObject.h"
 #include "PlayerBody.h"
 #include "Game.h"
-#include "Component.h"
 #include "CollisionTile.h"
 #include "Sprite.h"
 #include "Player.h"
@@ -17,7 +15,7 @@ using std::string;
 
 Player *Player::player = nullptr;
 PlayerBody *Player::playerBody = nullptr;
-Player::Player(GameObject &associated) : Component(associated), hp(3) {
+Player::Player(GameObject &associated) : Component(associated), hp(2) {
 
     associated.AddComponent(new Collider(associated));
     Sprite* img = new Sprite(associated, "img/tarma_inferior_repouso.png");
@@ -53,6 +51,8 @@ void Player::Update(float dt) {
     //To test the life indicator
     if(InputManager::GetInstance().MousePress(RIGHT_MOUSE_BUTTON))DecrementHp();
     if(InputManager::GetInstance().MousePress(LEFT_MOUSE_BUTTON))IncremmentHp();
+//    cout<<hp<<endl;
+    //Remove
 
     auto sprite = (Sprite*)associated.GetComponent(SPRITE_TYPE);
     if (InputManager::GetInstance().IsKeyDown(A_KEY) || InputManager::GetInstance().IsKeyDown(D_KEY)) {
@@ -109,10 +109,7 @@ void Player::Update(float dt) {
     verticalSpeed = 0;
 }
 
-void Player::Render() {
-
-
-}
+void Player::Render() {}
 
 bool Player::Is(string type) {
     return PLAYER_T == type;
@@ -132,13 +129,22 @@ int Player::GetHp() const {
 }
 
 void Player::SetHp(int hp) {
-    this->hp = hp;
+    if(hp <= PLAYER_MAX_LIVES && hp >= 0) {
+        this->hp = hp;
+        LifeManager::Update();
+    }
 }
 
 void Player::IncremmentHp() {
-    this->hp++;
+    if(this->hp < PLAYER_MAX_LIVES) {
+        this->hp++;
+        LifeManager::Update();
+    }
 }
 
 void Player::DecrementHp() {
-    this->hp--;
+    if(this->hp > 0) {
+        this->hp--;
+        LifeManager::Update();
+    }
 }
