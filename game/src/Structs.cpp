@@ -4,9 +4,9 @@
 
 #include "Structs.h"
 
-Sprites::Sprites(string sprite, int offset, int frameCount, float frameTime): sprite(sprite), offset(offset), frameCount(frameCount), frameTime(frameTime) {}
+StaticSprite::StaticSprite(string sprite, int offset, int frameCount, float frameTime): sprite(sprite), offset(offset), frameCount(frameCount), frameTime(frameTime) {}
 
-Sprites::Sprites() {}
+StaticSprite::StaticSprite() {}
 
 Projectile::Projectile(string sprite, float speed, int frameCount, float frameTime) : sprite(sprite), speed(speed), frameCount(frameCount), frameTime(frameTime) {}
 
