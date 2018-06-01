@@ -11,7 +11,7 @@
 #include <Crate.h>
 #include <WeaponCrate.h>
 #include <Weapons.h>
-#include <HealthCrate.h>
+#include <LifeCrate.h>
 #include <MenuHUD.h>
 #include "Stage1.h"
 
@@ -87,7 +87,7 @@ void Stage1::Start() {
 
     //** Life Crate
     auto lifeCrateGO(new GameObject);
-    lifeCrateGO->AddComponent(new HealthCrate(*lifeCrateGO, Vec2(1000, 0), 1));
+    lifeCrateGO->AddComponent(new LifeCrate(*lifeCrateGO, Vec2(1000, 0), 1));
     AddObject(lifeCrateGO);
 }
 
