@@ -7,6 +7,16 @@
 
 #include "Animation.h"
 
+/**
+ * LineTween implementation of Animation
+ * onAnimationUpdate it interpolates the GameObject associated's box position from a position to other.
+ *
+ * @param from the start position
+ * @param to the end position
+ *
+ * @see Animation.h
+ * */
+
 class LineTween : public Animation {
 public:
     explicit LineTween(GameObject &associated, float duration, const Vec2 &from, const Vec2 &to,

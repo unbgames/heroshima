@@ -9,17 +9,17 @@
 
 using std::string;
 
-struct Sprites{
+struct StaticSprite {
     string sprite;
     int offset;
     int frameCount;
     float frameTime;
 
-    Sprites(string sprite, int offset, int frameCount, float frameTime);
-    Sprites();
+    explicit StaticSprite(string sprite, int frameCount, float frameTime, int offset = 0);
+    StaticSprite();
 };
 
-struct Projectile{
+struct Projectile {
     string sprite;
     float speed;
     int frameCount;

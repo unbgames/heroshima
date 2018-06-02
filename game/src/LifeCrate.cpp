@@ -8,13 +8,12 @@
 #include <Player.h>
 #include <LineTween.h>
 #include <Game.h>
-#include <Camera.h>
 #include <PeriodicEvent.h>
-#include "HealthCrate.h"
+#include "LifeCrate.h"
 
-HealthCrate::HealthCrate(GameObject &associated, const Vec2 &initialPosition, int health, bool startFalling) :
+LifeCrate::LifeCrate(GameObject &associated, const Vec2 &initialPosition, int health, bool startFalling) :
         Crate(associated, initialPosition, startFalling), health(health) {
-    Sprite* lifeCrateImg = new Sprite(associated, "img/life_item.png");
+    Sprite* lifeCrateImg = new Sprite(associated, "img/life_crate.png");
     associated.AddComponent(lifeCrateImg);
 
     if(startFalling) {
@@ -24,7 +23,7 @@ HealthCrate::HealthCrate(GameObject &associated, const Vec2 &initialPosition, in
     }
 }
 
-void HealthCrate::onCatch() {
+void LifeCrate::onCatch() {
     associated.RequestDelete();
 
     auto catchGO(new GameObject);

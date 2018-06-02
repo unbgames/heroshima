@@ -13,8 +13,8 @@ using std::string;
 class Gun {
 public:
 
-    Gun(int damage, int ammo, float cooldownTime, Sprites spriteRest, Sprites spriteWalk,
-        Sprites spriteShoot, Projectile projectile);
+    Gun(int damage, int ammo, float cooldownTime, StaticSprite spriteRest, StaticSprite spriteWalk,
+        StaticSprite spriteShoot, Projectile projectile);
 
     Gun();
 
@@ -25,9 +25,9 @@ public:
     float getCooldownTime() const;
     void decrementAmmo();
 
-    const Sprites &getSpriteRest() const;
-    const Sprites &getSpriteWalk() const;
-    const Sprites &getSpriteShoot() const;
+    const StaticSprite &getSpriteRest() const;
+    const StaticSprite &getSpriteWalk() const;
+    const StaticSprite &getSpriteShoot() const;
 
     const Projectile &getProjectile() const;
 
@@ -35,13 +35,10 @@ private:
     int damage;
     int ammo;
 
-private:
     int full;
-
-private:
     float cooldownTime;
 
-    Sprites rest, walk, shoot;
+    StaticSprite rest, walk, shoot;
     Projectile projectile;
 
 };

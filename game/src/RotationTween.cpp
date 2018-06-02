@@ -5,7 +5,7 @@
 #include "RotationTween.h"
 #include <utility>
 
-RotationTween::RotationTween(GameObject &associated, float duration, Orientation orientation, float angleDeg,
+RotationTween::RotationTween(GameObject &associated, float duration, float angleDeg, Orientation orientation,
                              ActionCallback onAnimationEnd, float angleOffset) :
         Animation(associated, duration, move(onAnimationEnd)), orientation(orientation), angleDeg(angleDeg) {
     associated.angleDeg += angleOffset;

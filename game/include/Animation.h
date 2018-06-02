@@ -11,6 +11,15 @@
 #include "Component.h"
 #include "Timer.h"
 
+/**
+ * Abstract class Animation
+ * It is a abstract class for all Animations, must be instantiated only by it subclasses.
+ * Every subclass must override the onAnimationUpdate(float dt) method and implement its own behaviour.
+ * It defines a startOffset to begin the animation and a duration of the animation itself.
+ * When the animation ends, it calls the onAnimationEnd callback, if exists.
+ *
+ * */
+
 class Animation : public Component {
 public:
     void Render() override;
@@ -19,7 +28,7 @@ public:
     virtual void onAnimationUpdate(float dt) = 0;
 
 protected:
-    //Only Animation subclasses must instatiate it
+    //Only Animation subclasses must instantiate it
     explicit Animation(GameObject &associated, float duration, ActionCallback onAnimationEnd = nullptr, float startOffset = 0);
 
     float startOffset;

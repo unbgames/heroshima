@@ -65,7 +65,6 @@ void PlayerBody::Update(float dt) {
                 gun->decrementAmmo();
             }
 
-            cout << "ammo: "<<gun->getAmmo() << endl;
             offset = (playerGO.orientation == Orientation::LEFT ? -1 : 1) * gun->getSpriteShoot().offset;
         }
 
@@ -132,7 +131,7 @@ void PlayerBody::DropGun() {
                                      [troca] {troca->RequestDelete();} );
 
     Animation* rotation = new RotationTween(*troca, 1,
-            associated.orientation == Orientation::RIGHT ? Orientation::LEFT : Orientation ::RIGHT, 360);
+            360, associated.orientation == Orientation::RIGHT ? Orientation::LEFT : Orientation ::RIGHT);
 
     PeriodicEvent* blink = new PeriodicEvent(*troca, 0.1,
                                              [img] {img->SetVisible(false);},
@@ -152,4 +151,8 @@ void PlayerBody::SetGun(Gun *gun) {
     auto bulletGO(new GameObject);
     auto recharge(new Sound(*bulletGO, "audio/recarregar.ogg"));
     recharge->Play();
+}
+
+Gun* PlayerBody::GetGun() {
+    return this->gun;
 }

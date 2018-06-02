@@ -8,9 +8,9 @@
 
 #include "Crate.h"
 
-class HealthCrate : public Crate {
+class LifeCrate : public Crate {
 public:
-    explicit HealthCrate(GameObject &associated, const Vec2 &initialPosition, int health, bool startFalling = true);
+    explicit LifeCrate(GameObject &associated, const Vec2 &initialPosition, int health, bool startFalling = true);
 
 protected:
     void onCatch() override;
