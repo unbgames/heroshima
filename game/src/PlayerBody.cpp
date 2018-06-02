@@ -65,7 +65,6 @@ void PlayerBody::Update(float dt) {
                 gun->decrementAmmo();
             }
 
-            cout << "ammo: "<<gun->getAmmo() << endl;
             offset = (playerGO.orientation == Orientation::LEFT ? -1 : 1) * gun->getSpriteShoot().offset;
         }
 

@@ -51,7 +51,6 @@ void Player::Update(float dt) {
     //To test the life indicator
     if(InputManager::GetInstance().MousePress(RIGHT_MOUSE_BUTTON))DecrementHp();
     if(InputManager::GetInstance().MousePress(LEFT_MOUSE_BUTTON))IncremmentHp();
-//    cout<<hp<<endl;
     //Remove
 
     auto sprite = (Sprite*)associated.GetComponent(SPRITE_TYPE);
