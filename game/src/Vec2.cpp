@@ -57,7 +57,7 @@ Vec2 Vec2::RotateDeg(const float angDeg) {
 
 string Vec2::toString() {
     char buffer [50];
-    sprintf (buffer, "(%.2f, %.2f)\n", x, y);
+    sprintf (buffer, "(%.2f, %.2f)", x, y);
     return buffer;
 }
 

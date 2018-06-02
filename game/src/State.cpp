@@ -85,13 +85,10 @@ void State::TestCollision() {
             Collider *colliderA = (Collider*) objA->GetComponent(COLLIDER_TYPE);
             Collider *colliderB = (Collider*) objB->GetComponent(COLLIDER_TYPE);
             if(colliderA && colliderB){
-                auto boxA = colliderA->box;
-                auto boxB = colliderB->box;
-
                 auto angleOfA = (float)(objA->angleDeg);
                 auto angleOfB = (float)(objB->angleDeg);
 
-                if (Collision::IsCollidingDeg(boxA, boxB, angleOfA, angleOfB)) {
+                if (Collision::IsColliding(colliderA, colliderB, angleOfA, angleOfB)) {
                     objA->NotifyCollision(*objB);
                     objB->NotifyCollision(*objA);
                 }

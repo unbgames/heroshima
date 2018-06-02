@@ -53,7 +53,7 @@ bool Rect::Contains(Vec2 v) {
 
 string Rect::toString() {
     char buffer [50];
-    sprintf (buffer, "(%.2f, %.2f, %.2f, %.2f)\n", x, y, w, h);
+    sprintf (buffer, "(%.2f, %.2f, %.2f, %.2f)", x, y, w, h);
     return buffer;
 }
 

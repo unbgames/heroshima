@@ -60,3 +60,11 @@ void Collider::setScale(const Vec2 &scale) {
 void Collider::setOffset(const Vec2 &offset) {
     this->offset = offset;
 }
+
+const Edge &Collider::GetEdge() const {
+    return edge;
+}
+
+void Collider::SetEdge(const Edge &edge) {
+    Collider::edge = edge;
+}
