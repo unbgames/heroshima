@@ -117,8 +117,8 @@ bool Player::Is(string type) {
 void Player::NotifyCollision(GameObject &other) {
     auto collisionTile = (CollisionTile*) other.GetComponent(COLLISION_TILE_T);
     auto collider = (Collider*) associated.GetComponent(COLLIDER_TYPE);
+    if(collider) cout<< "Player: " <<collider->GetEdge().toString()<<endl;
     if (collisionTile != nullptr && jumpState == FALLING) {
-        if(collider) cout<<collider->GetEdge().toString();
 
         horizontalSpeed = 0;
         associated.box.y =  other.box.y - associated.box.h;

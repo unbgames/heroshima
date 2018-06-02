@@ -89,6 +89,7 @@ void State::TestCollision() {
                 auto angleOfB = (float)(objB->angleDeg);
 
                 if (Collision::IsColliding(colliderA, colliderB, angleOfA, angleOfB)) {
+                    Collision::IsColliding(colliderB, colliderA, angleOfB, angleOfA);//TODO optimize
                     objA->NotifyCollision(*objB);
                     objB->NotifyCollision(*objA);
                 }

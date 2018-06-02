@@ -59,19 +59,15 @@ public:
         if(abs(dx) <= width && abs(dy) <= height){
             if(crossWidth>crossHeight){
                 if(crossWidth > -crossHeight){
-                    bottom = true;
-                    left = false;
-                } else{
-                    left = true;
-                    bottom = false;
-                }
-            }else{
-                if(crossWidth > -crossHeight){
-                    right = true;
-                    top = false;
-                } else{
                     top = true;
-                    right = false;
+                } else{
+                    right = true;
+                }
+            } else{
+                if(crossWidth > -crossHeight){
+                    left = true;
+                } else{
+                    bottom = true;
                 }
             }
         }
