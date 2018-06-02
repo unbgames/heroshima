@@ -38,7 +38,7 @@ void GunManager::Update(float dt) {
     if(text) {
         int ammo = Player::playerBody->GetGun()->getAmmo();
         text->SetText(ammo != -1 ? to_string(ammo) : "INF");
-        cameraFollower->SetOffset(offset - Vec2(gunIconGO->box.w + ammoCounterGO->box.w + GAP, -gunIconGO->box.h + ammoCounterGO->box.h));
+//        cameraFollower->SetOffset(offset - Vec2(gunIconGO->box.w + ammoCounterGO->box.w + GAP, -gunIconGO->box.h + ammoCounterGO->box.h));
     }
 }
 
