@@ -4,7 +4,8 @@
 
 #include "Structs.h"
 
-StaticSprite::StaticSprite(string sprite, int offset, int frameCount, float frameTime): sprite(sprite), offset(offset), frameCount(frameCount), frameTime(frameTime) {}
+StaticSprite::StaticSprite(string sprite, int frameCount, float frameTime, int offset)
+        : sprite(sprite), offset(offset), frameCount(frameCount), frameTime(frameTime) {}
 
 StaticSprite::StaticSprite() {}
 

@@ -18,6 +18,10 @@ public:
     void Render() override;
     bool Is(string type) override;
 
+    const Vec2 &GetOffset() const;
+
+    void SetOffset(const Vec2 &offset);
+
 private:
     Vec2 offset;
 

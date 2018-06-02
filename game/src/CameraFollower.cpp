@@ -21,3 +21,11 @@ void CameraFollower::Render() {
 bool CameraFollower::Is(string type) {
     return type == CAMERA_FOLLOWER_TYPE;
 }
+
+const Vec2 &CameraFollower::GetOffset() const {
+    return offset;
+}
+
+void CameraFollower::SetOffset(const Vec2 &offset) {
+    CameraFollower::offset = offset;
+}

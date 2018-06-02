@@ -15,7 +15,7 @@ struct StaticSprite {
     int frameCount;
     float frameTime;
 
-    StaticSprite(string sprite, int offset, int frameCount, float frameTime);
+    explicit StaticSprite(string sprite, int frameCount, float frameTime, int offset = 0);
     StaticSprite();
 };
 

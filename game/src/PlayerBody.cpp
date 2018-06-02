@@ -153,3 +153,7 @@ void PlayerBody::SetGun(Gun *gun) {
     auto recharge(new Sound(*bulletGO, "audio/recarregar.ogg"));
     recharge->Play();
 }
+
+Gun* PlayerBody::GetGun() {
+    return this->gun;
+}

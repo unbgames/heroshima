@@ -6,6 +6,7 @@
 #include <CameraFollower.h>
 #include <Sprite.h>
 #include <LifeManager.h>
+#include <GunManager.h>
 #include "MenuHUD.h"
 
 MenuHUD::MenuHUD(GameObject &associated, bool isFace, bool isLifeIndicator, bool isClock) :
@@ -21,6 +22,12 @@ MenuHUD::MenuHUD(GameObject &associated, bool isFace, bool isLifeIndicator, bool
     if(isClock){
         AddClock();
     }
+
+    auto gunIcon(new GameObject());
+    gunIcon->AddComponent(new GunManager(*gunIcon, {GAME_WIDTH - gunIcon->box.w - MARGIN_LEFT, MARGIN_TOP}));
+    Game::GetInstance().GetCurrentState().AddObject(gunIcon);
+
+
 }
 
 void MenuHUD::Update(float dt) {
