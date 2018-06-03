@@ -5,6 +5,7 @@
 #ifndef STATE_CLASS
 #define STATE_CLASS
 
+#define MINIMUM_COLLIDER_DIST 100
 
 #include "GameObject.h"
 
@@ -23,6 +24,8 @@ public:
 
     virtual weak_ptr<GameObject> AddObject(GameObject *go);
     virtual weak_ptr<GameObject> GetObjectPtr(GameObject *go);
+    virtual weak_ptr<GameObject> AddTileObject(GameObject *go);
+    virtual weak_ptr<GameObject> GetTileObjectPtr(GameObject *go);
 
     bool PopRequested();
     bool QuitRequested();
@@ -43,6 +46,7 @@ protected:
     bool started;
 
     vector<shared_ptr<GameObject>> objectArray;
+    vector<shared_ptr<GameObject>> tileObjectArray;
 
     bool debug = false;
 

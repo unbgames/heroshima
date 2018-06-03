@@ -20,6 +20,8 @@ void Collider::Update(float dt) {
     aux.y = center.y - aux.h/2;
 
     box = aux + offset.RotateDeg((float)(associated.angleDeg));
+
+//    edge = {false, false, false, false};
 }
 
 void Collider::Render() {

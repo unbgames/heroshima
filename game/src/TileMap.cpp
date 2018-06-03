@@ -4,7 +4,7 @@
 
 #include <Camera.h>
 #include <Collider.h>
-
+#include "Player.h"
 #include "CollisionTile.h"
 #include "TileMap.h"
 #include "Game.h"
@@ -61,7 +61,7 @@ void TileMap::Start() {
                 collisionGO->AddComponent(collider);
                 auto collisionTile = new CollisionTile(*collisionGO);
                 collisionGO->AddComponent(collisionTile);
-                Game::GetInstance().GetCurrentState().AddObject(collisionGO);
+                Game::GetInstance().GetCurrentState().AddTileObject(collisionGO);
             }
 
         }

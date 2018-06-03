@@ -64,6 +64,7 @@ void Player::Update(float dt) {
         sprite->SetFrameCount(8);
         sprite->SetFrameTime(0.06f);
 
+        auto playerBody = (PlayerBody*) bodyGO.GetComponent(PLAYER_BODY_T);
         if (InputManager::GetInstance().IsKeyDown(A_KEY)){
             associated.box.x -= PLAYER_SPEED * dt;
             associated.orientation = Orientation::LEFT;
@@ -117,12 +118,19 @@ bool Player::Is(string type) {
 void Player::NotifyCollision(GameObject &other) {
     auto collisionTile = (CollisionTile*) other.GetComponent(COLLISION_TILE_T);
     auto collider = (Collider*) associated.GetComponent(COLLIDER_TYPE);
-    if(collider) cout<< "Player: " <<collider->GetEdge().toString()<<endl;
-    if (collisionTile != nullptr && jumpState == FALLING) {
-
-        horizontalSpeed = 0;
-        associated.box.y =  other.box.y - associated.box.h;
-        jumpState = COLLIDING;
+    auto edge = collider->GetEdge();
+    if (collisionTile != nullptr) {
+        if (edge.RIGHT) {
+            verticalSpeed = 0;
+            associated.box.x =  other.box.x - associated.box.w;
+        } else if (edge.LEFT) {
+            verticalSpeed = 0;
+            associated.box.x =  other.box.x + other.box.w;
+        } else if (edge.BOTTOM) {
+            horizontalSpeed = 0;
+            associated.box.y =  other.box.y - associated.box.h;
+            jumpState = ONGROUND;
+        }
     }
 }
 
