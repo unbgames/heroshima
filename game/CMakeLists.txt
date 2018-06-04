@@ -17,7 +17,6 @@ include_directories(BEFORE dep)
 add_executable(HEROshima src/Main.cpp
         include/SDL_include.h
         src/Game.cpp include/Game.h
-        src/StageState.cpp include/StageState.h
         src/Sprite.cpp include/Sprite.h
         src/Music.cpp include/Music.h
         src/Rect.cpp include/Rect.h
@@ -31,11 +30,7 @@ add_executable(HEROshima src/Main.cpp
         src/InputManager.cpp include/InputManager.h
         src/Camera.cpp include/Camera.h
         src/CameraFollower.cpp include/CameraFollower.h
-        src/Alien.cpp include/Alien.h
-        src/Minion.cpp include/Minion.h
         src/Bullet.cpp include/Bullet.h
-        src/PenguinBody.cpp include/PenguinBody.h
-        src/PenguinCannon.cpp include/PenguinCannon.h
         include/Collision.h
         src/Collider.cpp include/Collider.h
         src/Timer.cpp include/Timer.h

@@ -2,12 +2,10 @@
 // Created by edgar on 19/04/18.
 //
 
-#include "../include/Sprite.h"
-#include "../include/Collider.h"
-#include <Alien.h>
-#include <Minion.h>
-#include <PenguinBody.h>
-#include "../include/Bullet.h"
+#include <Player.h>
+#include "Sprite.h"
+#include "Collider.h"
+#include "Bullet.h"
 
 Bullet::Bullet(GameObject &associated,
                float angle,
@@ -48,7 +46,8 @@ int Bullet::GetDamage() {
 }
 
 void Bullet::NotifyCollision(GameObject &other) {
-    if((other.GetComponent(ALIEN_TYPE) && !targetsPlayer) || (other.GetComponent(PENGUIN_BODY_TYPE) && targetsPlayer)){
-        associated.RequestDelete();
+    if((!other.GetComponent(PLAYER_T) && !targetsPlayer) || (!other.GetComponent(PLAYER_BODY_T) && targetsPlayer)){
+        //Hit everything but player's parts
+        // associated.RequestDelete();
     }
 }

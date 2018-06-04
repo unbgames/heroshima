@@ -3,9 +3,9 @@
 //
 
 #include <Game.h>
-#include "../include/Camera.h"
-#include "../include/InputManager.h"
-#include "../include/Collider.h"
+#include "Camera.h"
+#include "InputManager.h"
+#include "Collider.h"
 
 Collider::Collider(GameObject &associated, Vec2 scale, Vec2 offset) : Component(associated), scale(scale), offset(offset) {}
 

@@ -4,12 +4,12 @@
 
 #define INCLUDE_SDL_IMAGE
 
-#include "../include/Resources.h"
-#include "../include/Camera.h"
+#include "Resources.h"
+#include "Camera.h"
 
 #include <utility>
-#include "../include/Bullet.h"
-#include "../include/Sprite.h"
+#include "Bullet.h"
+#include "Sprite.h"
 #include "Game.h"
 
 Sprite::Sprite(GameObject& associated) :

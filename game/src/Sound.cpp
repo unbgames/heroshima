@@ -3,10 +3,10 @@
 //
 
 #include <Game.h>
-#include "../include/Resources.h"
+#include "Resources.h"
 
 #include <utility>
-#include "../include/Sound.h"
+#include "Sound.h"
 
 Sound::Sound(GameObject &associated) : Component(associated), chunk(nullptr), channel(0) {}
 

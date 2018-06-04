@@ -3,7 +3,7 @@
 //
 
 #include <Game.h>
-#include "../include/Resources.h"
+#include "Resources.h"
 
 unordered_map<string, shared_ptr<SDL_Texture>> Resources::imageTable;
 unordered_map<string, shared_ptr<Mix_Music>> Resources::musicTable;
