@@ -124,6 +124,7 @@ void State::setDebug(bool debug) {
 
 void State::TestCollision() {
     for (unsigned i = 0; i < objectArray.size(); i++) {
+        //Tests collision with others objects in objectArray
         for(unsigned j = i+1; j < objectArray.size(); j++){
             auto &objA = objectArray[i];
             auto &objB = objectArray[j];
@@ -135,12 +136,12 @@ void State::TestCollision() {
                 auto angleOfB = (float)(objB->angleDeg);
 
                 if (Collision::IsColliding(colliderA, colliderB, angleOfA, angleOfB)) {
-                    Collision::IsColliding(colliderB, colliderA, angleOfB, angleOfA);//TODO optimize
                     objA->NotifyCollision(*objB);
                     objB->NotifyCollision(*objA);
                 }
             }
         }
+        //Tests collision with tiles in tileObjectArray
         for(unsigned j = 0; j < tileObjectArray.size(); j++){
             auto &objA = objectArray[i];
             auto &objB = tileObjectArray[j];
@@ -152,7 +153,6 @@ void State::TestCollision() {
                 auto angleOfB = (float)(objB->angleDeg);
 
                 if (Collision::IsColliding(colliderA, colliderB, angleOfA, angleOfB)) {
-                    Collision::IsColliding(colliderB, colliderA, angleOfB, angleOfA);//TODO optimize
                     objA->NotifyCollision(*objB);
                     objB->NotifyCollision(*objA);
                 }
