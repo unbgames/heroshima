@@ -5,7 +5,7 @@
 #ifndef STATE_CLASS
 #define STATE_CLASS
 
-#define MINIMUM_COLLIDER_DIST 100
+#define MINIMUM_COLLIDER_DIST 50
 
 #include "GameObject.h"
 
