@@ -108,7 +108,7 @@ void PlayerBody::Shoot(float angle) {
         bulletGo->box.x = associated.box.GetPos().x - associated.box.w + bulletGo->box.w;
         bulletGo->box.y = associated.box.GetPos().y + associated.box.h/2 - bulletGo->box.h - 7;
     }
-    bulletGo->AddComponent(new Bullet(*bulletGo, angle, gun->getProjectile().speed, gun->getDamage(), 1000, gun->getProjectile().sprite, gun->getProjectile().frameCount, gun->getProjectile().frameTime, true));
+    bulletGo->AddComponent(new Bullet(*bulletGo, angle, gun->getProjectile().speed, gun->getDamage(), 1000, gun->getProjectile().sprite, gun->getProjectile().frameCount, gun->getProjectile().frameTime, false));
     auto sound(new Sound(*bulletGo, "audio/tiro.ogg"));
     sound->Play();
     Game::GetInstance().GetCurrentState().AddObject(bulletGo);
