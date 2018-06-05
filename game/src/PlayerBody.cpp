@@ -101,14 +101,14 @@ bool PlayerBody::Is(string type) {
 
 void PlayerBody::Shoot(float angle) {
     auto bulletGo = new GameObject;
-    if(associated.orientation == Orientation::RIGHT){
-        bulletGo->box.x = associated.box.GetPos().x + associated.box.w + bulletGo->box.w;
-        bulletGo->box.y = associated.box.GetPos().y + associated.box.h/2 + bulletGo->box.h - 7;
-    } else {
-        bulletGo->box.x = associated.box.GetPos().x - associated.box.w + bulletGo->box.w;
-        bulletGo->box.y = associated.box.GetPos().y + associated.box.h/2 - bulletGo->box.h - 7;
-    }
     bulletGo->AddComponent(new Bullet(*bulletGo, angle, gun->getProjectile().speed, gun->getDamage(), 1000, gun->getProjectile().sprite, gun->getProjectile().frameCount, gun->getProjectile().frameTime, false));
+    if(associated.orientation == Orientation::RIGHT){
+        bulletGo->box.x = associated.box.GetPos().x + associated.box.w - bulletGo->box.w - 8;
+        bulletGo->box.y = associated.box.GetPos().y + associated.box.h/2 - bulletGo->box.h + 8;
+    } else {
+        bulletGo->box.x = associated.box.GetPos().x + bulletGo->box.w;
+        bulletGo->box.y = associated.box.GetPos().y + associated.box.h/2 - bulletGo->box.h + 8;
+    }
     auto sound(new Sound(*bulletGo, "audio/tiro.ogg"));
     sound->Play();
     Game::GetInstance().GetCurrentState().AddObject(bulletGo);
@@ -118,7 +118,7 @@ void PlayerBody::DropGun() {
     auto troca(new GameObject);
     Sprite* img;
 
-    //TODO fazer a lógica para as demais armas aqui
+    //TODO place here other's weapons logic
     if(gun == Weapons::heavy){
         img = new Sprite(*troca, "img/heavy_machine_gun.png");
     } else{
