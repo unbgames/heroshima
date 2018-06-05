@@ -58,5 +58,7 @@ add_executable(HEROshima src/Main.cpp
         src/Clock.cpp include/Clock.h
         src/MenuHUD.cpp include/MenuHUD.h
         src/TimerEvent.cpp include/TimerEvent.h
-        src/LifeManager.cpp include/LifeManager.h src/GunManager.cpp include/GunManager.h)
+        src/LifeManager.cpp include/LifeManager.h
+        src/GunManager.cpp include/GunManager.h
+        src/Util.cpp include/Util.h)
 
