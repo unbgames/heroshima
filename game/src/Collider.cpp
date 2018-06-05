@@ -3,9 +3,9 @@
 //
 
 #include <Game.h>
-#include "../include/Camera.h"
-#include "../include/InputManager.h"
-#include "../include/Collider.h"
+#include "Camera.h"
+#include "InputManager.h"
+#include "Collider.h"
 
 Collider::Collider(GameObject &associated, Vec2 scale, Vec2 offset) : Component(associated), scale(scale), offset(offset) {}
 
@@ -20,6 +20,8 @@ void Collider::Update(float dt) {
     aux.y = center.y - aux.h/2;
 
     box = aux + offset.RotateDeg((float)(associated.angleDeg));
+
+//    edge = {false, false, false, false};
 }
 
 void Collider::Render() {
@@ -59,4 +61,12 @@ void Collider::setScale(const Vec2 &scale) {
 
 void Collider::setOffset(const Vec2 &offset) {
     this->offset = offset;
+}
+
+const Edge &Collider::GetEdge() const {
+    return edge;
+}
+
+void Collider::SetEdge(const Edge &edge) {
+    Collider::edge = edge;
 }

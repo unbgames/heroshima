@@ -2,7 +2,7 @@
 // Created by edgar on 23/03/18.
 //
 
-#include "../include/Component.h"
+#include "Component.h"
 
 Component::Component(GameObject &associated) : associated(associated) {}
 

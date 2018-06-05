@@ -5,8 +5,8 @@
 #include <iostream>
 #include <utility>
 #include <Game.h>
-#include "../include/Resources.h"
-#include "../include/Music.h"
+#include "Resources.h"
+#include "Music.h"
 
 #define INCLUDE_SDL_MIXER
 

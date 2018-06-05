@@ -29,6 +29,17 @@ struct Projectile {
     Projectile();
 };
 
+struct Edge {
+    bool RIGHT;
+    bool LEFT;
+    bool TOP;
+    bool BOTTOM;
+
+    Edge(bool right, bool left, bool top, bool bottom);
+    Edge();
+    string toString() const;
+};
+
 enum Orientation { RIGHT, LEFT };
 
 #endif //SRC_STRUCTS_H

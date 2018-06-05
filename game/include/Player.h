@@ -34,7 +34,7 @@ public:
 
 private:
     enum MoveState { WALKING, RESTING };
-    enum JumpState { JUMPING, FALLING, COLLIDING };
+    enum JumpState { JUMPING, FALLING, ONGROUND };
     MoveState movementState;
     JumpState jumpState;
     weak_ptr<GameObject> pBody;

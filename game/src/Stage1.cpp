@@ -35,7 +35,7 @@ Stage1::Stage1() {
 
     auto playerGO(new GameObject);
     playerGO->AddComponent(new Player(*playerGO));
-    playerGO->box += {0, GAME_HEIGHT - playerGO->box.h - 32 * 2};
+    playerGO->box += {0, GAME_HEIGHT - playerGO->box.h - 32 * 5};
     Camera::Follow(playerGO);
     AddObject(playerGO);
 
@@ -59,11 +59,11 @@ void Stage1::Update(float dt) {
         setDebug(!isDebug());
     }
 
+    TestCollision();
+
     UpdateArray(dt);
 
     IsDeadArray();
-
-    TestCollision();
 }
 
 void Stage1::Render() {

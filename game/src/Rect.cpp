@@ -2,7 +2,7 @@
 // Created by edgar on 22/03/18.
 //
 
-#include "../include/Rect.h"
+#include "Rect.h"
 
 Rect::Rect() : x(0), y(0), w(0), h(0)  {}
 
@@ -53,7 +53,7 @@ bool Rect::Contains(Vec2 v) {
 
 string Rect::toString() {
     char buffer [50];
-    sprintf (buffer, "(%.2f, %.2f, %.2f, %.2f)\n", x, y, w, h);
+    sprintf (buffer, "(%.2f, %.2f, %.2f, %.2f)", x, y, w, h);
     return buffer;
 }
 

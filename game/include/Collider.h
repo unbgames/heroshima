@@ -22,9 +22,15 @@ public:
     void setScale(const Vec2 &scale);
     void setOffset(const Vec2 &offset);
 
+    const Edge &GetEdge() const;
+
+    void SetEdge(const Edge &edge);
+
 private:
     Vec2 scale;
     Vec2 offset;
+
+    Edge edge;
 
 };
 

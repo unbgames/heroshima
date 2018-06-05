@@ -5,7 +5,6 @@
 #include <Stage1.h>
 #include "Text.h"
 #include "TitleState.h"
-#include "StageState.h"
 #include "InputManager.h"
 #include "Game.h"
 #include "Camera.h"
@@ -54,7 +53,7 @@ void TitleState::Update(float dt) {
     quitRequested = inputManager.QuitRequested() || inputManager.KeyPress(ESCAPE_KEY);
     if (inputManager.KeyPress(SPACE_BAR_KEY)) {
         Pause();
-        Game::GetInstance().Push(new StageState());
+        Game::GetInstance().Push(new Stage1());
     }
 
     if(menu->IsSelected()){

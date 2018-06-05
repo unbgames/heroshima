@@ -2,7 +2,7 @@
 // Created by edgar on 22/03/18.
 //
 
-#include "../include/Vec2.h"
+#include "Vec2.h"
 
 Vec2::Vec2() : x(0), y(0) {}
 
@@ -57,7 +57,7 @@ Vec2 Vec2::RotateDeg(const float angDeg) {
 
 string Vec2::toString() {
     char buffer [50];
-    sprintf (buffer, "(%.2f, %.2f)\n", x, y);
+    sprintf (buffer, "(%.2f, %.2f)", x, y);
     return buffer;
 }
 
