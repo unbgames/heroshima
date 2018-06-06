@@ -14,8 +14,6 @@ using std::weak_ptr;
 
 
 #define PLAYER_BODY_T "PlayerBody"
-#define BODY_OFFSET_VERTICAL 17
-#define BODY_OFFSET_HORIZONTAL 10
 
 class PlayerBody : public Component {
 public:
@@ -32,13 +30,12 @@ public:
     Gun* GetGun();
 
 private:
-    enum BodyState { RESTING, SHOOTING };
-    BodyState state;
+    MoveState state;
 
     Gun *gun;
 
     weak_ptr<GameObject> player;
-    int offset = 0;
+    //int offset = 0;
     Timer shootCooldownTimer;
 
 };

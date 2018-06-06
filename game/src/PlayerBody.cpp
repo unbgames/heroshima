@@ -4,22 +4,19 @@
 #include <LineTween.h>
 #include <PeriodicEvent.h>
 #include <RotationTween.h>
-#include <Crate.h>
 #include <WeaponCrate.h>
 #include <Sound.h>
 
 #include "Bullet.h"
 #include "Game.h"
 #include "InputManager.h"
-#include "Collider.h"
 #include "Player.h"
 #include "Weapons.h"
 
 using std::string;
 using std::weak_ptr;
 
-PlayerBody::PlayerBody(GameObject &associated, weak_ptr<GameObject> player)
-    : Component(associated) {
+PlayerBody::PlayerBody(GameObject &associated, weak_ptr<GameObject> player) : Component(associated) {
 
     gun = Weapons::pistol;
 
@@ -29,15 +26,10 @@ PlayerBody::PlayerBody(GameObject &associated, weak_ptr<GameObject> player)
         associated.RequestDelete();
     }
 
-    associated.AddComponent(new Collider(associated));
     Sprite* img = new Sprite(associated, gun->getSpriteRest().sprite, gun->getSpriteRest().frameCount, gun->getSpriteRest().frameTime);
     associated.orientation = playerGO.orientation;
-    associated.box = {
-            (playerGO.orientation == Orientation::LEFT ? -1 : 1) * BODY_OFFSET_HORIZONTAL + playerGO.box.GetCenter().x - img->GetWidth() / 2,
-            BODY_OFFSET_VERTICAL + playerGO.box.y - img->GetHeight(),
-            (float)img->GetWidth(),
-            (float)img->GetHeight()
-    };
+    associated.box.w = img->GetWidth();
+    associated.box.y = img->GetWidth();
     associated.AddComponent(img);
 }
 
@@ -46,12 +38,11 @@ void PlayerBody::Start() {
 
 void PlayerBody::Update(float dt) {
     GameObject &playerGO = *player.lock();
-    if (playerGO.IsDead()) {
+    if (playerGO.IsDead()) {//FIXME segfault
         associated.RequestDelete();
     }
 
-    associated.box.x = offset + playerGO.box.GetCenter().x - associated.box.w / 2;
-    associated.box.y = BODY_OFFSET_VERTICAL + playerGO.box.y - associated.box.h;
+    associated.box = playerGO.box;
     associated.orientation = playerGO.orientation;
 
     if (InputManager::GetInstance().IsKeyDown(SPACE_BAR_KEY)) {
@@ -64,13 +55,14 @@ void PlayerBody::Update(float dt) {
             if(gun->getAmmo() != -1) {
                 gun->decrementAmmo();
             }
-
-            offset = (playerGO.orientation == Orientation::LEFT ? -1 : 1) * gun->getSpriteShoot().offset;
         }
 
     } else {
-        state = RESTING;
-        offset = (playerGO.orientation == Orientation::LEFT ? -1 : 1) * gun->getSpriteRest().offset;
+        if(Player::player->getMovementState() == WALKING){
+            state = WALKING;
+        } else if(Player::player->getMovementState() == RESTING){
+            state = RESTING;
+        }
     }
 
     if(gun == Weapons::heavy && gun->getAmmo() <= 0){
@@ -92,7 +84,13 @@ void PlayerBody::Render() {
         sprite->Open(gun->getSpriteRest().sprite);
         sprite->SetFrameCount(gun->getSpriteRest().frameCount);
         sprite->SetFrameTime(gun->getSpriteRest().frameTime);
+
+    } else if(state == WALKING){
+        sprite->Open(gun->getSpriteWalk().sprite);
+        sprite->SetFrameCount(gun->getSpriteWalk().frameCount);
+        sprite->SetFrameTime(gun->getSpriteWalk().frameTime);
     }
+    //FIXME setar frames para evitar descontinuação ao atirar
 }
 
 bool PlayerBody::Is(string type) {

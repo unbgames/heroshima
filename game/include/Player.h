@@ -5,9 +5,10 @@
 #include "PlayerBody.h"
 #include "Component.h"
 #include "Sprite.h"
+#include "BodyState.h"
 
 #define PLAYER_SPEED  300
-#define JUMP_SPEED    400
+#define JUMP_SPEED    500
 #define GRAVITY       50.0f
 #define PLAYER_T "Player"
 #define PLAYER_MAX_LIVES 5
@@ -32,12 +33,14 @@ public:
     void IncremmentHp();
     void DecrementHp();
 
+    MoveState getMovementState() const;
+
 private:
-    enum MoveState { WALKING, RESTING };
-    enum JumpState { JUMPING, FALLING, ONGROUND };
+
+    BodyState *bodyState;
+
     MoveState movementState;
     JumpState jumpState;
-    weak_ptr<GameObject> pBody;
 
     Vec2 speed;
     float verticalSpeed;

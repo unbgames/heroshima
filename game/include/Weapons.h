@@ -3,6 +3,7 @@
 //
 
 #include <Gun.h>
+#include "BodyState.h"
 
 using std::string;
 
@@ -10,5 +11,8 @@ class Weapons{
 public:
     static Gun *pistol;
     static Gun *heavy;
+
+    static BodyState *idle;
+    static BodyState *walking;
 
 };

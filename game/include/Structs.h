@@ -42,4 +42,8 @@ struct Edge {
 
 enum Orientation { RIGHT, LEFT };
 
+enum MoveState { WALKING, RESTING, SHOOTING };
+
+enum JumpState { JUMPING, FALLING, ONGROUND };
+
 #endif //SRC_STRUCTS_H
