@@ -21,7 +21,7 @@ void Collider::Update(float dt) {
     aux.x = center.x - aux.w/2;
     aux.y = center.y - aux.h/2;
 
-    box = aux + offset.RotateDeg((float)(associated.angleDeg));
+    this->box = aux + offset.RotateDeg((float)(associated.angleDeg));
 
 //    edge = {false, false, false, false};
 }

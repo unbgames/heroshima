@@ -1,6 +1,7 @@
 #include <iostream>
 #include <memory>
 #include <LifeManager.h>
+#include <Weapons.h>
 
 #include "InputManager.h"
 #include "Collider.h"
@@ -17,11 +18,13 @@ Player *Player::player = nullptr;
 PlayerBody *Player::playerBody = nullptr;
 Player::Player(GameObject &associated) : Component(associated), hp(2) {
 
-    associated.AddComponent(new Collider(associated));
-    Sprite* img = new Sprite(associated, "img/tarma_inferior_repouso.png");
+    bodyState = Weapons::idle;
+
+    Sprite* img = new Sprite(associated, bodyState->GetCurrent().sprite, bodyState->GetCurrent().frameCount, bodyState->GetCurrent().frameTime);
     associated.box.w = img->GetWidth();
     associated.box.y = img->GetWidth();
     associated.AddComponent(img);
+    associated.AddComponent(new Collider(associated, {0.4, 0.9}, {-8, 5}));
 
     player = this;
 }
@@ -37,34 +40,21 @@ void Player::Start() {
     auto pBodyGO = new GameObject;
     playerBody = new PlayerBody(*pBodyGO, Game::GetInstance().GetCurrentState().GetObjectPtr(&associated));
     pBodyGO->AddComponent(playerBody);
-    pBody = Game::GetInstance().GetCurrentState().AddObject(pBodyGO);
+    Game::GetInstance().GetCurrentState().AddObject(pBodyGO);
 
 }
 
 void Player::Update(float dt) {
-
-    GameObject &bodyGO = *pBody.lock();
-    if (bodyGO.IsDead()) {
-        associated.RequestDelete();
-    }
 
     //To test the life indicator
     if(InputManager::GetInstance().MousePress(RIGHT_MOUSE_BUTTON))DecrementHp();
     if(InputManager::GetInstance().MousePress(LEFT_MOUSE_BUTTON))IncremmentHp();
     //Remove
 
-    auto sprite = (Sprite*)associated.GetComponent(SPRITE_TYPE);
     if (InputManager::GetInstance().IsKeyDown(A_KEY) || InputManager::GetInstance().IsKeyDown(D_KEY)) {
-
-        // Atualiza a animação
         movementState = WALKING;
-        sprite->Open("img/tarma_inferior_andando.png");
-        associated.box.w = sprite->GetWidth();
-        associated.box.h = sprite->GetHeight();
-        sprite->SetFrameCount(8);
-        sprite->SetFrameTime(0.06f);
+        bodyState = Weapons::walking;
 
-        auto playerBody = (PlayerBody*) bodyGO.GetComponent(PLAYER_BODY_T);
         if (InputManager::GetInstance().IsKeyDown(A_KEY)){
             associated.box.x -= PLAYER_SPEED * dt;
             associated.orientation = Orientation::LEFT;
@@ -75,13 +65,7 @@ void Player::Update(float dt) {
         }
     } else {
         movementState = RESTING;
-
-        // Atualiza a animação
-        sprite->Open("img/tarma_inferior_repouso.png");
-        associated.box.w = sprite->GetWidth();
-        associated.box.h = sprite->GetHeight();
-        sprite->SetFrameCount(1);
-        sprite->SetFrameTime(0);
+        bodyState = Weapons::idle;
     }
 
     if (jumpState == JUMPING || jumpState == FALLING) {
@@ -107,9 +91,18 @@ void Player::Update(float dt) {
 
     // Recomeça o movimento
     verticalSpeed = 0;
+
+    if(hp <= 0){
+        associated.RequestDelete();
+    }
 }
 
-void Player::Render() {}
+void Player::Render() {
+    auto sprite = (Sprite*)associated.GetComponent(SPRITE_TYPE);
+    sprite->Open(bodyState->GetCurrent().sprite);
+    sprite->SetFrameCount(bodyState->GetCurrent().frameCount);
+    sprite->SetFrameTime(bodyState->GetCurrent().frameTime);
+}
 
 bool Player::Is(string type) {
     return PLAYER_T == type;
@@ -118,8 +111,8 @@ bool Player::Is(string type) {
 void Player::NotifyCollision(GameObject &other) {
     auto collisionTile = (CollisionTile*) other.GetComponent(COLLISION_TILE_T);
     auto collider = (Collider*) associated.GetComponent(COLLIDER_TYPE);
-    auto edge = collider->GetEdge();
-    if (collisionTile != nullptr) {
+    if (collisionTile && collider) {
+        auto edge = collider->GetEdge();
         if (edge.RIGHT) {
             verticalSpeed = 0;
             associated.box.x =  other.box.x - associated.box.w;
@@ -157,4 +150,8 @@ void Player::DecrementHp() {
         this->hp--;
         LifeManager::Update();
     }
+}
+
+MoveState Player::getMovementState() const {
+    return movementState;
 }
