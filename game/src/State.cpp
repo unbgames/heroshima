@@ -60,7 +60,7 @@ weak_ptr<GameObject> State::AddCollisionObject(GameObject *go) {
     shared_ptr<GameObject> gameObject(go);
     collisionObjectArray.push_back(gameObject);
     if(started){
-        gameObject->Start();
+        //gameObject->Start();
     }
     return weak_ptr<GameObject>(gameObject);
 }
