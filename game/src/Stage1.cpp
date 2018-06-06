@@ -64,6 +64,8 @@ void Stage1::Update(float dt) {
     UpdateArray(dt);
 
     IsDeadArray();
+
+    cout<<"objetos: " << objectArray.size() << " tiles: " << tileObjectArray.size() << " colliders: " << collisionObjectArray.size() <<endl;
 }
 
 void Stage1::Render() {

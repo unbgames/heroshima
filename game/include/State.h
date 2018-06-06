@@ -26,6 +26,8 @@ public:
     virtual weak_ptr<GameObject> GetObjectPtr(GameObject *go);
     virtual weak_ptr<GameObject> AddTileObject(GameObject *go);
     virtual weak_ptr<GameObject> GetTileObjectPtr(GameObject *go);
+    virtual weak_ptr<GameObject> AddCollisionObject(GameObject *go);
+    virtual weak_ptr<GameObject> GetCollisionObjectPtr(GameObject *go);
 
     bool PopRequested();
     bool QuitRequested();
@@ -47,6 +49,7 @@ protected:
 
     vector<shared_ptr<GameObject>> objectArray;
     vector<shared_ptr<GameObject>> tileObjectArray;
+    vector<shared_ptr<GameObject>> collisionObjectArray;
 
     bool debug = false;
 

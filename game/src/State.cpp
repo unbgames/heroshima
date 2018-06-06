@@ -56,6 +56,24 @@ weak_ptr<GameObject> State::GetTileObjectPtr(GameObject *go) {
     return weak_ptr<GameObject>();
 }
 
+weak_ptr<GameObject> State::AddCollisionObject(GameObject *go) {
+    shared_ptr<GameObject> gameObject(go);
+    collisionObjectArray.push_back(gameObject);
+    if(started){
+        gameObject->Start();
+    }
+    return weak_ptr<GameObject>(gameObject);
+}
+
+weak_ptr<GameObject> State::GetCollisionObjectPtr(GameObject *go) {
+    for (auto &i : collisionObjectArray) {
+        if(i.get() == go){
+            return weak_ptr<GameObject>(i);
+        }
+    }
+    return weak_ptr<GameObject>();
+}
+
 bool State::PopRequested() {
     return popRequested;
 }
