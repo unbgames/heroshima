@@ -29,7 +29,7 @@ PlayerArms::PlayerArms(GameObject &associated, weak_ptr<GameObject> player) : Co
     Sprite* img = new Sprite(associated, gun->getSpriteRest().sprite, gun->getSpriteRest().frameCount, gun->getSpriteRest().frameTime);
     associated.orientation = playerGO.orientation;
     associated.box.w = img->GetWidth();
-    associated.box.y = img->GetWidth();
+    associated.box.h = img->GetHeight();
     associated.AddComponent(img);
 }
 

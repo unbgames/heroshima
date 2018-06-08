@@ -20,17 +20,15 @@ public:
     void Render() override;
     bool Is(string type) override;
 
+    EnemyState getState();
+    int getHp();
+
 protected:
+    StaticSprite current;
+    StaticSprite walking, idle, stopped, falling, chasing, attacking, stuck, dead, preparing;
+
     EnemyState state;
     int hp;
-
-    void Walk();
-    void Stop();
-    void Fall();
-    void Chase();
-    void Attack();
-    void Stuck();
-    void Die();
 
 };
 

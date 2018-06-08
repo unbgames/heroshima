@@ -62,5 +62,5 @@ add_executable(HEROshima src/Main.cpp
         src/GunManager.cpp include/GunManager.h
         src/Util.cpp include/Util.h
         src/BodyState.cpp include/BodyState.h
-        src/Enemy.cpp include/Enemy.h)
+        src/Enemy.cpp include/Enemy.h src/Enemy1.cpp include/Enemy1.h)
 

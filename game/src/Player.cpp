@@ -2,6 +2,8 @@
 #include <memory>
 #include <LifeManager.h>
 #include <SpriteSheet.h>
+#include <PeriodicEvent.h>
+#include <TimerEvent.h>
 
 #include "InputManager.h"
 #include "Collider.h"

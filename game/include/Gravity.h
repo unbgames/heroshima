@@ -19,6 +19,8 @@ public:
     void Render() override;
     bool Is(string type) override;
 
+    float GetVerticalSpeed() const;
+
 private:
     Vec2 speed;
     float verticalSpeed;

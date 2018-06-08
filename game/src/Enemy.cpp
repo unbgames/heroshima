@@ -2,9 +2,13 @@
 // Created by edgar on 07/06/18.
 //
 
+#include <Collider.h>
+#include <Sprite.h>
 #include "Enemy.h"
 
-Enemy::Enemy(GameObject &associated, int hp) : Component(associated), hp(hp) {}
+Enemy::Enemy(GameObject &associated, int hp) : Component(associated), hp(hp) {
+    associated.AddComponent(new Collider(associated));
+}
 
 void Enemy::Start() {
     Component::Start();
@@ -12,31 +16,53 @@ void Enemy::Start() {
 
 void Enemy::Render() {
     if(state == E_WALKING ){
-        Walk();
+        current = walking;
+        cout<<"walking"<<endl;
+    } else if(state == E_IDLE ){
+        current = idle;
+        cout<<"idle"<<endl;
     } else if(state == E_STOPPED ){
-        Stop();
+        current = stopped;
+        cout<<"stopped"<<endl;
     } else if(state == E_FALLING ){
-        Fall();
+        current = falling;
+        cout<<"falling"<<endl;
     } else if(state == E_CHASING ){
-        Chase();
+        current = chasing;
+        cout<<"chasing"<<endl;
     } else if(state == E_ATTACKING ){
-        Attack();
+        current = attacking;
+        cout<<"attacking"<<endl;
     } else if(state == E_STUCK ){
-        Stuck();
+        current = stuck;
+        cout<<"stuck"<<endl;
     } else if(state == E_DEAD){
-        Die();
+        current = dead;
+        cout<<"dead"<<endl;
+    } else if(state == E_PREPARING){
+        current = preparing;
+        cout<<"preparing"<<endl;
     }
 
+    auto sprite = (Sprite*)associated.GetComponent(SPRITE_TYPE);
+    sprite->Open(current.sprite);
+    sprite->SetFrameCount(current.frameCount);
+    sprite->SetFrameTime(current.frameTime);
+
+//    auto collider = (Collider*)associated.GetComponent(COLLIDER_TYPE);
+//    if(collider){
+//        collider->setScale({sprite->GetWidth(), sprite->GetHeight()});
+//    }
 }
 
 bool Enemy::Is(string type) {
     return type == ENEMY_TYPE;
 }
 
-void Enemy::Walk() {}
-void Enemy::Stop() {}
-void Enemy::Fall() {}
-void Enemy::Chase() {}
-void Enemy::Attack() {}
-void Enemy::Stuck() {}
-void Enemy::Die() {}
+EnemyState Enemy::getState() {
+    return state;
+}
+
+int Enemy::getHp() {
+    return hp;
+}

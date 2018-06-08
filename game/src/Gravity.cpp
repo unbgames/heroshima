@@ -17,3 +17,7 @@ void Gravity::Render() {}
 bool Gravity::Is(string type) {
     return type == GRAVITY_TYPE;
 }
+
+float Gravity::GetVerticalSpeed() const {
+    return verticalSpeed;
+}

@@ -13,6 +13,7 @@
 #include <SpriteSheet.h>
 #include <LifeCrate.h>
 #include <MenuHUD.h>
+#include <Enemy1.h>
 #include "Stage1.h"
 
 Stage1::Stage1() {
@@ -80,15 +81,20 @@ void Stage1::Start() {
     AddObject(menuHUDGO);
 
     //** Weapon Crate
-    auto weaponCrateGO(new GameObject);
-    weaponCrateGO->AddComponent(new Sprite(*weaponCrateGO, "img/heavy_crate.png"));
-    weaponCrateGO->AddComponent(new WeaponCrate(*weaponCrateGO, Vec2(800, 0), SpriteSheet::heavy));
-    AddObject(weaponCrateGO);
+//    auto weaponCrateGO(new GameObject);
+//    weaponCrateGO->AddComponent(new Sprite(*weaponCrateGO, "img/heavy_crate.png"));
+//    weaponCrateGO->AddComponent(new WeaponCrate(*weaponCrateGO, Vec2(800, 0), SpriteSheet::heavy));
+//    AddObject(weaponCrateGO);
 
     //** Life Crate
     auto lifeCrateGO(new GameObject);
     lifeCrateGO->AddComponent(new LifeCrate(*lifeCrateGO, Vec2(1000, 0), 1));
     AddObject(lifeCrateGO);
+
+    //** Enemy1
+    auto enemy1GO(new GameObject);
+    enemy1GO->AddComponent(new Enemy1(*enemy1GO, 1, Vec2(1600, 0)));
+    AddObject(enemy1GO);
 }
 
 void Stage1::Pause() {
