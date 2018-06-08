@@ -9,7 +9,7 @@
 #include "Enemy1.h"
 
 Enemy1::Enemy1(GameObject &associated, int hp, Vec2 initialPosition, bool startFalling)
-        : Enemy(associated, hp), fell(false), onGroud(false), hit(false), speed({0, 0}) {
+        : Enemy(associated, hp), fell(false), landed(false), hit(false), speed({0, 0}) {
 
     falling = StaticSprite("img/enemy_falling.png", 2, 0.3f);
     walking = StaticSprite("img/enemy_running.png", 12, 0.06f);
@@ -36,7 +36,7 @@ void Enemy1::Update(float dt) {
     if(state == E_STOPPED) {
         if (playerBox.x > associated.box.x - PLAYER_DISTANCE_OFFSET && !fell) {
             state = E_FALLING;
-            if (!fell && !onGroud) {
+            if (!fell) {
                 fell = true;
                 associated.AddComponent(new Gravity(associated));
             }
@@ -88,11 +88,12 @@ void Enemy1::NotifyCollision(GameObject &other) {
     auto collisionTile = (CollisionTile*) other.GetComponent(COLLISION_TILE_T);
     if (collisionTile) {
         Gravity *gravity = (Gravity*)associated.GetComponent(GRAVITY_TYPE);
-        //Removes gravity after touch ground;
-        if(gravity){
+        if(!landed){
             state = E_IDLE;
-            associated.RemoveComponent(gravity);
-            onGroud = true;
+        }
+        if(gravity){
+            gravity->SetVerticalSpeed(0);
+            landed = true;
         }
         associated.box.y =  other.box.y - associated.box.h;
     }

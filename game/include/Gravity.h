@@ -21,6 +21,8 @@ public:
 
     float GetVerticalSpeed() const;
 
+    void SetVerticalSpeed(float verticalSpeed);
+
 private:
     Vec2 speed;
     float verticalSpeed;

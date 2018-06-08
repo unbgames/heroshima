@@ -21,3 +21,7 @@ bool Gravity::Is(string type) {
 float Gravity::GetVerticalSpeed() const {
     return verticalSpeed;
 }
+
+void Gravity::SetVerticalSpeed(float verticalSpeed) {
+    this->verticalSpeed = verticalSpeed;
+}
