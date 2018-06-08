@@ -1,11 +1,11 @@
 #include <iostream>
 #include <memory>
 #include <LifeManager.h>
-#include <Weapons.h>
+#include <SpriteSheet.h>
 
 #include "InputManager.h"
 #include "Collider.h"
-#include "PlayerBody.h"
+#include "PlayerArms.h"
 #include "Game.h"
 #include "CollisionTile.h"
 #include "Sprite.h"
@@ -15,10 +15,10 @@ using std::weak_ptr;
 using std::string;
 
 Player *Player::player = nullptr;
-PlayerBody *Player::playerBody = nullptr;
+PlayerArms *Player::playerArms = nullptr;
 Player::Player(GameObject &associated) : Component(associated), hp(2) {
 
-    bodyState = Weapons::idle;
+    bodyState = SpriteSheet::idle;
 
     Sprite* img = new Sprite(associated, bodyState->GetCurrent().sprite, bodyState->GetCurrent().frameCount, bodyState->GetCurrent().frameTime);
     associated.box.w = img->GetWidth();
@@ -38,8 +38,8 @@ void Player::Start() {
     movementState = RESTING;
 
     auto pBodyGO = new GameObject;
-    playerBody = new PlayerBody(*pBodyGO, Game::GetInstance().GetCurrentState().GetObjectPtr(&associated));
-    pBodyGO->AddComponent(playerBody);
+    playerArms = new PlayerArms(*pBodyGO, Game::GetInstance().GetCurrentState().GetObjectPtr(&associated));
+    pBodyGO->AddComponent(playerArms);
     Game::GetInstance().GetCurrentState().AddObject(pBodyGO);
 
 }
@@ -53,7 +53,7 @@ void Player::Update(float dt) {
 
     if (InputManager::GetInstance().IsKeyDown(A_KEY) || InputManager::GetInstance().IsKeyDown(D_KEY)) {
         movementState = WALKING;
-        bodyState = Weapons::walking;
+        bodyState = SpriteSheet::walking;
 
         if (InputManager::GetInstance().IsKeyDown(A_KEY)){
             associated.box.x -= PLAYER_SPEED * dt;
@@ -65,7 +65,7 @@ void Player::Update(float dt) {
         }
     } else {
         movementState = RESTING;
-        bodyState = Weapons::idle;
+        bodyState = SpriteSheet::idle;
     }
 
     if (jumpState == JUMPING || jumpState == FALLING) {

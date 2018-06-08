@@ -8,7 +8,7 @@
 #include <MenuHUD.h>
 #include <Player.h>
 #include <LifeManager.h>
-#include <Weapons.h>
+#include <SpriteSheet.h>
 #include "GunManager.h"
 
 GunManager::GunManager(GameObject &associated, Vec2 offset) : Component(associated), offset(offset) {
@@ -29,14 +29,14 @@ void GunManager::Update(float dt) {
     auto text = (Text*)ammoCounterGO->GetComponent(TEXT_TYPE);
     auto cameraFollower = (CameraFollower*)ammoCounterGO->GetComponent(CAMERA_FOLLOWER_TYPE);
 
-    if(Player::playerBody->GetGun() == Weapons::pistol){
+    if(Player::playerArms->GetGun() == SpriteSheet::pistol){
         if(sprite) sprite->Open("img/pistol_icon.png");
-    } else if(Player::playerBody->GetGun() == Weapons::heavy){
+    } else if(Player::playerArms->GetGun() == SpriteSheet::heavy){
         if(sprite) sprite->Open("img/heavy_machinegun_icon.PNG");
     }
 
     if(text) {
-        int ammo = Player::playerBody->GetGun()->getAmmo();
+        int ammo = Player::playerArms->GetGun()->getAmmo();
         text->SetText(ammo != -1 ? to_string(ammo) : "INF");
 //        cameraFollower->SetOffset(offset - Vec2(gunIconGO->box.w + ammoCounterGO->box.w + GAP, -gunIconGO->box.h + ammoCounterGO->box.h));
     }

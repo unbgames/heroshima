@@ -10,7 +10,7 @@
 #include <InputManager.h>
 #include <Crate.h>
 #include <WeaponCrate.h>
-#include <Weapons.h>
+#include <SpriteSheet.h>
 #include <LifeCrate.h>
 #include <MenuHUD.h>
 #include "Stage1.h"
@@ -82,7 +82,7 @@ void Stage1::Start() {
     //** Weapon Crate
     auto weaponCrateGO(new GameObject);
     weaponCrateGO->AddComponent(new Sprite(*weaponCrateGO, "img/heavy_crate.png"));
-    weaponCrateGO->AddComponent(new WeaponCrate(*weaponCrateGO, Vec2(800, 0), Weapons::heavy));
+    weaponCrateGO->AddComponent(new WeaponCrate(*weaponCrateGO, Vec2(800, 0), SpriteSheet::heavy));
     AddObject(weaponCrateGO);
 
     //** Life Crate

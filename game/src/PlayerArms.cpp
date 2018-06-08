@@ -11,14 +11,14 @@
 #include "Game.h"
 #include "InputManager.h"
 #include "Player.h"
-#include "Weapons.h"
+#include "SpriteSheet.h"
 
 using std::string;
 using std::weak_ptr;
 
-PlayerBody::PlayerBody(GameObject &associated, weak_ptr<GameObject> player) : Component(associated) {
+PlayerArms::PlayerArms(GameObject &associated, weak_ptr<GameObject> player) : Component(associated) {
 
-    gun = Weapons::pistol;
+    gun = SpriteSheet::pistol;
 
     this->player = player;
     GameObject &playerGO = *player.lock();
@@ -33,10 +33,10 @@ PlayerBody::PlayerBody(GameObject &associated, weak_ptr<GameObject> player) : Co
     associated.AddComponent(img);
 }
 
-void PlayerBody::Start() {
+void PlayerArms::Start() {
 }
 
-void PlayerBody::Update(float dt) {
+void PlayerArms::Update(float dt) {
     GameObject &playerGO = *player.lock();
     if (playerGO.IsDead()) {//FIXME segfault
         associated.RequestDelete();
@@ -65,15 +65,15 @@ void PlayerBody::Update(float dt) {
         }
     }
 
-    if(gun == Weapons::heavy && gun->getAmmo() <= 0){
+    if(gun == SpriteSheet::heavy && gun->getAmmo() <= 0){
         DropGun();
-        SetGun(Weapons::pistol);
+        SetGun(SpriteSheet::pistol);
     }
 
     shootCooldownTimer.Update(dt);
 }
 
-void PlayerBody::Render() {
+void PlayerArms::Render() {
     auto sprite = (Sprite*)associated.GetComponent(SPRITE_TYPE);
     if (state == SHOOTING) {
         sprite->Open(gun->getSpriteShoot().sprite);
@@ -93,11 +93,11 @@ void PlayerBody::Render() {
     //FIXME setar frames para evitar descontinuação ao atirar
 }
 
-bool PlayerBody::Is(string type) {
-    return type == PLAYER_BODY_T;
+bool PlayerArms::Is(string type) {
+    return type == PLAYER_ARMS_TYPE;
 }
 
-void PlayerBody::Shoot(float angle) {
+void PlayerArms::Shoot(float angle) {
     auto bulletGo = new GameObject;
     bulletGo->AddComponent(new Bullet(*bulletGo, angle, gun->getProjectile().speed, gun->getDamage(), 1000, gun->getProjectile().sprite, gun->getProjectile().frameCount, gun->getProjectile().frameTime, false));
     if(associated.orientation == Orientation::RIGHT){
@@ -112,12 +112,12 @@ void PlayerBody::Shoot(float angle) {
     Game::GetInstance().GetCurrentState().AddObject(bulletGo);
 }
 
-void PlayerBody::DropGun() {
+void PlayerArms::DropGun() {
     auto troca(new GameObject);
     Sprite* img;
 
     //TODO place here other's weapons logic
-    if(gun == Weapons::heavy){
+    if(gun == SpriteSheet::heavy){
         img = new Sprite(*troca, "img/heavy_machine_gun.png");
     } else{
         img = new Sprite(*troca, "img/heavy_machine_gun.png");
@@ -143,7 +143,7 @@ void PlayerBody::DropGun() {
     Game::GetInstance().GetCurrentState().AddObject(troca);
 }
 
-void PlayerBody::SetGun(Gun *gun) {
+void PlayerArms::SetGun(Gun *gun) {
     this->gun = gun;
     //FIXME garantir que esse GO eh deletado apos terminar de tocar o som
     auto bulletGO(new GameObject);
@@ -151,6 +151,6 @@ void PlayerBody::SetGun(Gun *gun) {
     recharge->Play();
 }
 
-Gun* PlayerBody::GetGun() {
+Gun* PlayerArms::GetGun() {
     return this->gun;
 }

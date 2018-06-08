@@ -7,7 +7,7 @@
 
 using std::string;
 
-class Weapons{
+class SpriteSheet{
 public:
     static Gun *pistol;
     static Gun *heavy;

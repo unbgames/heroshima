@@ -49,7 +49,7 @@ int Bullet::GetDamage() {
 }
 
 void Bullet::NotifyCollision(GameObject &other) {
-    if(!other.GetComponent(PLAYER_T) && !other.GetComponent(PLAYER_BODY_T) && !other.GetComponent(BULLET_TYPE) && !targetsPlayer){
+    if(!other.GetComponent(PLAYER_T) && !other.GetComponent(PLAYER_ARMS_TYPE) && !other.GetComponent(BULLET_TYPE) && !targetsPlayer){
         //Player's bullet that hits everything but player's parts and bullets
         associated.RequestDelete();
         auto explosionGO(new GameObject());
