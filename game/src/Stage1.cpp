@@ -37,7 +37,7 @@ Stage1::Stage1() {
     playerGO->AddComponent(new Player(*playerGO));
     playerGO->box += {0, GAME_HEIGHT - playerGO->box.h - 32 * 5};
     Camera::Follow(playerGO);
-    AddObject(playerGO);
+    AddCollisionObject(playerGO);
 
     quitRequested = false;
 }
@@ -64,6 +64,8 @@ void Stage1::Update(float dt) {
     UpdateArray(dt);
 
     IsDeadArray();
+
+    cout<<"objetos: " << objectArray.size() << " tiles: " << tileObjectArray.size() << " colliders: " << collisionObjectArray.size() <<endl;
 }
 
 void Stage1::Render() {
@@ -83,12 +85,12 @@ void Stage1::Start() {
     auto weaponCrateGO(new GameObject);
     weaponCrateGO->AddComponent(new Sprite(*weaponCrateGO, "img/heavy_crate.png"));
     weaponCrateGO->AddComponent(new WeaponCrate(*weaponCrateGO, Vec2(800, 0), Weapons::heavy));
-    AddObject(weaponCrateGO);
+    AddCollisionObject(weaponCrateGO);
 
     //** Life Crate
     auto lifeCrateGO(new GameObject);
     lifeCrateGO->AddComponent(new LifeCrate(*lifeCrateGO, Vec2(1000, 0), 1));
-    AddObject(lifeCrateGO);
+    AddCollisionObject(lifeCrateGO);
 }
 
 void Stage1::Pause() {

@@ -7,7 +7,9 @@
 #include "InputManager.h"
 #include "Collider.h"
 
-Collider::Collider(GameObject &associated, Vec2 scale, Vec2 offset) : Component(associated), scale(scale), offset(offset) {}
+Collider::Collider(GameObject &associated, Vec2 scale, Vec2 offset) : Component(associated), scale(scale), offset(offset) {
+
+}
 
 void Collider::Update(float dt) {
     Rect aux = Rect();
