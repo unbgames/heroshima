@@ -44,7 +44,6 @@ void PlayerBody::Update(float dt) {
 
     associated.box = playerGO.box;
     associated.orientation = playerGO.orientation;
-
     if (InputManager::GetInstance().IsKeyDown(SPACE_BAR_KEY)) {
         if(shootCooldownTimer.Get() >= gun->getCooldownTime() && (gun->getAmmo() > 0 || gun->getAmmo() == -1)) {
             state = SHOOTING;
@@ -58,10 +57,14 @@ void PlayerBody::Update(float dt) {
         }
 
     } else {
+        auto sprite = (Sprite*)associated.GetComponent(SPRITE_TYPE);
+        Sprite* playerSprite = (Sprite*)playerGO.GetComponent(SPRITE_TYPE);
         if(Player::player->getMovementState() == WALKING){
             state = WALKING;
+            sprite->SetFrame(playerSprite->GetCurrentFrame());
         } else if(Player::player->getMovementState() == RESTING){
             state = RESTING;
+            sprite->SetFrame(playerSprite->GetCurrentFrame());
         }
     }
 
@@ -70,6 +73,10 @@ void PlayerBody::Update(float dt) {
         SetGun(Weapons::pistol);
     }
 
+    shootCooldownTimer.Update(dt);
+}
+
+void PlayerBody::Render() {
     auto sprite = (Sprite*)associated.GetComponent(SPRITE_TYPE);
     if (state == SHOOTING) {
         sprite->Open(gun->getSpriteShoot().sprite);
@@ -86,15 +93,6 @@ void PlayerBody::Update(float dt) {
         sprite->SetFrameCount(gun->getSpriteWalk().frameCount);
         sprite->SetFrameTime(gun->getSpriteWalk().frameTime);
     }
-
-
-    Sprite* playerSprite = (Sprite*)playerGO.GetComponent(SPRITE_TYPE);
-    sprite->SetFrame(playerSprite->GetCurrentFrame());
-
-    shootCooldownTimer.Update(dt);
-}
-
-void PlayerBody::Render() {
 }
 
 bool PlayerBody::Is(string type) {
