@@ -70,10 +70,6 @@ void PlayerBody::Update(float dt) {
         SetGun(Weapons::pistol);
     }
 
-    shootCooldownTimer.Update(dt);
-}
-
-void PlayerBody::Render() {
     auto sprite = (Sprite*)associated.GetComponent(SPRITE_TYPE);
     if (state == SHOOTING) {
         sprite->Open(gun->getSpriteShoot().sprite);
@@ -90,7 +86,15 @@ void PlayerBody::Render() {
         sprite->SetFrameCount(gun->getSpriteWalk().frameCount);
         sprite->SetFrameTime(gun->getSpriteWalk().frameTime);
     }
-    //FIXME setar frames para evitar descontinuação ao atirar
+
+
+    Sprite* playerSprite = (Sprite*)playerGO.GetComponent(SPRITE_TYPE);
+    sprite->SetFrame(playerSprite->GetCurrentFrame());
+
+    shootCooldownTimer.Update(dt);
+}
+
+void PlayerBody::Render() {
 }
 
 bool PlayerBody::Is(string type) {
