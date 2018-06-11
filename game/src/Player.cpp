@@ -40,9 +40,9 @@ void Player::Start() {
     movementState = RESTING;
 
     auto pBodyGO = new GameObject;
-    playerArms = new PlayerArms(*pBodyGO, Game::GetInstance().GetCurrentState().GetObjectPtr(&associated));
+    playerArms = new PlayerArms(*pBodyGO, Game::GetInstance().GetCurrentState().GetCollisionObjectPtr(&associated));
     pBodyGO->AddComponent(playerArms);
-    Game::GetInstance().GetCurrentState().AddObject(pBodyGO);
+    Game::GetInstance().GetCurrentState().AddCollisionObject(pBodyGO);
 
 }
 
