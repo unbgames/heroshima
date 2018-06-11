@@ -44,7 +44,6 @@ void PlayerArms::Update(float dt) {
 
     associated.box = playerGO.box;
     associated.orientation = playerGO.orientation;
-
     if (InputManager::GetInstance().IsKeyDown(SPACE_BAR_KEY)) {
         if(shootCooldownTimer.Get() >= gun->getCooldownTime() && (gun->getAmmo() > 0 || gun->getAmmo() == -1)) {
             state = SHOOTING;
@@ -58,10 +57,14 @@ void PlayerArms::Update(float dt) {
         }
 
     } else {
+        auto sprite = (Sprite*)associated.GetComponent(SPRITE_TYPE);
+        Sprite* playerSprite = (Sprite*)playerGO.GetComponent(SPRITE_TYPE);
         if(Player::player->getMovementState() == WALKING){
             state = WALKING;
+            sprite->SetFrame(playerSprite->GetCurrentFrame());
         } else if(Player::player->getMovementState() == RESTING){
             state = RESTING;
+            sprite->SetFrame(playerSprite->GetCurrentFrame());
         }
     }
 
@@ -90,7 +93,6 @@ void PlayerArms::Render() {
         sprite->SetFrameCount(gun->getSpriteWalk().frameCount);
         sprite->SetFrameTime(gun->getSpriteWalk().frameTime);
     }
-    //FIXME setar frames para evitar descontinuação ao atirar
 }
 
 bool PlayerArms::Is(string type) {
@@ -109,7 +111,7 @@ void PlayerArms::Shoot(float angle) {
     }
     auto sound(new Sound(*bulletGo, "audio/tiro.ogg"));
     sound->Play();
-    Game::GetInstance().GetCurrentState().AddObject(bulletGo);
+    Game::GetInstance().GetCurrentState().AddCollisionObject(bulletGo);
 }
 
 void PlayerArms::DropGun() {

@@ -38,7 +38,7 @@ Stage1::Stage1() {
     playerGO->AddComponent(new Player(*playerGO));
     playerGO->box += {0, GAME_HEIGHT - playerGO->box.h - 32 * 5};
     Camera::Follow(playerGO);
-    AddObject(playerGO);
+    AddCollisionObject(playerGO);
 
     quitRequested = false;
 }
@@ -65,6 +65,8 @@ void Stage1::Update(float dt) {
     UpdateArray(dt);
 
     IsDeadArray();
+
+    cout<<"objetos: " << objectArray.size() << " tiles: " << tileObjectArray.size() << " colliders: " << collisionObjectArray.size() <<endl;
 }
 
 void Stage1::Render() {
