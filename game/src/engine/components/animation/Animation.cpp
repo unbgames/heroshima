@@ -3,7 +3,6 @@
 //
 
 #include "Animation.h"
-#include <utility>
 
 Animation::Animation(GameObject &associated, float duration, ActionCallback onAnimationEnd, float startOffset)
         : Component(associated), duration(duration + startOffset) {

@@ -5,7 +5,6 @@
 #include <Game.h>
 #include "Resources.h"
 
-#include <utility>
 #include "Sound.h"
 
 Sound::Sound(GameObject &associated) : Component(associated), chunk(nullptr), channel(0) {}

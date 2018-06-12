@@ -6,12 +6,10 @@
 #include <Resources.h>
 #include <InputManager.h>
 #include <Collider.h>
-#include <Collision.h>
 
 #define INCLUDE_SDL_IMAGE
 #define INCLUDE_SDL_MIXER
 #define INCLUDE_SDL_TTF
-#include "SDL_include.h"
 
 #include "Game.h"
 

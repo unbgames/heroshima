@@ -3,7 +3,6 @@
 //
 
 #include "LineTween.h"
-#include <utility>
 
 LineTween::LineTween(GameObject &associated, float duration, const Vec2 &from, const Vec2 &to, ActionCallback onAnimationEnd, float startOffset) :
         Animation(associated, duration, move(onAnimationEnd), startOffset), from(from), to(to) {

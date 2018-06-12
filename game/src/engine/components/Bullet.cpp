@@ -3,10 +3,8 @@
 //
 
 #include <Player.h>
-#include <Sound.h>
 #include <Game.h>
 #include <MathUtil.h>
-#include "Sprite.h"
 #include "Collider.h"
 #include "Bullet.h"
 

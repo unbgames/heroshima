@@ -4,7 +4,6 @@
 
 #include <Player.h>
 #include <Sound.h>
-#include <Game.h>
 #include "WeaponCrate.h"
 
 WeaponCrate::WeaponCrate(GameObject &associated, const Vec2 &initialPosition, Gun* gun, bool startFalling) :
