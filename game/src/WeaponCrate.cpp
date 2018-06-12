@@ -14,7 +14,7 @@ WeaponCrate::WeaponCrate(GameObject &associated, const Vec2 &initialPosition, Gu
 
 void WeaponCrate::onCatch() {
     gun->setAmmo(gun->getFull());
-    Player::playerBody->SetGun(gun);
+    Player::playerArms->SetGun(gun);
     associated.RequestDelete();
 
     //FIXME garantir que esse GO eh deletado apos terminar de tocar o som

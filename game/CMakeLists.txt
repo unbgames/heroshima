@@ -44,9 +44,9 @@ add_executable(HEROshima src/Main.cpp
         src/Stage1.cpp include/Stage1.h
         src/Player.cpp include/Player.h
         src/CollisionTile.cpp include/CollisionTile.h
-        src/PlayerBody.cpp include/PlayerBody.h
+        src/PlayerArms.cpp include/PlayerArms.h
         include/Gun.h src/Gun.cpp
-        include/Weapons.h src/Weapons.cpp
+        include/SpriteSheet.h src/SpriteSheet.cpp
         src/Structs.cpp include/Structs.h
         src/Animation.cpp include/Animation.h
         src/LineTween.cpp include/LineTween.h
@@ -60,5 +60,7 @@ add_executable(HEROshima src/Main.cpp
         src/TimerEvent.cpp include/TimerEvent.h
         src/LifeManager.cpp include/LifeManager.h
         src/GunManager.cpp include/GunManager.h
-        src/Util.cpp include/Util.h src/BodyState.cpp include/BodyState.h)
+        src/Util.cpp include/Util.h
+        src/BodyState.cpp include/BodyState.h
+        src/Enemy.cpp include/Enemy.h src/Enemy1.cpp include/Enemy1.h)
 

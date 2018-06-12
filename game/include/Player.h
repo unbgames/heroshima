@@ -2,7 +2,7 @@
 #define PLAYER_H
 
 #include "Vec2.h"
-#include "PlayerBody.h"
+#include "PlayerArms.h"
 #include "Component.h"
 #include "Sprite.h"
 #include "BodyState.h"
@@ -26,7 +26,7 @@ public:
     void NotifyCollision(GameObject &other) override;
 
     static Player* player;
-    static PlayerBody* playerBody;
+    static PlayerArms* playerArms;
 
     int GetHp() const;
     void SetHp(int hp);

@@ -13,11 +13,11 @@ using std::string;
 using std::weak_ptr;
 
 
-#define PLAYER_BODY_T "PlayerBody"
+#define PLAYER_ARMS_TYPE "PlayerArms"
 
-class PlayerBody : public Component {
+class PlayerArms : public Component {
 public:
-    PlayerBody(GameObject& associated, weak_ptr<GameObject> player);
+    PlayerArms(GameObject& associated, weak_ptr<GameObject> player);
 
     void Start() override;
     void Update(float dt) override;
