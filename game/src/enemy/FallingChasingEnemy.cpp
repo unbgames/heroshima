@@ -6,9 +6,9 @@
 #include <Gravity.h>
 #include <CollisionTile.h>
 #include <Player.h>
-#include "Enemy1.h"
+#include "FallingChasingEnemy.h"
 
-Enemy1::Enemy1(GameObject &associated, int hp, Vec2 initialPosition, bool startFalling)
+FallingChasingEnemy::FallingChasingEnemy(GameObject &associated, int hp, Vec2 initialPosition, bool startFalling)
         : Enemy(associated, hp), fell(false), landed(false), hit(false), speed({0, 0}) {
 
     falling = StaticSprite("img/enemy_falling.png", 2, 0.3f);
@@ -30,7 +30,7 @@ Enemy1::Enemy1(GameObject &associated, int hp, Vec2 initialPosition, bool startF
     associated.AddComponent(img);
 }
 
-void Enemy1::Update(float dt) {
+void FallingChasingEnemy::Update(float dt) {
     auto playerBox = Player::player->GetAssociatedBox();
 
     if(state == E_STOPPED) {
@@ -84,7 +84,7 @@ void Enemy1::Update(float dt) {
 
 }
 
-void Enemy1::NotifyCollision(GameObject &other) {
+void FallingChasingEnemy::NotifyCollision(GameObject &other) {
     auto collisionTile = (CollisionTile*) other.GetComponent(COLLISION_TILE_T);
     if (collisionTile) {
         Gravity *gravity = (Gravity*)associated.GetComponent(GRAVITY_TYPE);

@@ -12,9 +12,9 @@
 
 #include "Enemy.h"
 
-class Enemy1 : public Enemy {
+class FallingChasingEnemy : public Enemy {
 public:
-    explicit Enemy1(GameObject &associated, int hp, Vec2 initialPosition, bool startFalling = true);
+    explicit FallingChasingEnemy(GameObject &associated, int hp, Vec2 initialPosition, bool startFalling = true);
 
     void Update(float dt) override;
 
