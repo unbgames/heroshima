@@ -6,7 +6,7 @@
 #define UTIL_H
 
 
-class Util {
+class MathUtil {
 public:
     static float floatRand(float min, float max);
 

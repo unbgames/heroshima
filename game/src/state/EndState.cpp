@@ -4,7 +4,6 @@
 
 #include <GameData.h>
 #include <Sprite.h>
-#include <PeriodicEvent.h>
 #include <Text.h>
 #include <Game.h>
 #include <InputManager.h>

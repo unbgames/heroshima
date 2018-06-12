@@ -7,8 +7,6 @@
 #include "Resources.h"
 #include "Camera.h"
 
-#include <utility>
-#include "Bullet.h"
 #include "Sprite.h"
 #include "Game.h"
 

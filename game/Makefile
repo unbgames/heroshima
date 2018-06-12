@@ -1,4 +1,5 @@
 # Assume-se uma distribuição Linux como SO padrão
+SHELL := /bin/bash 
 
 # O compilador
 COMPILER = g++
@@ -12,7 +13,7 @@ DEP_FLAGS = -M -MT $@ -MT $(BIN_PATH)/$(*F).o -MP -MF $@
 # Bibliotecas a serem linkadas
 LIBS = -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf -lm
 # Caminho dos includes
-INC_PATHS = -I$(INC_PATH) $(addprefix -I,$(SDL_INC_PATH))
+INC_PATHS = $(addprefix -I,$(INC_SUBDIRS)) $(addprefix -I,$(SDL_INC_PATH))
 
 # Diretivas de compilação
 FLAGS = -std=c++11 -Wall -pedantic -Wextra -Wno-unused-parameter -Werror=init-self
@@ -27,11 +28,14 @@ BIN_PATH = bin
 DEP_PATH = dep
 
 # Uma lista de arquivos por extensão:
-CPP_FILES = $(wildcard $(SRC_PATH)/*.cpp)
-INC_FILES = $(wildcard $(INC_PATH)/*.h)
-FILE_NAMES = $(sort $(notdir $(CPP_FILES:.cpp=)) $(notdir $(INC_FILES:.h=)))
-DEP_FILES = $(addprefix $(DEP_PATH)/,$(addsuffix .d,$(FILE_NAMES)))
-OBJ_FILES = $(addprefix $(BIN_PATH)/,$(notdir $(CPP_FILES:.cpp=.o)))
+INC_SUBDIRS = $(shell find $(INC_PATH)/ -type d)
+CPP_FILES = $(shell find $(SRC_PATH) -name "*.cpp")
+CPP_SUBDIRS = $(shell find $(SRC_PATH)/ -type d)
+INC_FILES = $(shell find . -name "*.h")
+DEP_FILES = $(patsubst $(SRC_PATH)/%, $(DEP_PATH)/%, $(CPP_FILES:.cpp=.d))
+DEP_SUBDIRS = $(patsubst $(SRC_PATH)/%, $(DEP_PATH)/%, $(CPP_SUBDIRS))
+OBJ_FILES = $(patsubst $(SRC_PATH)/%, $(BIN_PATH)/%, $(CPP_FILES:.cpp=.o))
+OBJ_SUBDIRS = $(patsubst $(SRC_PATH)/%, $(BIN_PATH)/%, $(CPP_SUBDIRS))
 
 # Nome do executável
 EXEC = HEROshima
@@ -73,7 +77,7 @@ $(EXEC): $(OBJ_FILES)
 
 #Gera os arquivos objetos
 $(BIN_PATH)/%.o: $(DEP_PATH)/%.d | folders
-	$(COMPILER) $(INC_PATHS) $(addprefix $(SRC_PATH)/,$(notdir $(<:.d=.cpp))) -c $(FLAGS) -o $@
+	$(COMPILER) $(INC_PATHS) $(patsubst $(DEP_PATH)/%, $(SRC_PATH)/%, $(<:.d=.cpp)) -c $(FLAGS) -o $@
 
 # Gera os arquivos de dependência
 $(DEP_PATH)/%.d: $(SRC_PATH)/%.cpp | folders
@@ -100,14 +104,14 @@ folders:
 ifeq ($(OS), Windows_NT)
 	@if NOT exists$(DEP_PATH) ( mkdir $(DEP_PATH) )
 	@if NOT exists$(BIN_PATH) ( mkdir $(BIN_PATH) )
-	@if NOT exists$(INC_PATH) ( mkdir $(INC_PATH) )
-	@if NOT exists$(SRC_PATH) ( mkdir $(SRC_PATH) )
+	@if NOT exists$(DEP_SUBDIRS) ( mkdir $(DEP_SUBDIRS) )
+	@if NOT exists$(BIN_SUBDIRS) ( mkdir $(BIN_SUBDIRS) )
 else
-	@mkdir -p $(DEP_PATH) $(BIN_PATH) $(INC_PATH) $(SRC_PATH)
+	@mkdir -p $(DEP_PATH) $(BIN_PATH) $(DEP_SUBDIRS) $(OBJ_SUBDIRS)
 endif
 
 # Regra para debug
-print-% : @echo $* = $($*) 
+print-%: ;@echo $* = $($*) 
 
 help:
 ifeq ($(OS), Windows_NT)

@@ -3,7 +3,6 @@
 //
 
 #include "PeriodicEvent.h"
-#include <utility>
 
 PeriodicEvent::PeriodicEvent(GameObject &associated, float periodTime, ActionCallback callback, ActionCallback restCallback, float restTime, float startOffset) :
         Component(associated), periodTime(periodTime + startOffset), callback(move(callback))  {

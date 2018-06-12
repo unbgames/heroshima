@@ -5,7 +5,6 @@
 #include <Player.h>
 #include <CollisionTile.h>
 #include <Collider.h>
-#include <Camera.h>
 #include <Gravity.h>
 #include "Crate.h"
 

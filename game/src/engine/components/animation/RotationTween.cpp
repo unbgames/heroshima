@@ -3,7 +3,6 @@
 //
 
 #include "RotationTween.h"
-#include <utility>
 
 RotationTween::RotationTween(GameObject &associated, float duration, float angleDeg, Orientation orientation,
                              ActionCallback onAnimationEnd, float angleOffset) :

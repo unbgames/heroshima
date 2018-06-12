@@ -9,7 +9,6 @@
 #include "TileMap.h"
 #include <InputManager.h>
 #include <Crate.h>
-#include <WeaponCrate.h>
 #include <SpriteSheet.h>
 #include <LifeCrate.h>
 #include <MenuHUD.h>
