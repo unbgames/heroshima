@@ -12,7 +12,7 @@ Enemy1::Enemy1(GameObject &associated, int hp, Vec2 initialPosition, bool startF
         : Enemy(associated, hp), fell(false), landed(false), hit(false), speed({0, 0}) {
 
     falling = StaticSprite("img/enemy_falling.png", 2, 0.3f);
-    walking = StaticSprite("img/enemy_running.png", 12, 0.06f);
+    chasing = StaticSprite("img/enemy_running.png", 12, 0.06f);
     idle = StaticSprite("img/enemy_idle.png", 6, 0.2f);
     stopped = StaticSprite("img/enemy_idle.png", 6, 0.2f);
     preparing = StaticSprite("img/enemy_preparing.png", 4, 0.1f);
@@ -47,12 +47,12 @@ void Enemy1::Update(float dt) {
         hit = false;
         idleTimer.Update(dt);
         if(idleTimer.Get() > IDLE_TIME){
-            state = E_WALKING;
+            state = E_CHASING;
             idleTimer.Restart();
         }
     }
 
-    else if(state == E_WALKING){
+    else if(state == E_CHASING){
         if(!(associated.box.x > playerBox.x - PLAYER_DISTANCE_THRESHOLD - associated.box.w/2 && associated.box.x < playerBox.x + PLAYER_DISTANCE_THRESHOLD)) {
             if (associated.box.x > playerBox.x + PLAYER_DISTANCE_THRESHOLD) {
                 associated.orientation = RIGHT;
