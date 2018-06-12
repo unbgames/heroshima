@@ -2,7 +2,7 @@
 // Created by edgar on 23/03/18.
 //
 
-#include "engine/GameObject.h"
+#include "GameObject.h"
 
 GameObject::GameObject() {
 

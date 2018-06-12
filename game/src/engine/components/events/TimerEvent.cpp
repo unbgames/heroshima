@@ -2,7 +2,7 @@
 // Created by edgar on 31/05/18.
 //
 
-#include "engine/components/events/TimerEvent.h"
+#include "TimerEvent.h"
 #include <utility>
 
 TimerEvent::TimerEvent(GameObject &associated, float timeToEvent, ActionCallback callback) :

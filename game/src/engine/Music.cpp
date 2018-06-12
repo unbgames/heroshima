@@ -4,9 +4,9 @@
 
 #include <iostream>
 #include <utility>
-#include <engine/Game.h>
-#include "engine/Resources.h"
-#include "engine/Music.h"
+#include <Game.h>
+#include "Resources.h"
+#include "Music.h"
 
 #define INCLUDE_SDL_MIXER
 

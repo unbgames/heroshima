@@ -2,13 +2,13 @@
 // Created by edgar on 19/04/18.
 //
 
-#include <player/Player.h>
-#include <engine/components/Sound.h>
-#include <engine/Game.h>
-#include <util/MathUtil.h>
-#include "engine/components/Sprite.h"
-#include "engine/components/Collider.h"
-#include "engine/components/Bullet.h"
+#include <Player.h>
+#include <Sound.h>
+#include <Game.h>
+#include <MathUtil.h>
+#include "Sprite.h"
+#include "Collider.h"
+#include "Bullet.h"
 
 Bullet::Bullet(GameObject &associated,
                float angle,

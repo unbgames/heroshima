@@ -2,11 +2,11 @@
 // Created by edgar on 24/03/18.
 //
 
-#include <engine/Game.h>
-#include "engine/Resources.h"
+#include <Game.h>
+#include "Resources.h"
 
 #include <utility>
-#include "engine/components/Sound.h"
+#include "Sound.h"
 
 Sound::Sound(GameObject &associated) : Component(associated), chunk(nullptr), channel(0) {}
 

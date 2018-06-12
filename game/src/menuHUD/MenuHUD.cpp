@@ -2,12 +2,12 @@
 // Created by edgar on 31/05/18.
 //
 
-#include <engine/Game.h>
-#include <engine/components/CameraFollower.h>
-#include <engine/components/Sprite.h>
-#include <menuHUD/LifeManager.h>
-#include <menuHUD/GunManager.h>
-#include "menuHUD/MenuHUD.h"
+#include <Game.h>
+#include <CameraFollower.h>
+#include <Sprite.h>
+#include <LifeManager.h>
+#include <GunManager.h>
+#include "MenuHUD.h"
 
 MenuHUD::MenuHUD(GameObject &associated, bool isFace, bool isLifeIndicator, bool isClock) :
         Component(associated), isClock(isClock), isFace(isFace) {

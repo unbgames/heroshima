@@ -2,11 +2,11 @@
 // Created by edgar on 07/06/18.
 //
 
-#include <engine/components/Sprite.h>
-#include <engine/components/Gravity.h>
-#include <engine/components/CollisionTile.h>
-#include <player/Player.h>
-#include "enemy/Enemy1.h"
+#include <Sprite.h>
+#include <Gravity.h>
+#include <CollisionTile.h>
+#include <Player.h>
+#include "Enemy1.h"
 
 Enemy1::Enemy1(GameObject &associated, int hp, Vec2 initialPosition, bool startFalling)
         : Enemy(associated, hp), fell(false), landed(false), hit(false), speed({0, 0}) {

@@ -2,7 +2,7 @@
 // Created by edgar on 23/03/18.
 //
 
-#include "engine/Component.h"
+#include "Component.h"
 
 Component::Component(GameObject &associated) : associated(associated) {}
 

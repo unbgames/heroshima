@@ -2,9 +2,9 @@
 // Created by edgar on 10/05/18.
 //
 
-#include "engine/State.h"
-#include <engine/components/Collider.h>
-#include <engine/Collision.h>
+#include "State.h"
+#include <Collider.h>
+#include <Collision.h>
 
 State::State() : popRequested(false), quitRequested(false), started(false) {}
 

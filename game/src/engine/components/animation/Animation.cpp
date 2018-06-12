@@ -2,7 +2,7 @@
 // Created by edgar on 25/05/18.
 //
 
-#include "engine/components/animation/Animation.h"
+#include "Animation.h"
 #include <utility>
 
 Animation::Animation(GameObject &associated, float duration, ActionCallback onAnimationEnd, float startOffset)

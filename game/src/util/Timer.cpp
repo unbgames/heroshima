@@ -2,7 +2,7 @@
 // Created by edgar on 09/05/18.
 //
 
-#include "util/Timer.h"
+#include "Timer.h"
 
 Timer::Timer(): time(0){}
 

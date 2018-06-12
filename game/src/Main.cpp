@@ -1,5 +1,5 @@
-#include <state/TitleState.h>
-#include "engine/Game.h"
+#include <TitleState.h>
+#include "Game.h"
 
 int main (int argc, char** argv) {
     auto &game = Game::GetInstance();

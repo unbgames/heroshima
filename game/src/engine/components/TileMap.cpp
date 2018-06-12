@@ -2,12 +2,12 @@
 // Created by edgar on 28/03/18.
 //
 
-#include <engine/Camera.h>
-#include <engine/components/Collider.h>
-#include "player/Player.h"
-#include "engine/components/CollisionTile.h"
-#include "engine/components/TileMap.h"
-#include "engine/Game.h"
+#include <Camera.h>
+#include <Collider.h>
+#include "Player.h"
+#include "CollisionTile.h"
+#include "TileMap.h"
+#include "Game.h"
 
 TileMap::TileMap(GameObject &associated, string file, TileSet *tileSet) : Component(associated) {
     Load(move(file));

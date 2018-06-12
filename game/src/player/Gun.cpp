@@ -2,7 +2,7 @@
 // Created by edgar on 25/05/18.
 //
 
-#include "player/Gun.h"
+#include "Gun.h"
 #include <utility>
 
 using std::move;

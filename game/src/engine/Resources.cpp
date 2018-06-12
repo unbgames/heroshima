@@ -2,8 +2,8 @@
 // Created by edgar on 05/04/18.
 //
 
-#include <engine/Game.h>
-#include "engine/Resources.h"
+#include <Game.h>
+#include "Resources.h"
 
 unordered_map<string, shared_ptr<SDL_Texture>> Resources::imageTable;
 unordered_map<string, shared_ptr<Mix_Music>> Resources::musicTable;

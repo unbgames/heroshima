@@ -2,7 +2,7 @@
 // Created by edgar on 31/05/18.
 //
 
-#include "menuHUD/Clock.h"
+#include "Clock.h"
 
 Clock::Clock() : seconds(0), minutes(0) {}
 

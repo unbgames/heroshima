@@ -2,12 +2,12 @@
 // Created by edgar on 11/05/18.
 //
 
-#include <state/Stage1.h>
-#include "engine/components/Text.h"
-#include "state/TitleState.h"
-#include "engine/InputManager.h"
-#include "engine/Game.h"
-#include "engine/Camera.h"
+#include <Stage1.h>
+#include "Text.h"
+#include "TitleState.h"
+#include "InputManager.h"
+#include "Game.h"
+#include "Camera.h"
 
 TitleState::TitleState() {
     auto titleGO(new GameObject);

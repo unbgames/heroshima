@@ -2,14 +2,14 @@
 // Created by edgar on 29/05/18.
 //
 
-#include <engine/components/Sprite.h>
-#include <engine/components/Sound.h>
-#include <engine/components/Text.h>
-#include <player/Player.h>
-#include <engine/components/animation/LineTween.h>
-#include <engine/Game.h>
-#include <engine/components/events/PeriodicEvent.h>
-#include "crate/LifeCrate.h"
+#include <Sprite.h>
+#include <Sound.h>
+#include <Text.h>
+#include <Player.h>
+#include <LineTween.h>
+#include <Game.h>
+#include <PeriodicEvent.h>
+#include "LifeCrate.h"
 
 LifeCrate::LifeCrate(GameObject &associated, const Vec2 &initialPosition, int health, bool startFalling) :
         Crate(associated, initialPosition, startFalling), health(health) {

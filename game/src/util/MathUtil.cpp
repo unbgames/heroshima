@@ -3,7 +3,7 @@
 //
 
 #include <cstdlib>
-#include "util/MathUtil.h"
+#include "MathUtil.h"
 
 float MathUtil::floatRand(float min, float max) {
     float scale = rand() / (float) RAND_MAX; /* [0, 1.0] */

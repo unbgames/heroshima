@@ -4,13 +4,13 @@
 
 #define INCLUDE_SDL_IMAGE
 
-#include "engine/Resources.h"
-#include "engine/Camera.h"
+#include "Resources.h"
+#include "Camera.h"
 
 #include <utility>
-#include "engine/components/Bullet.h"
-#include "engine/components/Sprite.h"
-#include "engine/Game.h"
+#include "Bullet.h"
+#include "Sprite.h"
+#include "Game.h"
 
 Sprite::Sprite(GameObject& associated) :
     Component(associated), texture(nullptr), scale(1, 1), selfDestructCount(*new Timer),

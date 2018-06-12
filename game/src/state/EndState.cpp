@@ -2,15 +2,15 @@
 // Created by edgar on 15/05/18.
 //
 
-#include <engine/GameData.h>
-#include <engine/components/Sprite.h>
-#include <engine/components/events/PeriodicEvent.h>
-#include <engine/components/Text.h>
-#include <engine/Game.h>
-#include <engine/InputManager.h>
-#include <state/TitleState.h>
-#include <engine/Camera.h>
-#include "state/EndState.h"
+#include <GameData.h>
+#include <Sprite.h>
+#include <PeriodicEvent.h>
+#include <Text.h>
+#include <Game.h>
+#include <InputManager.h>
+#include <TitleState.h>
+#include <Camera.h>
+#include "EndState.h"
 
 bool  GameData::playerVictory;
 

@@ -2,19 +2,19 @@
 // Created by edgar on 17/05/18.
 //
 
-#include <engine/Camera.h>
-#include <player/Player.h>
-#include <engine/components/CameraFollower.h>
-#include <engine/Game.h>
-#include "engine/components/TileMap.h"
-#include <engine/InputManager.h>
-#include <crate/Crate.h>
-#include <crate/WeaponCrate.h>
-#include <player/SpriteSheet.h>
-#include <crate/LifeCrate.h>
-#include <menuHUD/MenuHUD.h>
-#include <enemy/Enemy1.h>
-#include "state/Stage1.h"
+#include <Camera.h>
+#include <Player.h>
+#include <CameraFollower.h>
+#include <Game.h>
+#include "TileMap.h"
+#include <InputManager.h>
+#include <Crate.h>
+#include <WeaponCrate.h>
+#include <SpriteSheet.h>
+#include <LifeCrate.h>
+#include <MenuHUD.h>
+#include <Enemy1.h>
+#include "Stage1.h"
 
 Stage1::Stage1() {
     started = false;

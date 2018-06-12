@@ -2,7 +2,7 @@
 // Created by edgar on 15/05/18.
 //
 
-#include "engine/components/events/PeriodicEvent.h"
+#include "PeriodicEvent.h"
 #include <utility>
 
 PeriodicEvent::PeriodicEvent(GameObject &associated, float periodTime, ActionCallback callback, ActionCallback restCallback, float restTime, float startOffset) :

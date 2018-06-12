@@ -1,6 +1,6 @@
 #include <string>
 
-#include "engine/components/CollisionTile.h"
+#include "CollisionTile.h"
 
 using std::string;
 

@@ -2,11 +2,11 @@
 // Created by edgar on 12/05/18.
 //
 
-#include <engine/Game.h>
-#include <engine/Camera.h>
+#include <Game.h>
+#include <Camera.h>
 
-#include <engine/Resources.h>
-#include "engine/components/Text.h"
+#include <Resources.h>
+#include "Text.h"
 
 Text::Text(GameObject &associated, string fontFile, int fontSize, TextStyle style, string text, SDL_Color color) : Component(associated),
                                                                                                                    fontFile(move(fontFile)) {

@@ -2,7 +2,7 @@
 // Created by edgar on 25/05/18.
 //
 
-#include <player/SpriteSheet.h>
+#include <SpriteSheet.h>
 
 Gun *SpriteSheet::pistol = new Gun(20, -1 /*for infinite ammo*/, 0.5f,
                                StaticSprite("img/idle_arms.png", 4, 0.3f),

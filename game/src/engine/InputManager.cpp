@@ -3,8 +3,8 @@
 //
 
 #include <cstring>
-#include <engine/Camera.h>
-#include "engine/InputManager.h"
+#include <Camera.h>
+#include "InputManager.h"
 
 
 InputManager::InputManager() : mouseX(0), mouseY(0){

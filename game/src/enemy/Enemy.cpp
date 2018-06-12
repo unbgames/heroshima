@@ -2,9 +2,9 @@
 // Created by edgar on 07/06/18.
 //
 
-#include <engine/components/Collider.h>
-#include <engine/components/Sprite.h>
-#include "enemy/Enemy.h"
+#include <Collider.h>
+#include <Sprite.h>
+#include "Enemy.h"
 
 Enemy::Enemy(GameObject &associated, int hp) : Component(associated), hp(hp) {
     associated.AddComponent(new Collider(associated));

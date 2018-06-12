@@ -2,10 +2,10 @@
 // Created by edgar on 28/05/18.
 //
 
-#include <player/Player.h>
-#include <engine/components/Sound.h>
-#include <engine/Game.h>
-#include "crate/WeaponCrate.h"
+#include <Player.h>
+#include <Sound.h>
+#include <Game.h>
+#include "WeaponCrate.h"
 
 WeaponCrate::WeaponCrate(GameObject &associated, const Vec2 &initialPosition, Gun* gun, bool startFalling) :
         Crate(associated, initialPosition, startFalling), gun(gun) {

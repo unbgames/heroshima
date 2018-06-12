@@ -2,7 +2,7 @@
 // Created by edgar on 25/05/18.
 //
 
-#include "util/Structs.h"
+#include "Structs.h"
 
 StaticSprite::StaticSprite(string sprite, int frameCount, float frameTime, int offset)
         : sprite(sprite), offset(offset), frameCount(frameCount), frameTime(frameTime) {}

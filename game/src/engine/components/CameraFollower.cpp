@@ -2,8 +2,8 @@
 // Created by edgar on 10/04/18.
 //
 
-#include "engine/Camera.h"
-#include "engine/components/CameraFollower.h"
+#include "Camera.h"
+#include "CameraFollower.h"
 
 CameraFollower::CameraFollower(GameObject &associated, Vec2 offset) : Component(associated), offset(offset) {
 

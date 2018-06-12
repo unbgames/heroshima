@@ -2,14 +2,14 @@
 // Created by edgar on 01/06/18.
 //
 
-#include <engine/components/Sprite.h>
-#include <engine/components/CameraFollower.h>
-#include <engine/Game.h>
-#include <menuHUD/MenuHUD.h>
-#include <player/Player.h>
-#include <menuHUD/LifeManager.h>
-#include <player/SpriteSheet.h>
-#include "menuHUD/GunManager.h"
+#include <Sprite.h>
+#include <CameraFollower.h>
+#include <Game.h>
+#include <MenuHUD.h>
+#include <Player.h>
+#include <LifeManager.h>
+#include <SpriteSheet.h>
+#include "GunManager.h"
 
 GunManager::GunManager(GameObject &associated, Vec2 offset) : Component(associated), offset(offset) {
     gunIconGO = new GameObject();

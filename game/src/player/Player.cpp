@@ -1,17 +1,17 @@
 #include <iostream>
 #include <memory>
-#include <menuHUD/LifeManager.h>
-#include <player/SpriteSheet.h>
-#include <engine/components/events/PeriodicEvent.h>
-#include <engine/components/events/TimerEvent.h>
+#include <LifeManager.h>
+#include <SpriteSheet.h>
+#include <PeriodicEvent.h>
+#include <TimerEvent.h>
 
-#include "engine/InputManager.h"
-#include "engine/components/Collider.h"
-#include "player/PlayerArms.h"
-#include "engine/Game.h"
-#include "engine/components/CollisionTile.h"
-#include "engine/components/Sprite.h"
-#include "player/Player.h"
+#include "InputManager.h"
+#include "Collider.h"
+#include "PlayerArms.h"
+#include "Game.h"
+#include "CollisionTile.h"
+#include "Sprite.h"
+#include "Player.h"
 
 using std::weak_ptr;
 using std::string;

@@ -2,10 +2,10 @@
 // Created by edgar on 16/05/18.
 //
 
-#include <engine/InputManager.h>
-#include <engine/Resources.h>
-#include <engine/components/Sprite.h>
-#include "state/Menu.h"
+#include <InputManager.h>
+#include <Resources.h>
+#include <Sprite.h>
+#include "Menu.h"
 
 Menu::Menu(GameObject &associated) : Component(associated) {
 

@@ -1,17 +1,17 @@
 #include <string>
 #include <memory>
-#include <engine/components/animation/Animation.h>
-#include <engine/components/animation/LineTween.h>
-#include <engine/components/events/PeriodicEvent.h>
-#include <engine/components/animation/RotationTween.h>
-#include <crate/WeaponCrate.h>
-#include <engine/components/Sound.h>
+#include <Animation.h>
+#include <LineTween.h>
+#include <PeriodicEvent.h>
+#include <RotationTween.h>
+#include <WeaponCrate.h>
+#include <Sound.h>
 
-#include "engine/components/Bullet.h"
-#include "engine/Game.h"
-#include "engine/InputManager.h"
-#include "player/Player.h"
-#include "player/SpriteSheet.h"
+#include "Bullet.h"
+#include "Game.h"
+#include "InputManager.h"
+#include "Player.h"
+#include "SpriteSheet.h"
 
 using std::string;
 using std::weak_ptr;

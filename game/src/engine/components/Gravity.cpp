@@ -2,7 +2,7 @@
 // Created by edgar on 29/05/18.
 //
 
-#include "engine/components/Gravity.h"
+#include "Gravity.h"
 
 Gravity::Gravity(GameObject &associated) : Component(associated), verticalSpeed(0), speed({0, 0}) {}
 

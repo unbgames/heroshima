@@ -2,12 +2,12 @@
 // Created by edgar on 28/05/18.
 //
 
-#include <player/Player.h>
-#include <engine/components/CollisionTile.h>
-#include <engine/components/Collider.h>
-#include <engine/Camera.h>
-#include <engine/components/Gravity.h>
-#include "crate/Crate.h"
+#include <Player.h>
+#include <CollisionTile.h>
+#include <Collider.h>
+#include <Camera.h>
+#include <Gravity.h>
+#include "Crate.h"
 
 Crate::Crate(GameObject &associated, Vec2 initialPosition, bool startFalling) :
         Component(associated), fell(false) {

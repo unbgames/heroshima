@@ -3,17 +3,17 @@
 //
 
 #include <iostream>
-#include <engine/Resources.h>
-#include <engine/InputManager.h>
-#include <engine/components/Collider.h>
-#include <engine/Collision.h>
+#include <Resources.h>
+#include <InputManager.h>
+#include <Collider.h>
+#include <Collision.h>
 
 #define INCLUDE_SDL_IMAGE
 #define INCLUDE_SDL_MIXER
 #define INCLUDE_SDL_TTF
-#include "engine/SDL_include.h"
+#include "SDL_include.h"
 
-#include "engine/Game.h"
+#include "Game.h"
 
 using namespace std;
 

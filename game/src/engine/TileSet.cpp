@@ -2,7 +2,7 @@
 // Created by edgar on 28/03/18.
 //
 
-#include "engine/TileSet.h"
+#include "TileSet.h"
 
 TileSet::TileSet(int tileWidth, int tileHeight, string file) : tileSet(*(new GameObject()), file), tileWidth(tileWidth), tileHeight(tileHeight) {
     tileSet.Open(file);

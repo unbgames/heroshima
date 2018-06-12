@@ -2,7 +2,7 @@
 // Created by edgar on 26/05/18.
 //
 
-#include "engine/components/animation/LineTween.h"
+#include "LineTween.h"
 #include <utility>
 
 LineTween::LineTween(GameObject &associated, float duration, const Vec2 &from, const Vec2 &to, ActionCallback onAnimationEnd, float startOffset) :

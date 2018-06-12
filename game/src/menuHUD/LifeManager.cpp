@@ -2,12 +2,12 @@
 // Created by edgar on 01/06/18.
 //
 
-#include <player/Player.h>
-#include <engine/Game.h>
-#include <engine/components/CameraFollower.h>
-#include <engine/components/events/PeriodicEvent.h>
-#include <engine/components/events/TimerEvent.h>
-#include "menuHUD/LifeManager.h"
+#include <Player.h>
+#include <Game.h>
+#include <CameraFollower.h>
+#include <PeriodicEvent.h>
+#include <TimerEvent.h>
+#include "LifeManager.h"
 
 Vec2 LifeManager::offset = Vec2(0, 0);
 Vec2 LifeManager::startOffset = Vec2(0, 0);

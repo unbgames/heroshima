@@ -2,9 +2,9 @@
 // Created by edgar on 09/04/18.
 //
 
-#include <engine/Game.h>
-#include "engine/InputManager.h"
-#include "engine/Camera.h"
+#include <Game.h>
+#include "InputManager.h"
+#include "Camera.h"
 
 Vec2 Camera::pos = *new Vec2();
 Vec2 Camera::speed = *new Vec2();

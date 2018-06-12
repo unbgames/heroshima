@@ -2,7 +2,7 @@
 // Created by edgar on 06/06/18.
 //
 
-#include "player/BodyState.h"
+#include "BodyState.h"
 
 BodyState::BodyState(StaticSprite current) : current(current) {}
 

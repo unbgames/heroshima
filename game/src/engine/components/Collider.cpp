@@ -2,10 +2,10 @@
 // Created by edgar on 26/04/18.
 //
 
-#include <engine/Game.h>
-#include "engine/Camera.h"
-#include "engine/InputManager.h"
-#include "engine/components/Collider.h"
+#include <Game.h>
+#include "Camera.h"
+#include "InputManager.h"
+#include "Collider.h"
 
 Collider::Collider(GameObject &associated, Vec2 scale, Vec2 offset) : Component(associated), scale(scale), offset(offset) {
 
