@@ -23,7 +23,7 @@ public:
 private:
     bool fell, landed, hit;
     Vec2 speed;
-    Timer idleTimer, preparingTimer, attackingTimer;
+    Timer idleTimer, preparingTimer, attackingTimer, deadTimer;
 };
 
 

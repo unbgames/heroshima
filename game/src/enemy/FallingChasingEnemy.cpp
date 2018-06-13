@@ -6,6 +6,7 @@
 #include <Gravity.h>
 #include <CollisionTile.h>
 #include <Player.h>
+#include <Bullet.h>
 #include "FallingChasingEnemy.h"
 
 FallingChasingEnemy::FallingChasingEnemy(GameObject &associated, int hp, Vec2 initialPosition, bool startFalling)
@@ -16,7 +17,8 @@ FallingChasingEnemy::FallingChasingEnemy(GameObject &associated, int hp, Vec2 in
     idle = StaticSprite("img/enemy_idle.png", 6, 0.2f);
     stopped = StaticSprite("img/enemy_idle.png", 6, 0.2f);
     preparing = StaticSprite("img/enemy_preparing.png", 4, 0.1f);
-    attacking = StaticSprite("img/enemy_attacking.png", 8, 0.1f, 60);
+    attacking = StaticSprite("img/enemy_attacking.png", 8, 0.1f);
+    dead = StaticSprite("img/enemy_dying_gun.png", 20, 0.1f, 2);
 
     state = E_STOPPED;
 
@@ -82,6 +84,13 @@ void FallingChasingEnemy::Update(float dt) {
         }
     }
 
+    else if(state == E_DEAD){
+        deadTimer.Update(dt);
+        if(deadTimer.Get() > dead.frameCount * dead.frameTime){
+            associated.RequestDelete();
+        }
+    }
+
 }
 
 void FallingChasingEnemy::NotifyCollision(GameObject &other) {
@@ -104,6 +113,11 @@ void FallingChasingEnemy::NotifyCollision(GameObject &other) {
             hit = true;
             Player::player->DecrementHp();
         }
+    }
+
+    auto bullet = (Bullet*) other.GetComponent(BULLET_TYPE);
+    if(bullet && !bullet->targetsPlayer){
+        state = E_DEAD;
     }
 
 }
