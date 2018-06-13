@@ -14,7 +14,7 @@ class Gun {
 public:
 
     Gun(int damage, int ammo, float cooldownTime, StaticSprite spriteRest, StaticSprite spriteWalk,
-        StaticSprite spriteShoot, Projectile projectile);
+        StaticSprite spriteShoot, StaticSprite crouch, Projectile projectile);
 
     Gun();
 
@@ -28,6 +28,7 @@ public:
     const StaticSprite &getSpriteRest() const;
     const StaticSprite &getSpriteWalk() const;
     const StaticSprite &getSpriteShoot() const;
+    const StaticSprite &getSpriteCrouch() const;
 
     const Projectile &getProjectile() const;
 
@@ -38,7 +39,7 @@ private:
     int full;
     float cooldownTime;
 
-    StaticSprite rest, walk, shoot;
+    StaticSprite rest, walk, shoot, crouch;
     Projectile projectile;
 
 };
