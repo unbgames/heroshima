@@ -4,6 +4,7 @@
 
 #include <Collider.h>
 #include <Sprite.h>
+#include <Game.h>
 #include "Enemy.h"
 
 Enemy::Enemy(GameObject &associated, int hp) : Component(associated), hp(hp) {
@@ -17,31 +18,31 @@ void Enemy::Start() {
 void Enemy::Render() {
     if(state == E_WALKING ){
         current = walking;
-        cout<<"walking"<<endl;
+        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"walking"<<endl;
     } else if(state == E_IDLE ){
         current = idle;
-        cout<<"idle"<<endl;
+        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"idle"<<endl;
     } else if(state == E_STOPPED ){
         current = stopped;
-        cout<<"stopped"<<endl;
+        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"stopped"<<endl;
     } else if(state == E_FALLING ){
         current = falling;
-        cout<<"falling"<<endl;
+        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"falling"<<endl;
     } else if(state == E_CHASING ){
         current = chasing;
-        cout<<"chasing"<<endl;
+        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"chasing"<<endl;
     } else if(state == E_ATTACKING ){
         current = attacking;
-        cout<<"attacking"<<endl;
+        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"attacking"<<endl;
     } else if(state == E_STUCK ){
         current = stuck;
-        cout<<"stuck"<<endl;
+        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"stuck"<<endl;
     } else if(state == E_DEAD){
         current = dead;
-        cout<<"dead"<<endl;
+        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"dead"<<endl;
     } else if(state == E_PREPARING){
         current = preparing;
-        cout<<"preparing"<<endl;
+        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"preparing"<<endl;
     }
 
     auto sprite = (Sprite*)associated.GetComponent(SPRITE_TYPE);
@@ -49,10 +50,6 @@ void Enemy::Render() {
     sprite->SetFrameCount(current.frameCount);
     sprite->SetFrameTime(current.frameTime);
 
-//    auto collider = (Collider*)associated.GetComponent(COLLIDER_TYPE);
-//    if(collider){
-//        collider->setScale({sprite->GetWidth(), sprite->GetHeight()});
-//    }
 }
 
 bool Enemy::Is(string type) {

@@ -12,7 +12,7 @@
 #include <SpriteSheet.h>
 #include <LifeCrate.h>
 #include <MenuHUD.h>
-#include <Enemy1.h>
+#include <FallingChasingEnemy.h>
 #include "Stage1.h"
 
 Stage1::Stage1() {
@@ -65,7 +65,7 @@ void Stage1::Update(float dt) {
 
     IsDeadArray();
 
-    cout<<"objetos: " << objectArray.size() << " tiles: " << tileObjectArray.size() << " colliders: " << collisionObjectArray.size() <<endl;
+    //cout<<"objetos: " << objectArray.size() << " tiles: " << tileObjectArray.size() << " colliders: " << collisionObjectArray.size() <<endl;
 }
 
 void Stage1::Render() {
@@ -92,9 +92,9 @@ void Stage1::Start() {
     lifeCrateGO->AddComponent(new LifeCrate(*lifeCrateGO, Vec2(1000, 0), 1));
     AddCollisionObject(lifeCrateGO);
 
-    //** Enemy1
+    //** FallingChasingEnemy
     auto enemy1GO(new GameObject);
-    enemy1GO->AddComponent(new Enemy1(*enemy1GO, 1, Vec2(1600, 0)));
+    enemy1GO->AddComponent(new FallingChasingEnemy(*enemy1GO, 1, Vec2(1600, 0)));
     AddCollisionObject(enemy1GO);
 }
 
