@@ -5,6 +5,8 @@
 #include <Player.h>
 #include <Game.h>
 #include <MathUtil.h>
+#include <CollisionTile.h>
+#include <Enemy.h>
 #include "Collider.h"
 #include "Bullet.h"
 
@@ -47,14 +49,27 @@ int Bullet::GetDamage() {
 }
 
 void Bullet::NotifyCollision(GameObject &other) {
-    if(!other.GetComponent(PLAYER_T) && !other.GetComponent(PLAYER_ARMS_TYPE) && !other.GetComponent(BULLET_TYPE) && !targetsPlayer){
-        //Player's bullet that hits everything but player's parts and bullets
-        associated.RequestDelete();
-        auto explosionGO(new GameObject());
-        explosionGO->AddComponent(new Sprite(*explosionGO, "img/penguindeath.png", 5, 0.1, 0.5));
-        explosionGO->box.x = associated.box.GetCenter().x - explosionGO->box.w/2 + MathUtil::floatRand(-10, 10);
-        explosionGO->box.y = associated.box.GetCenter().y - explosionGO->box.h/2 + MathUtil::floatRand(-10, 10);
-
-        Game::GetInstance().GetCurrentState().AddObject(explosionGO);
+    auto collisionTile = (CollisionTile*) other.GetComponent(COLLISION_TILE_T);
+    if (collisionTile) {
+        Explode();
     }
+
+    if(other.GetComponent(ENEMY_TYPE) && !other.GetComponent(BULLET_TYPE) && !targetsPlayer){
+        Explode();
+
+    }
+
+    if(other.GetComponent(PLAYER_T) && !other.GetComponent(BULLET_TYPE) && targetsPlayer){
+        Explode();
+    }
+}
+
+void Bullet::Explode() const {
+    associated.RequestDelete();
+    auto explosionGO(new GameObject());
+    explosionGO->AddComponent(new Sprite(*explosionGO, "img/penguindeath.png", 5, 0.1, 0.5));
+    explosionGO->box.x = associated.box.GetCenter().x - explosionGO->box.w / 2 + MathUtil::floatRand(-10, 10);
+    explosionGO->box.y = associated.box.GetCenter().y - explosionGO->box.h / 2 + MathUtil::floatRand(-10, 10);
+
+    Game::GetInstance().GetCurrentState().AddObject(explosionGO);
 }

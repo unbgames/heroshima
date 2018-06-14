@@ -2,6 +2,7 @@
 #include <memory>
 #include <LifeManager.h>
 #include <SpriteSheet.h>
+#include <Bullet.h>
 
 #include "InputManager.h"
 #include "Collider.h"
@@ -127,6 +128,11 @@ void Player::NotifyCollision(GameObject &other) {
             associated.box.y =  other.box.y - associated.box.h;
             jumpState = ONGROUND;
         }
+    }
+
+    auto bullet = (Bullet*) other.GetComponent(BULLET_TYPE);
+    if(bullet && bullet->targetsPlayer){
+        DecrementHp();
     }
 }
 

@@ -7,8 +7,9 @@
 #include <Game.h>
 #include "Enemy.h"
 
-Enemy::Enemy(GameObject &associated, int hp) : Component(associated), hp(hp) {
+Enemy::Enemy(GameObject &associated, int hp, Vec2 initialPosition) : Component(associated), hp(hp) {
     associated.AddComponent(new Collider(associated));
+    associated.box += initialPosition;
 }
 
 void Enemy::Start() {
@@ -18,31 +19,31 @@ void Enemy::Start() {
 void Enemy::Render() {
     if(state == E_WALKING ){
         current = walking;
-        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"walking"<<endl;
+//        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"walking"<<endl;
     } else if(state == E_IDLE ){
         current = idle;
-        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"idle"<<endl;
+//        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"idle"<<endl;
     } else if(state == E_STOPPED ){
         current = stopped;
-        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"stopped"<<endl;
+//        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"stopped"<<endl;
     } else if(state == E_FALLING ){
         current = falling;
-        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"falling"<<endl;
+//        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"falling"<<endl;
     } else if(state == E_CHASING ){
         current = chasing;
-        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"chasing"<<endl;
+//        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"chasing"<<endl;
     } else if(state == E_ATTACKING ){
         current = attacking;
-        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"attacking"<<endl;
+//        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"attacking"<<endl;
     } else if(state == E_STUCK ){
         current = stuck;
-        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"stuck"<<endl;
+//        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"stuck"<<endl;
     } else if(state == E_DEAD){
         current = dead;
-        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"dead"<<endl;
+//        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"dead"<<endl;
     } else if(state == E_PREPARING){
         current = preparing;
-        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"preparing"<<endl;
+//        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"preparing"<<endl;
     }
 
     auto sprite = (Sprite*)associated.GetComponent(SPRITE_TYPE);
