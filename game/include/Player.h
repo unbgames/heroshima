@@ -5,7 +5,6 @@
 #include "PlayerArms.h"
 #include "Component.h"
 #include "Sprite.h"
-#include "BodyState.h"
 
 #define PLAYER_SPEED  300
 #define JUMP_SPEED    500
@@ -37,7 +36,7 @@ public:
 
 private:
 
-    BodyState *bodyState;
+    StaticSprite bodyState;
 
     MoveState movementState;
     JumpState jumpState;

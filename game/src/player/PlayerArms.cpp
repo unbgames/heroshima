@@ -56,6 +56,8 @@ void PlayerArms::Update(float dt) {
             }
         }
 
+    }  else if(InputManager::GetInstance().IsKeyDown(SPACE_BAR_KEY)){
+        state = CROUCH;
     } else {
         auto sprite = (Sprite*)associated.GetComponent(SPRITE_TYPE);
         Sprite* playerSprite = (Sprite*)playerGO.GetComponent(SPRITE_TYPE);
@@ -92,6 +94,11 @@ void PlayerArms::Render() {
         sprite->Open(gun->getSpriteWalk().sprite);
         sprite->SetFrameCount(gun->getSpriteWalk().frameCount);
         sprite->SetFrameTime(gun->getSpriteWalk().frameTime);
+
+    } else if(state == CROUCH){
+        sprite->Open(gun->getSpriteCrouch().sprite);
+        sprite->SetFrameCount(gun->getSpriteCrouch().frameCount);
+        sprite->SetFrameTime(gun->getSpriteCrouch().frameTime);
     }
 }
 

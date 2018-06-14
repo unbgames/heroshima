@@ -20,7 +20,7 @@ Player::Player(GameObject &associated) : Component(associated), hp(2) {
 
     bodyState = SpriteSheet::idle;
 
-    Sprite* img = new Sprite(associated, bodyState->GetCurrent().sprite, bodyState->GetCurrent().frameCount, bodyState->GetCurrent().frameTime);
+    Sprite* img = new Sprite(associated, bodyState.sprite, bodyState.frameCount, bodyState.frameTime);
     associated.box.w = img->GetWidth();
     associated.box.y = img->GetWidth();
     associated.AddComponent(img);
@@ -63,6 +63,9 @@ void Player::Update(float dt) {
             associated.box.x += PLAYER_SPEED * dt;
             associated.orientation = Orientation::RIGHT;
         }
+    } else if(InputManager::GetInstance().IsKeyDown(S_KEY)){
+        movementState = CROUCH;
+        bodyState = SpriteSheet::crouch;
     } else {
         movementState = RESTING;
         bodyState = SpriteSheet::idle;
@@ -99,9 +102,9 @@ void Player::Update(float dt) {
 
 void Player::Render() {
     auto sprite = (Sprite*)associated.GetComponent(SPRITE_TYPE);
-    sprite->Open(bodyState->GetCurrent().sprite);
-    sprite->SetFrameCount(bodyState->GetCurrent().frameCount);
-    sprite->SetFrameTime(bodyState->GetCurrent().frameTime);
+    sprite->Open(bodyState.sprite);
+    sprite->SetFrameCount(bodyState.frameCount);
+    sprite->SetFrameTime(bodyState.frameTime);
 }
 
 bool Player::Is(string type) {

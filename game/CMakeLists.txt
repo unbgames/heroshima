@@ -61,6 +61,6 @@ add_executable(HEROshima src/Main.cpp
         src/menuHUD/LifeManager.cpp include/LifeManager.h
         src/menuHUD/GunManager.cpp include/GunManager.h
         src/util/MathUtil.cpp include/MathUtil.h
-        src/player/BodyState.cpp include/BodyState.h
-        src/enemy/Enemy.cpp include/Enemy.h src/enemy/FallingChasingEnemy.cpp include/FallingChasingEnemy.h)
+        src/enemy/Enemy.cpp include/Enemy.h
+        src/enemy/FallingChasingEnemy.cpp include/FallingChasingEnemy.h)
 

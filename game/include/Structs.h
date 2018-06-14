@@ -42,7 +42,7 @@ struct Edge {
 
 enum Orientation { RIGHT, LEFT };
 
-enum MoveState { WALKING, RESTING, SHOOTING };
+enum MoveState { WALKING, RESTING, SHOOTING, CROUCH };
 
 enum JumpState { JUMPING, FALLING, ONGROUND };
 
