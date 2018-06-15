@@ -56,16 +56,19 @@ void PlayerArms::Update(float dt) {
             }
         }
 
-    }  else if(InputManager::GetInstance().IsKeyDown(SPACE_BAR_KEY)){
-        state = CROUCH;
     } else {
         auto sprite = (Sprite*)associated.GetComponent(SPRITE_TYPE);
         Sprite* playerSprite = (Sprite*)playerGO.GetComponent(SPRITE_TYPE);
-        if(Player::player->getMovementState() == WALKING){
+        if (Player::player->getMovementState() == WALKING) {
             state = WALKING;
             sprite->SetFrame(playerSprite->GetCurrentFrame());
-        } else if(Player::player->getMovementState() == RESTING){
+        } else if (Player::player->getMovementState() == RESTING) {
             state = RESTING;
+            sprite->SetFrame(playerSprite->GetCurrentFrame());
+
+
+        } else if (Player::player->getMovementState() == CROUCH){
+            state = CROUCH;
             sprite->SetFrame(playerSprite->GetCurrentFrame());
         }
     }
@@ -90,12 +93,12 @@ void PlayerArms::Render() {
         sprite->SetFrameCount(gun->getSpriteRest().frameCount);
         sprite->SetFrameTime(gun->getSpriteRest().frameTime);
 
-    } else if(state == WALKING){
+    } else if (state == WALKING) {
         sprite->Open(gun->getSpriteWalk().sprite);
         sprite->SetFrameCount(gun->getSpriteWalk().frameCount);
         sprite->SetFrameTime(gun->getSpriteWalk().frameTime);
 
-    } else if(state == CROUCH){
+    } else if (state == CROUCH) {
         sprite->Open(gun->getSpriteCrouch().sprite);
         sprite->SetFrameCount(gun->getSpriteCrouch().frameCount);
         sprite->SetFrameTime(gun->getSpriteCrouch().frameTime);
