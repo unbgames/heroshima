@@ -75,26 +75,26 @@ void Player::Update(float dt) {
     if (jumpState == JUMPING || jumpState == FALLING) {
 
         // Adiciona gravidade
-        horizontalSpeed += GRAVITY * dt;
+        verticalSpeed += GRAVITY * dt;
 
         // Se começar a cair mudar de estado
-        if (horizontalSpeed > 0) jumpState = FALLING;
+        if (verticalSpeed > 0) jumpState = FALLING;
 
     } else {
 
         if (InputManager::GetInstance().KeyPress(W_KEY)) {
-            horizontalSpeed -= JUMP_SPEED * dt;
+            verticalSpeed -= JUMP_SPEED * dt;
             jumpState = JUMPING;
         } else {
             jumpState = FALLING;
         }
     }
 
-    speed = Vec2(verticalSpeed, horizontalSpeed);
+    speed = Vec2(horizontalSpeed, verticalSpeed);
     associated.box += speed;
 
     // Recomeça o movimento
-    verticalSpeed = 0;
+    horizontalSpeed = 0;
 
     if(hp <= 0){
         associated.RequestDelete();
@@ -118,13 +118,13 @@ void Player::NotifyCollision(GameObject &other) {
     if (collisionTile && collider) {
         auto edge = collider->GetEdge();
         if (edge.RIGHT) {
-            verticalSpeed = 0;
+            horizontalSpeed = 0;
             associated.box.x =  other.box.x - associated.box.w;
         } else if (edge.LEFT) {
-            verticalSpeed = 0;
+            horizontalSpeed = 0;
             associated.box.x =  other.box.x + other.box.w;
         } else if (edge.BOTTOM) {
-            horizontalSpeed = 0;
+            verticalSpeed = 0;
             associated.box.y =  other.box.y - associated.box.h;
             jumpState = ONGROUND;
         }
