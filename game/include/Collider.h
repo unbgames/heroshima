@@ -7,7 +7,8 @@
 
 #define COLLIDER_TYPE "Collider"
 
-#include <Component.h>
+#include "Component.h"
+#include "GameObject.h"
 
 class Collider : public Component {
 public:
@@ -15,6 +16,7 @@ public:
 
     Rect box;
 
+    void Start() override;
     void Update(float dt) override;
     void Render() override;
     bool Is(string type) override;

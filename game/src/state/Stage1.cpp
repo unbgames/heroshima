@@ -37,7 +37,7 @@ Stage1::Stage1() {
     playerGO->AddComponent(new Player(*playerGO));
     playerGO->box += {0, GAME_HEIGHT - playerGO->box.h - 32 * 5};
     Camera::Follow(playerGO);
-    AddCollisionObject(playerGO);
+    AddObject(playerGO);
 
     quitRequested = false;
 }
@@ -90,12 +90,12 @@ void Stage1::Start() {
     //** Life Crate
     auto lifeCrateGO(new GameObject);
     lifeCrateGO->AddComponent(new LifeCrate(*lifeCrateGO, Vec2(1000, 0), 1));
-    AddCollisionObject(lifeCrateGO);
+    AddObject(lifeCrateGO);
 
     //** FallingChasingEnemy
     auto enemy1GO(new GameObject);
     enemy1GO->AddComponent(new FallingChasingEnemy(*enemy1GO, 1, Vec2(1600, 0)));
-    AddCollisionObject(enemy1GO);
+    AddObject(enemy1GO);
 }
 
 void Stage1::Pause() {

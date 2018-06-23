@@ -121,7 +121,7 @@ void PlayerArms::Shoot(float angle) {
     }
     auto sound(new Sound(*bulletGo, "audio/tiro.ogg"));
     sound->Play();
-    Game::GetInstance().GetCurrentState().AddCollisionObject(bulletGo);
+    Game::GetInstance().GetCurrentState().AddObject(bulletGo);
 }
 
 void PlayerArms::DropGun() {

@@ -37,10 +37,10 @@ void Player::Start() {
     jumpState = FALLING;
     movementState = RESTING;
 
-    auto pBodyGO = new GameObject;
-    playerArms = new PlayerArms(*pBodyGO, Game::GetInstance().GetCurrentState().GetCollisionObjectPtr(&associated));
-    pBodyGO->AddComponent(playerArms);
-    Game::GetInstance().GetCurrentState().AddCollisionObject(pBodyGO);
+    auto pArmsGO = new GameObject;
+    playerArms = new PlayerArms(*pArmsGO, Game::GetInstance().GetCurrentState().GetObjectPtr(&associated));
+    pArmsGO->AddComponent(playerArms);
+    Game::GetInstance().GetCurrentState().AddObject(pArmsGO);
 
 }
 

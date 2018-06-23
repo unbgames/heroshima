@@ -49,7 +49,8 @@ protected:
 
     vector<shared_ptr<GameObject>> objectArray;
     vector<shared_ptr<GameObject>> tileObjectArray;
-    vector<shared_ptr<GameObject>> collisionObjectArray;
+
+    vector<weak_ptr<GameObject>> collisionObjectArray;
 
     bool debug = false;
 

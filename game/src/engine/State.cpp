@@ -5,6 +5,7 @@
 #include "State.h"
 #include <Collider.h>
 #include <Collision.h>
+#include <Game.h>
 
 State::State() : popRequested(false), quitRequested(false), started(false) {}
 
@@ -59,18 +60,19 @@ weak_ptr<GameObject> State::GetTileObjectPtr(GameObject *go) {
     return weak_ptr<GameObject>();
 }
 
-weak_ptr<GameObject> State::AddCollisionObject(GameObject *go) {
+weak_ptr<GameObject> State::AddCollisionObject(GameObject* go) {
     shared_ptr<GameObject> gameObject(go);
-    collisionObjectArray.push_back(gameObject);
+    weak_ptr<GameObject> reference(gameObject);
+    collisionObjectArray.push_back(reference);
     if(started){
         gameObject->Start();
     }
-    return weak_ptr<GameObject>(gameObject);
+    return reference;
 }
 
 weak_ptr<GameObject> State::GetCollisionObjectPtr(GameObject *go) {
     for (auto &i : collisionObjectArray) {
-        if(i.get() == go){
+        if(i.lock() == shared_ptr<GameObject>(go)) {
             return weak_ptr<GameObject>(i);
         }
     }
@@ -89,9 +91,6 @@ void State::StartArray() {
     for (unsigned i = 0; i < objectArray.size(); i++){
         objectArray[i].get()->Start();
     }
-    for (unsigned i = 0; i < collisionObjectArray.size(); i++){
-        collisionObjectArray[i].get()->Start();
-    }
     for (unsigned i = 0; i < tileObjectArray.size(); i++){
         tileObjectArray[i].get()->Start();
     }
@@ -101,37 +100,35 @@ void State::StartArray() {
 void State::UpdateArray(float dt) {
     for (unsigned i = 0; i < objectArray.size(); i++){
         objectArray[i].get()->Update(dt);
-    }
 
-    for (unsigned i = 0; i < collisionObjectArray.size(); i++){
-        collisionObjectArray[i].get()->Update(dt);
-    }
-
-    for (unsigned i = 0; i < tileObjectArray.size(); i++) {
-        for (unsigned j = 0; j < collisionObjectArray.size(); j++) {
-            auto collider = (Collider*) tileObjectArray[i]->GetComponent(COLLIDER_TYPE);
-            if (tileObjectArray[i]->box.DistRecs(collisionObjectArray[j]->box) < MINIMUM_COLLIDER_DIST) {
-                if (collider == nullptr) {
-                    collider = new Collider(*tileObjectArray[i]);
-                    tileObjectArray[i]->AddComponent(collider);
-                }
-                break;
-            } else {
-                if (collider != nullptr) {
-                    tileObjectArray[i]->RemoveComponent(collider);
+        for (auto j = 0; j < tileObjectArray.size(); j++) {
+            auto colliderObj = (Collider*) objectArray[i]->GetComponent(COLLIDER_TYPE);
+            auto colliderTile = (Collider*) tileObjectArray[j]->GetComponent(COLLIDER_TYPE);
+            if (colliderObj != nullptr) {
+                if (tileObjectArray[j]->box.DistRecs(objectArray[i]->box) < MINIMUM_COLLIDER_DIST) {
+                    if (colliderTile == nullptr) {
+                        colliderTile = new Collider(*tileObjectArray[j]);
+                        tileObjectArray[j]->AddComponent(colliderTile);
+                    }
+                    break;
+                } else {
+                    if (colliderTile != nullptr) {
+                        tileObjectArray[i]->RemoveComponent(colliderTile);
+                        for (auto it = collisionObjectArray.begin(); it != collisionObjectArray.end(); it++) {
+                            if (it->lock() == tileObjectArray[j]) {
+                                collisionObjectArray.erase(it);
+                            }
+                        }
+                    }
                 }
             }
         }
-        tileObjectArray[i].get()->Update(dt);
     }
 }
 
 void State::RenderArray() {
     for (unsigned i = 0; i < objectArray.size(); i++){
         objectArray[i].get()->Render();
-    }
-    for (unsigned i = 0; i < collisionObjectArray.size(); i++){
-        collisionObjectArray[i].get()->Render();
     }
     for (unsigned i = 0; i < tileObjectArray.size(); i++){
         tileObjectArray[i].get()->Render();
@@ -142,11 +139,6 @@ void State::IsDeadArray() {
     for(unsigned i = 0; i < objectArray.size(); i++) {
         if (objectArray[i]->IsDead()) {
             objectArray.erase(objectArray.begin() + i);
-        }
-    }
-    for(unsigned i = 0; i < collisionObjectArray.size(); i++) {
-        if (collisionObjectArray[i]->IsDead()) {
-            collisionObjectArray.erase(collisionObjectArray.begin() + i);
         }
     }
 }
@@ -163,8 +155,8 @@ void State::TestCollision() {
     for (unsigned i = 0; i < collisionObjectArray.size(); i++) {
         //Tests collision with others objects in objectArray
         for(unsigned j = i+1; j < collisionObjectArray.size(); j++){
-            auto &objA = collisionObjectArray[i];
-            auto &objB = collisionObjectArray[j];
+            auto objA = collisionObjectArray[i].lock();
+            auto objB = collisionObjectArray[j].lock();
 
             Collider *colliderA = (Collider*) objA->GetComponent(COLLIDER_TYPE);
             Collider *colliderB = (Collider*) objB->GetComponent(COLLIDER_TYPE);
@@ -180,7 +172,7 @@ void State::TestCollision() {
         }
         //Tests collision with tiles in tileObjectArray
         for(unsigned j = 0; j < tileObjectArray.size(); j++){
-            auto &objA = collisionObjectArray[i];
+            auto objA = collisionObjectArray[i].lock();
             auto &objB = tileObjectArray[j];
 
             Collider *colliderA = (Collider*) objA->GetComponent(COLLIDER_TYPE);

@@ -11,6 +11,10 @@ Collider::Collider(GameObject &associated, Vec2 scale, Vec2 offset) : Component(
 
 }
 
+void Collider::Start() {
+    Game::GetInstance().GetCurrentState().AddCollisionObject(&associated);
+}
+
 void Collider::Update(float dt) {
     Rect aux = Rect();
 
