@@ -82,26 +82,7 @@ void Stage1::Start() {
     menuHUDGO->AddComponent(new MenuHUD(*menuHUDGO));
     AddObject(menuHUDGO);
 
-    //** Weapon Crate
-//    auto weaponCrateGO(new GameObject);
-//    weaponCrateGO->AddComponent(new Sprite(*weaponCrateGO, "img/heavy_crate.png"));
-//    weaponCrateGO->AddComponent(new WeaponCrate(*weaponCrateGO, Vec2(800, 0), SpriteSheet::heavy));
-//    AddObject(weaponCrateGO);
-
-    //** Life Crate
-    auto lifeCrateGO(new GameObject);
-    lifeCrateGO->AddComponent(new LifeCrate(*lifeCrateGO, Vec2(1000, 0), 1));
-    AddCollisionObject(lifeCrateGO);
-
-    //** FallingChasingEnemy
-    auto enemy1GO(new GameObject);
-    enemy1GO->AddComponent(new FallingChasingEnemy(*enemy1GO, 2, Vec2(1600, 0)));
-    AddCollisionObject(enemy1GO);
-
-    //** WalkingShootingEnemy
-    auto enemy2GO(new GameObject);
-    enemy2GO->AddComponent(new WalkingShootingEnemy(*enemy2GO, 2, Vec2(1200, GAME_HEIGHT - 50)));
-    AddCollisionObject(enemy2GO);
+    AddEntitiesFromXML("map/Stage1.xml");
 }
 
 void Stage1::Pause() {

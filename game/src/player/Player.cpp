@@ -76,9 +76,13 @@ void Player::Update(float dt) {
 
         // Adiciona gravidade
         verticalSpeed += GRAVITY * dt;
+        bodyState = SpriteSheet::jumping;
 
         // Se começar a cair mudar de estado
-        if (verticalSpeed > 0) jumpState = FALLING;
+        if (verticalSpeed > 0) {
+            jumpState = FALLING;
+            bodyState = SpriteSheet::falling;
+        }
 
     } else {
 

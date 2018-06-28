@@ -24,3 +24,7 @@ StaticSprite SpriteSheet::idle = StaticSprite("img/idle.png", 4, 0.3f);
 StaticSprite SpriteSheet::walking = StaticSprite("img/running.png", 8, 0.06f);
 
 StaticSprite SpriteSheet::crouch = StaticSprite("img/crouch.png", 4, 0.1f);
+
+StaticSprite SpriteSheet::jumping = StaticSprite("img/jumping_up.png", 4, 0.1f);
+
+StaticSprite SpriteSheet::falling = StaticSprite("img/crouch.png", , 0.1f);

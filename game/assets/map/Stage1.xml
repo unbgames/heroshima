@@ -1,0 +1,31 @@
+<stage>
+    <enemies>
+        <enemy>
+            <name>WalkingShootingEnemy</name>
+            <hp>2</hp>
+            <x>1200 </x>
+            <y>670</y>
+        </enemy>
+        <enemy>
+            <name>FallingChasingEnemy</name>
+            <hp>2</hp>
+            <x>1600</x>
+            <y>0</y>
+        </enemy>
+    </enemies>
+    <crates>
+        <crate>
+            <type>life</type>
+            <x>1000</x>
+            <y>0</y>
+            <health>1</health>
+            <startFalling>false</startFalling>
+        </crate>
+        <crate>
+            <type>heavy</type>
+            <x>800</x>
+            <y>0</y>
+            <startFalling>false</startFalling>
+        </crate>
+    </crates>
+</stage>

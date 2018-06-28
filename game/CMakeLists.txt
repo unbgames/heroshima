@@ -62,5 +62,7 @@ add_executable(HEROshima src/Main.cpp
         src/menuHUD/GunManager.cpp include/GunManager.h
         src/util/MathUtil.cpp include/MathUtil.h
         src/enemy/Enemy.cpp include/Enemy.h
-        src/enemy/FallingChasingEnemy.cpp include/FallingChasingEnemy.h src/enemy/WalkingShootingEnemy.cpp include/WalkingShootingEnemy.h)
+        src/enemy/FallingChasingEnemy.cpp include/FallingChasingEnemy.h
+        src/enemy/WalkingShootingEnemy.cpp include/WalkingShootingEnemy.h
+        src/xml/pugiconfig.hpp src/xml/pugixml.cpp src/xml/pugixml.hpp)
 

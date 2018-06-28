@@ -8,6 +8,7 @@
 #define ENEMY_TYPE "Enemy"
 
 #include "Component.h"
+#include "Timer.h"
 
 class Enemy : public Component {
 public:
