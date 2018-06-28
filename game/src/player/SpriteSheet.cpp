@@ -4,7 +4,7 @@
 
 #include <SpriteSheet.h>
 
-Gun *SpriteSheet::pistol = new Gun(20, -1 /*for infinite ammo*/, 0.5f,
+Gun *SpriteSheet::pistol = new Gun(1, -1 /*for infinite ammo*/, 0.5f,
                                StaticSprite("img/idle_arms.png", 4, 0.3f),
                                StaticSprite("img/running_arms.png", 8, 0.06f),
                                StaticSprite("img/tarma_superior_atirando.png", 10, 0.01f, 30),
@@ -12,7 +12,7 @@ Gun *SpriteSheet::pistol = new Gun(20, -1 /*for infinite ammo*/, 0.5f,
         Projectile("img/minionbullet2.png", 700, 3, 0.01f));
 
 
-Gun *SpriteSheet::heavy = new Gun(50, 300, 0.1f,
+Gun *SpriteSheet::heavy = new Gun(3, 300, 0.1f,
                               StaticSprite("img/tarma_heavy_rest.png", 4, 0.3f, 20),
                               StaticSprite("img/tarma_heavy_walk.png", 12, 1.0f, 30),
                               StaticSprite("img/tarma_heavy_shoot.png", 4, 0.02f, 38),

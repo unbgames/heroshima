@@ -7,10 +7,11 @@
 #include <CollisionTile.h>
 #include <Player.h>
 #include <Bullet.h>
+#include <Collider.h>
 #include "FallingChasingEnemy.h"
 
 FallingChasingEnemy::FallingChasingEnemy(GameObject &associated, int hp, Vec2 initialPosition, bool startFalling)
-        : Enemy(associated, hp), fell(false), landed(false), hit(false), speed({0, 0}) {
+        : Enemy(associated, hp, initialPosition), fell(false), landed(false), hit(false), speed({0, 0}) {
 
     falling = StaticSprite("img/enemy_falling.png", 2, 0.3f);
     chasing = StaticSprite("img/enemy_running.png", 12, 0.06f);
@@ -23,12 +24,12 @@ FallingChasingEnemy::FallingChasingEnemy(GameObject &associated, int hp, Vec2 in
     state = E_STOPPED;
 
     Sprite* img = new Sprite(associated, idle.sprite, idle.frameCount, idle.frameTime);
+
     if(startFalling){
-        associated.box = {initialPosition.x, -3*associated.box.h, img->GetWidth(), img->GetHeight()};
-    } else{
-        associated.box = {initialPosition.x, initialPosition.y, img->GetWidth(), img->GetHeight()};
+        associated.box += {0, -3*associated.box.h};
     }
-    associated.orientation = LEFT;
+
+    associated.orientation = RIGHT;
     associated.AddComponent(img);
 }
 
@@ -91,6 +92,10 @@ void FallingChasingEnemy::Update(float dt) {
         }
     }
 
+    if(hp <= 0){
+        state = E_DEAD;
+    }
+
 }
 
 void FallingChasingEnemy::NotifyCollision(GameObject &other) {
@@ -117,7 +122,7 @@ void FallingChasingEnemy::NotifyCollision(GameObject &other) {
 
     auto bullet = (Bullet*) other.GetComponent(BULLET_TYPE);
     if(bullet && !bullet->targetsPlayer){
-        state = E_DEAD;
+        hp -= bullet->GetDamage();
     }
 
 }

@@ -13,6 +13,7 @@
 #include <LifeCrate.h>
 #include <MenuHUD.h>
 #include <FallingChasingEnemy.h>
+#include <WalkingShootingEnemy.h>
 #include "Stage1.h"
 
 Stage1::Stage1() {
@@ -94,8 +95,13 @@ void Stage1::Start() {
 
     //** FallingChasingEnemy
     auto enemy1GO(new GameObject);
-    enemy1GO->AddComponent(new FallingChasingEnemy(*enemy1GO, 1, Vec2(1600, 0)));
+    enemy1GO->AddComponent(new FallingChasingEnemy(*enemy1GO, 2, Vec2(1600, 0)));
     AddCollisionObject(enemy1GO);
+
+    //** WalkingShootingEnemy
+    auto enemy2GO(new GameObject);
+    enemy2GO->AddComponent(new WalkingShootingEnemy(*enemy2GO, 2, Vec2(1200, GAME_HEIGHT - 50)));
+    AddCollisionObject(enemy2GO);
 }
 
 void Stage1::Pause() {

@@ -7,12 +7,11 @@
 
 #define ENEMY_TYPE "Enemy"
 
-
 #include "Component.h"
 
 class Enemy : public Component {
 public:
-    Enemy(GameObject &associated, int hp);
+    explicit Enemy(GameObject &associated, int hp, Vec2 initialPosition);
 
     void Start() override;
 

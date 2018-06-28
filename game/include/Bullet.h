@@ -26,6 +26,8 @@ private:
     Vec2 speed;
     float distanceLeft;
     int damage;
+
+    void Explode() const;
 };
 
 
