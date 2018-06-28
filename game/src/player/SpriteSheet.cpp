@@ -27,4 +27,4 @@ StaticSprite SpriteSheet::crouch = StaticSprite("img/crouch.png", 4, 0.1f);
 
 StaticSprite SpriteSheet::jumping = StaticSprite("img/jumping_up.png", 4, 0.1f);
 
-StaticSprite SpriteSheet::falling = StaticSprite("img/crouch.png", , 0.1f);
+StaticSprite SpriteSheet::falling = StaticSprite("img/crouch.png", 4, 0.1f);
