@@ -3,6 +3,7 @@
 #include <LifeManager.h>
 #include <SpriteSheet.h>
 #include <Bullet.h>
+#include <Camera.h>
 
 #include "InputManager.h"
 #include "Collider.h"
@@ -46,6 +47,13 @@ void Player::Start() {
 }
 
 void Player::Update(float dt) {
+
+    // Logic to camera following
+    if (associated.box.x > (float)GAME_WIDTH / 2) {
+        Camera::Follow(&associated);
+    } else {
+        Camera::Unfollow();
+    }
 
     //To test the life indicator
     if(InputManager::GetInstance().MousePress(RIGHT_MOUSE_BUTTON))DecrementHp();
