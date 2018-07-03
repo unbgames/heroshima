@@ -5,8 +5,9 @@
 #ifndef SRC_LIFEMANAGER_H
 #define SRC_LIFEMANAGER_H
 
-#define GAP 15
-#define TOP_MARGIN 80
+#define GAP 12
+#define TOP_MARGIN 55
+#define LIFE_MARGIN_LEFT 138
 
 #include "Component.h"
 

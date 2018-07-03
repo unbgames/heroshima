@@ -15,7 +15,7 @@ vector<weak_ptr<GameObject>> LifeManager::hearts = vector<weak_ptr<GameObject>>(
 int LifeManager::lastHp = 0;
 
 LifeManager::LifeManager(Vec2 offset) {
-    LifeManager::offset = LifeManager::startOffset = offset;
+    LifeManager::offset = LifeManager::startOffset = { offset.x + LIFE_MARGIN_LEFT, offset.y };
     hearts.resize(PLAYER_MAX_LIVES);
     lastHp = Player::player->GetHp();
 }
@@ -34,7 +34,7 @@ void LifeManager::Update() {
 
     for (unsigned i = 0; i < life; i++) {
         auto *heartGO = new GameObject;
-        heartGO->AddComponent(new Sprite(*heartGO, "img/heart.png"));
+        heartGO->AddComponent(new Sprite(*heartGO, "img/hud_vidas.png"));
 
         if (i == 0) {
             offset += {GAP, TOP_MARGIN};

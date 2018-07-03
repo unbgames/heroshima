@@ -53,13 +53,13 @@ bool MenuHUD::Is(string type) {
 
 void MenuHUD::AddFace() {
     faceGO = new GameObject();
-    faceGO->AddComponent(new Sprite(*faceGO, "img/tarma_face.png"));
+    faceGO->AddComponent(new Sprite(*faceGO, "img/hud.png"));
     faceGO->AddComponent(new CameraFollower(*faceGO, {MARGIN_LEFT, MARGIN_TOP}));
     Game::GetInstance().GetCurrentState().AddObject(faceGO);
 }
 
 void MenuHUD::AddLifeIndicator() {
-    new LifeManager({faceGO->box.w + MARGIN_LEFT, 0});
+    new LifeManager({MARGIN_LEFT, 0});
     LifeManager::Update();
 }
 
