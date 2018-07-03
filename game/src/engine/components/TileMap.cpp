@@ -4,6 +4,7 @@
 
 #include <Camera.h>
 #include <Collider.h>
+#include "GameObject.h"
 #include "Player.h"
 #include "CollisionTile.h"
 #include "TileMap.h"
@@ -52,7 +53,7 @@ void TileMap::Start() {
 
             auto index = (unsigned)At(i, j, mapDepth - 1);
             if (index < (unsigned)(tileSet->GetRows() * tileSet->GetColumns()) - 1) {
-                auto *collisionGO = new GameObject;
+                auto collisionGO = new GameObject;
                 collisionGO->box = {(int)(i * tileSet->GetTileWidth() - Camera::pos.x - PARALLAX_FACTOR * (mapDepth - 1)),
                                     (int)(j * tileSet->GetTileHeight() - Camera::pos.y - PARALLAX_FACTOR * (mapDepth - 1)),
                                     tileSet->GetTileWidth(),

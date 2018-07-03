@@ -64,9 +64,6 @@ weak_ptr<GameObject> State::AddCollisionObject(GameObject* go) {
     shared_ptr<GameObject> gameObject(go);
     weak_ptr<GameObject> reference(gameObject);
     collisionObjectArray.push_back(reference);
-    if(started){
-        gameObject->Start();
-    }
     return reference;
 }
 

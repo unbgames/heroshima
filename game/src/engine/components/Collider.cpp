@@ -8,10 +8,6 @@
 #include "Collider.h"
 
 Collider::Collider(GameObject &associated, Vec2 scale, Vec2 offset) : Component(associated), scale(scale), offset(offset) {
-
-}
-
-void Collider::Start() {
     Game::GetInstance().GetCurrentState().AddCollisionObject(&associated);
 }
 
