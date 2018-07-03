@@ -13,7 +13,7 @@
 
 LifeCrate::LifeCrate(GameObject &associated, const Vec2 &initialPosition, int health, bool startFalling) :
         Crate(associated, initialPosition, startFalling), health(health) {
-    Sprite* lifeCrateImg = new Sprite(associated, "img/life_crate.png");
+    Sprite* lifeCrateImg = new Sprite(associated, "img/medkit.png", 9, 0.15);
     associated.AddComponent(lifeCrateImg);
 
     if(startFalling) {

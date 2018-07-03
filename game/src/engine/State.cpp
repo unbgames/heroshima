@@ -252,7 +252,7 @@ void State::AddCrate(string type, int health, Vec2 pos, bool startFalling) {
     if(type == "life"){
         crateGO->AddComponent(new LifeCrate(*crateGO, pos, health, startFalling));
     } else if(type == "heavy"){
-        crateGO->AddComponent(new Sprite(*crateGO, "img/heavy_crate.png"));
+        crateGO->AddComponent(new Sprite(*crateGO, "img/ammo_crate.png", 7, 0.2));
         crateGO->AddComponent(new WeaponCrate(*crateGO, pos, SpriteSheet::heavy, startFalling));
     }
 
