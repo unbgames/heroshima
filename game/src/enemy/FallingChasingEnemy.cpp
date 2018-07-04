@@ -19,7 +19,7 @@ FallingChasingEnemy::FallingChasingEnemy(GameObject &associated, int hp, Vec2 in
     stopped = StaticSprite("img/enemy_idle.png", 6, 0.2f);
     preparing = StaticSprite("img/enemy_preparing.png", 4, 0.1f);
     attacking = StaticSprite("img/enemy_attacking.png", 8, 0.1f);
-    dead = StaticSprite("img/enemy_dying_gun.png", 20, 0.1f, 2);
+    deadByBullet = StaticSprite("img/enemy_dying_gun.png", 20, 0.1f, 2);
 
     state = E_STOPPED;
 
@@ -85,15 +85,15 @@ void FallingChasingEnemy::Update(float dt) {
         }
     }
 
-    else if(state == E_DEAD){
+    else if(state == E_DEAD_BY_BULLET){
         deadTimer.Update(dt);
-        if(deadTimer.Get() > dead.frameCount * dead.frameTime){
+        if(deadTimer.Get() > deadByBullet.frameCount * deadByBullet.frameTime){
             associated.RequestDelete();
         }
     }
 
     if(hp <= 0){
-        state = E_DEAD;
+        state = E_DEAD_BY_BULLET;
     }
 
 }

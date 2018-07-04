@@ -38,9 +38,12 @@ void Enemy::Render() {
     } else if(state == E_STUCK ){
         current = stuck;
 //        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"stuck"<<endl;
-    } else if(state == E_DEAD){
-        current = dead;
-//        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"dead"<<endl;
+    } else if(state == E_DEAD_BY_BULLET){
+        current = deadByBullet;
+//        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"deadByBullet"<<endl;
+    } else if(state == E_DEAD_BY_SWORD){
+        current = deadBySword;
+//        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"deadBySword"<<endl;
     } else if(state == E_PREPARING){
         current = preparing;
 //        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"preparing"<<endl;
