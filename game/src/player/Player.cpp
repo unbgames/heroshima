@@ -51,6 +51,7 @@ void Player::Update(float dt) {
     // Logic to camera following
     if (associated.box.x > (float)GAME_WIDTH / 2) {
         Camera::Follow(&associated);
+        Camera::followX = true;
     } else {
         Camera::Unfollow();
     }

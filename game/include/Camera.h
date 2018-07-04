@@ -9,6 +9,7 @@
 
 #define CAMERA_SPEED    300
 #define VERTICAL_OFFSET 150
+#define BODY_OFFSET 571
 
 class Camera {
 public:
@@ -18,6 +19,7 @@ public:
 
     static Vec2 pos;
     static Vec2 speed;
+    static bool followX, followY;
 
 private:
     static GameObject *focus;

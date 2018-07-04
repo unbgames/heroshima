@@ -9,20 +9,30 @@
 Vec2 Camera::pos = *new Vec2();
 Vec2 Camera::speed = *new Vec2();
 GameObject *Camera::focus = nullptr;
+bool Camera::followX = false;
+bool Camera::followY = false;
 
 void Camera::Follow(GameObject *newFocus) {
     focus = newFocus;
 }
 
 void Camera::Unfollow() {
+    followX = followY = false;
     focus = nullptr;
 }
 
 void Camera::Update(float dt) {
     if(focus != nullptr){
         if(focus->box.y < GAME_HEIGHT){
-            pos = {focus->box.x - GAME_WIDTH/2, focus->box.y - GAME_HEIGHT + VERTICAL_OFFSET};
-        }   
+            pos = {- GAME_WIDTH/2, - GAME_HEIGHT + VERTICAL_OFFSET + BODY_OFFSET};
+
+            if(followX){
+                pos += {focus->box.x, 0};
+            }
+            if(followY){
+                pos += {0, focus->box.y - BODY_OFFSET};
+            }
+        }
     } else {
         InputManager inputManager = InputManager::GetInstance();
 
