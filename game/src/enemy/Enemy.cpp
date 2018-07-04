@@ -5,6 +5,7 @@
 #include <Collider.h>
 #include <Sprite.h>
 #include <Game.h>
+#include <Player.h>
 #include "Enemy.h"
 
 Enemy::Enemy(GameObject &associated, int hp, Vec2 initialPosition) : Component(associated), hp(hp) {
@@ -38,9 +39,12 @@ void Enemy::Render() {
     } else if(state == E_STUCK ){
         current = stuck;
 //        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"stuck"<<endl;
-    } else if(state == E_DEAD){
-        current = dead;
-//        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"dead"<<endl;
+    } else if(state == E_DEAD_BY_BULLET){
+        current = deadByBullet;
+//        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"deadByBullet"<<endl;
+    } else if(state == E_DEAD_BY_SWORD){
+        current = deadBySword;
+//        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"deadBySword"<<endl;
     } else if(state == E_PREPARING){
         current = preparing;
 //        if(Game::GetInstance().GetCurrentState().isDebug()) cout<<"preparing"<<endl;
@@ -63,4 +67,9 @@ EnemyState Enemy::getState() {
 
 int Enemy::getHp() {
     return hp;
+}
+
+bool Enemy::IsCloseEnoughToPlayer(float distance) {
+    auto playerBox = Player::player->GetAssociatedBox();
+    return (associated.box.x > playerBox.x - distance - associated.box.w/2 && associated.box.x < playerBox.x + distance);
 }

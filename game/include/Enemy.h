@@ -25,10 +25,12 @@ public:
 
 protected:
     StaticSprite current;
-    StaticSprite walking, idle, stopped, falling, chasing, attacking, stuck, dead, preparing;
+    StaticSprite walking, idle, stopped, falling, chasing, attacking, stuck, deadByBullet, deadBySword, preparing;
 
     EnemyState state;
     int hp;
+
+    bool IsCloseEnoughToPlayer(float distance);
 
 };
 
