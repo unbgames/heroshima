@@ -21,11 +21,11 @@
             <health>1</health>
             <startFalling>true</startFalling>
         </crate>
-        <crate>
-            <type>heavy</type>
-            <x>800</x>
-            <y>720</y>
-            <startFalling>false</startFalling>
-        </crate>
+        <!--<crate>-->
+            <!--<type>heavy</type>-->
+            <!--<x>800</x>-->
+            <!--<y>720</y>-->
+            <!--<startFalling>false</startFalling>-->
+        <!--</crate>-->
     </crates>
 </stage>

@@ -33,6 +33,7 @@ public:
     void DecrementHp();
 
     MoveState getMovementState() const;
+    JumpState getJumpState();
 
 private:
 

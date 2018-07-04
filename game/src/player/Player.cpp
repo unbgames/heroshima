@@ -177,3 +177,7 @@ void Player::DecrementHp() {
 MoveState Player::getMovementState() const {
     return movementState;
 }
+
+JumpState Player::getJumpState() {
+    return jumpState;
+}

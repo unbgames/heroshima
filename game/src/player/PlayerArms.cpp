@@ -45,6 +45,10 @@ void PlayerArms::Update(float dt) {
     associated.box = playerGO.box;
     associated.orientation = playerGO.orientation;
     if (InputManager::GetInstance().IsKeyDown(SPACE_BAR_KEY)) {
+        if (Player::player->getMovementState() == CROUCH){
+            associated.box.y += 30;
+            associated.box.x += (playerGO.orientation == Orientation::LEFT ? -5 : 5);
+        }
         if(shootCooldownTimer.Get() >= gun->getCooldownTime() && (gun->getAmmo() > 0 || gun->getAmmo() == -1)) {
             state = SHOOTING;
             int shootAngle = (playerGO.orientation == Orientation::LEFT ? 180 : 0);
@@ -61,16 +65,13 @@ void PlayerArms::Update(float dt) {
         Sprite* playerSprite = (Sprite*)playerGO.GetComponent(SPRITE_TYPE);
         if (Player::player->getMovementState() == WALKING) {
             state = WALKING;
-            sprite->SetFrame(playerSprite->GetCurrentFrame());
         } else if (Player::player->getMovementState() == RESTING) {
             state = RESTING;
-            sprite->SetFrame(playerSprite->GetCurrentFrame());
-
 
         } else if (Player::player->getMovementState() == CROUCH){
             state = CROUCH;
-            sprite->SetFrame(playerSprite->GetCurrentFrame());
         }
+        sprite->SetFrame(playerSprite->GetCurrentFrame());
     }
 
     if(gun == SpriteSheet::heavy && gun->getAmmo() <= 0){
