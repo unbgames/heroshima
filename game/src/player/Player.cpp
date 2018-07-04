@@ -61,6 +61,10 @@ void Player::Update(float dt) {
     if(InputManager::GetInstance().MousePress(LEFT_MOUSE_BUTTON))IncremmentHp();
     //Remove
 
+    //To test wiggle effect
+    if(InputManager::GetInstance().IsKeyDown(ENTER_KEY))Camera::Wiggle(0.5);
+    //Remove
+
     if (InputManager::GetInstance().IsKeyDown(A_KEY) || InputManager::GetInstance().IsKeyDown(D_KEY)) {
         movementState = WALKING;
         bodyState = SpriteSheet::walking;
