@@ -3,6 +3,7 @@
 #include <LifeManager.h>
 #include <SpriteSheet.h>
 #include <Bullet.h>
+#include <Camera.h>
 
 #include "InputManager.h"
 #include "Collider.h"
@@ -47,9 +48,21 @@ void Player::Start() {
 
 void Player::Update(float dt) {
 
+    // Logic to camera following
+    if (associated.box.x > (float)GAME_WIDTH / 2) {
+        Camera::Follow(&associated);
+        Camera::followX = true;
+    } else {
+        Camera::Unfollow();
+    }
+
     //To test the life indicator
     if(InputManager::GetInstance().MousePress(RIGHT_MOUSE_BUTTON))DecrementHp();
     if(InputManager::GetInstance().MousePress(LEFT_MOUSE_BUTTON))IncremmentHp();
+    //Remove
+
+    //To test wiggle effect
+    if(InputManager::GetInstance().IsKeyDown(ENTER_KEY))Camera::Wiggle(0.5);
     //Remove
 
     if (InputManager::GetInstance().IsKeyDown(A_KEY) || InputManager::GetInstance().IsKeyDown(D_KEY)) {
@@ -76,9 +89,13 @@ void Player::Update(float dt) {
 
         // Adiciona gravidade
         verticalSpeed += GRAVITY * dt;
+        bodyState = SpriteSheet::jumping;
 
         // Se começar a cair mudar de estado
-        if (verticalSpeed > 0) jumpState = FALLING;
+        if (verticalSpeed > 0) {
+            jumpState = FALLING;
+            bodyState = SpriteSheet::falling;
+        }
 
     } else {
 
@@ -163,4 +180,8 @@ void Player::DecrementHp() {
 
 MoveState Player::getMovementState() const {
     return movementState;
+}
+
+JumpState Player::getJumpState() {
+    return jumpState;
 }

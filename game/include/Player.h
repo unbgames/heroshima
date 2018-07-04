@@ -10,7 +10,7 @@
 #define JUMP_SPEED    500
 #define GRAVITY       50.0f
 #define PLAYER_T "Player"
-#define PLAYER_MAX_LIVES 5
+#define PLAYER_MAX_LIVES 9
 
 class Player : public Component {
 public:
@@ -33,6 +33,7 @@ public:
     void DecrementHp();
 
     MoveState getMovementState() const;
+    JumpState getJumpState();
 
 private:
 

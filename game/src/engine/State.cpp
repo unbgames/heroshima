@@ -5,6 +5,14 @@
 #include "State.h"
 #include <Collider.h>
 #include <Collision.h>
+#include <Game.h>
+#include <WalkingShootingEnemy.h>
+#include <FallingChasingEnemy.h>
+#include <LifeCrate.h>
+#include <Sprite.h>
+#include <WeaponCrate.h>
+#include <SpriteSheet.h>
+#include "../xml/pugixml.hpp"
 
 State::State() : popRequested(false), quitRequested(false), started(false) {}
 
@@ -196,4 +204,57 @@ void State::TestCollision() {
             }
         }
     }
+}
+
+void State::AddEntitiesFromXML(string xml) {
+    pugi::xml_document doc;
+    doc.load_file((ASSETS_PATH + xml).c_str());
+
+    pugi::xml_node stage = doc.child("stage");
+
+    for (pugi::xml_node enemy = stage.child("enemies").child("enemy"); enemy; enemy = enemy.next_sibling("enemy")) {
+        const pugi::char_t *name = enemy.child("name").text().get();
+        int hp = enemy.child("hp").text().as_int();
+        float x = enemy.child("x").text().as_float();
+        float y = enemy.child("y").text().as_float();
+
+        AddEnemy(name, hp, Vec2(x, y));
+    }
+
+    for (pugi::xml_node enemy = stage.child("crates").child("crate"); enemy; enemy = enemy.next_sibling("crate")) {
+        const pugi::char_t *type = enemy.child("type").text().get();
+        float x = enemy.child("x").text().as_float();
+        float y = enemy.child("y").text().as_float();
+        int health = enemy.child("health").text().as_int();
+        bool startFalling = enemy.child("startFalling").text().as_bool();
+
+        AddCrate(type, health, Vec2(x, y), startFalling);
+    }
+}
+
+void State::AddEnemy(string name, int hp, Vec2 pos) {
+    auto enemyGO(new GameObject);
+    Enemy *enemy;
+
+    if(name == "WalkingShootingEnemy"){
+        enemy = new WalkingShootingEnemy(*enemyGO, hp, pos);
+    } else if(name == "FallingChasingEnemy"){
+        enemy = new FallingChasingEnemy(*enemyGO, hp, pos);
+    }
+
+    enemyGO->AddComponent(enemy);
+    AddCollisionObject(enemyGO);
+}
+
+void State::AddCrate(string type, int health, Vec2 pos, bool startFalling) {
+    auto crateGO(new GameObject);
+
+    if(type == "life"){
+        crateGO->AddComponent(new LifeCrate(*crateGO, pos, health, startFalling));
+    } else if(type == "heavy"){
+        crateGO->AddComponent(new Sprite(*crateGO, "img/ammo_crate.png", 7, 0.2));
+        crateGO->AddComponent(new WeaponCrate(*crateGO, pos, SpriteSheet::heavy, startFalling));
+    }
+
+    AddCollisionObject(crateGO);
 }

@@ -18,7 +18,7 @@ Bullet::Bullet(GameObject &associated,
                string sprite,
                int frameCount,
                float frameTime,
-               bool targetsPlayer) : Component(associated) {
+               bool targetsPlayer) : Component(associated), angle(angle) {
 
     this->damage = damage;
     this->targetsPlayer = targetsPlayer;
@@ -67,8 +67,9 @@ void Bullet::NotifyCollision(GameObject &other) {
 void Bullet::Explode() const {
     associated.RequestDelete();
     auto explosionGO(new GameObject());
-    explosionGO->AddComponent(new Sprite(*explosionGO, "img/penguindeath.png", 5, 0.1, 0.5));
-    explosionGO->box.x = associated.box.GetCenter().x - explosionGO->box.w / 2 + MathUtil::floatRand(-10, 10);
+    explosionGO->AddComponent(new Sprite(*explosionGO, "img/impact.png", 3, 0.05, 0.15));
+    explosionGO->orientation = (angle == 0 ? RIGHT : LEFT);
+    explosionGO->box.x = associated.box.GetCenter().x - explosionGO->box.w / 2 /*+ MathUtil::floatRand(-10, 10)*/;
     explosionGO->box.y = associated.box.GetCenter().y - explosionGO->box.h / 2 + MathUtil::floatRand(-10, 10);
 
     Game::GetInstance().GetCurrentState().AddObject(explosionGO);

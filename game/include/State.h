@@ -37,6 +37,8 @@ public:
 
     void TestCollision();
 
+    void AddEntitiesFromXML(string xml);
+
 protected:
     void StartArray();
     virtual void UpdateArray(float dt);
@@ -53,6 +55,9 @@ protected:
 
     bool debug = false;
 
+    void AddEnemy(string name, int hp, Vec2 pos);
+
+    void AddCrate(string type, int health, Vec2 pos, bool startFalling);
 };
 
 

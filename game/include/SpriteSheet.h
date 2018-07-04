@@ -14,5 +14,7 @@ public:
     static StaticSprite idle;
     static StaticSprite walking;
     static StaticSprite crouch;
+    static StaticSprite jumping;
+    static StaticSprite falling;
 
 };
