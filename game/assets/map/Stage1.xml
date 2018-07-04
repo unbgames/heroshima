@@ -3,7 +3,7 @@
         <enemy>
             <name>WalkingShootingEnemy</name>
             <hp>2</hp>
-            <x>1200 </x>
+            <x>1200</x>
             <y>670</y>
         </enemy>
         <enemy>
@@ -12,12 +12,18 @@
             <x>1600</x>
             <y>0</y>
         </enemy>
+        <enemy>
+            <name>BigGuy</name>
+            <hp>5</hp>
+            <x>2500</x>
+            <y>370</y>
+            <maxDistance>590</maxDistance>
+        </enemy>
     </enemies>
     <crates>
         <crate>
             <type>life</type>
             <x>1000</x>
-            <y>0</y>
             <health>1</health>
             <startFalling>true</startFalling>
         </crate>

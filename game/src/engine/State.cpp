@@ -12,6 +12,7 @@
 #include <Sprite.h>
 #include <WeaponCrate.h>
 #include <SpriteSheet.h>
+#include <BigGuy.h>
 #include "../xml/pugixml.hpp"
 
 State::State() : popRequested(false), quitRequested(false), started(false) {}
@@ -118,7 +119,7 @@ void State::UpdateArray(float dt) {
     for (unsigned i = 0; i < tileObjectArray.size(); i++) {
         for (unsigned j = 0; j < collisionObjectArray.size(); j++) {
             auto collider = (Collider*) tileObjectArray[i]->GetComponent(COLLIDER_TYPE);
-            if (tileObjectArray[i]->box.DistRecs(collisionObjectArray[j]->box) < MINIMUM_COLLIDER_DIST) {
+            if (tileObjectArray[i]->box.DistRecs(collisionObjectArray[j]->box + Vec2(0, collisionObjectArray[j]->box.h/2)) < MINIMUM_COLLIDER_DIST) {
                 if (collider == nullptr) {
                     collider = new Collider(*tileObjectArray[i]);
                     tileObjectArray[i]->AddComponent(collider);
@@ -213,12 +214,7 @@ void State::AddEntitiesFromXML(string xml) {
     pugi::xml_node stage = doc.child("stage");
 
     for (pugi::xml_node enemy = stage.child("enemies").child("enemy"); enemy; enemy = enemy.next_sibling("enemy")) {
-        const pugi::char_t *name = enemy.child("name").text().get();
-        int hp = enemy.child("hp").text().as_int();
-        float x = enemy.child("x").text().as_float();
-        float y = enemy.child("y").text().as_float();
-
-        AddEnemy(name, hp, Vec2(x, y));
+        AddEnemy(enemy);
     }
 
     for (pugi::xml_node enemy = stage.child("crates").child("crate"); enemy; enemy = enemy.next_sibling("crate")) {
@@ -232,14 +228,19 @@ void State::AddEntitiesFromXML(string xml) {
     }
 }
 
-void State::AddEnemy(string name, int hp, Vec2 pos) {
+void State::AddEnemy(pugi::xml_node node) {
     auto enemyGO(new GameObject);
     Enemy *enemy;
+    string name = node.child("name").text().get();
+    int hp = node.child("hp").text().as_int();
+    Vec2 pos = {node.child("x").text().as_float(), node.child("y").text().as_float()};
 
     if(name == "WalkingShootingEnemy"){
         enemy = new WalkingShootingEnemy(*enemyGO, hp, pos);
     } else if(name == "FallingChasingEnemy"){
         enemy = new FallingChasingEnemy(*enemyGO, hp, pos);
+    } else if(name =="BigGuy"){
+        enemy = new BigGuy(*enemyGO, hp, pos, node.child("maxDistance").text().as_float());
     }
 
     enemyGO->AddComponent(enemy);

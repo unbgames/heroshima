@@ -56,7 +56,7 @@ void FallingChasingEnemy::Update(float dt) {
     }
 
     else if(state == E_CHASING){
-        if(!(associated.box.x > playerBox.x - PLAYER_DISTANCE_THRESHOLD - associated.box.w/2 && associated.box.x < playerBox.x + PLAYER_DISTANCE_THRESHOLD)) {
+        if(!IsCloseEnoughToPlayer(PLAYER_DISTANCE_THRESHOLD)) {
             if (associated.box.x > playerBox.x + PLAYER_DISTANCE_THRESHOLD) {
                 associated.orientation = RIGHT;
                 associated.box.x -= SPEED * dt;

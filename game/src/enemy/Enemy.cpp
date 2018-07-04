@@ -5,6 +5,7 @@
 #include <Collider.h>
 #include <Sprite.h>
 #include <Game.h>
+#include <Player.h>
 #include "Enemy.h"
 
 Enemy::Enemy(GameObject &associated, int hp, Vec2 initialPosition) : Component(associated), hp(hp) {
@@ -66,4 +67,9 @@ EnemyState Enemy::getState() {
 
 int Enemy::getHp() {
     return hp;
+}
+
+bool Enemy::IsCloseEnoughToPlayer(float distance) {
+    auto playerBox = Player::player->GetAssociatedBox();
+    return (associated.box.x > playerBox.x - distance - associated.box.w/2 && associated.box.x < playerBox.x + distance);
 }

@@ -30,6 +30,8 @@ protected:
     EnemyState state;
     int hp;
 
+    bool IsCloseEnoughToPlayer(float distance);
+
 };
 
 

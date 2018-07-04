@@ -4,6 +4,7 @@
 #include <SpriteSheet.h>
 #include <Bullet.h>
 #include <Camera.h>
+#include <Enemy.h>
 
 #include "InputManager.h"
 #include "Collider.h"
@@ -47,6 +48,7 @@ void Player::Start() {
 }
 
 void Player::Update(float dt) {
+//    cout<<associated.box.x<<endl;
 
     // Logic to camera following
     if (associated.box.x > (float)GAME_WIDTH / 2) {
@@ -149,6 +151,11 @@ void Player::NotifyCollision(GameObject &other) {
 
     auto bullet = (Bullet*) other.GetComponent(BULLET_TYPE);
     if(bullet && bullet->targetsPlayer){
+        DecrementHp();
+    }
+
+    auto enemy = (Enemy*) associated.GetComponent(ENEMY_TYPE);
+    if(enemy && enemy->getState() == E_ATTACKING){
         DecrementHp();
     }
 }

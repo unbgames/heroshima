@@ -5,9 +5,10 @@
 #ifndef STATE_CLASS
 #define STATE_CLASS
 
-#define MINIMUM_COLLIDER_DIST 90
+#define MINIMUM_COLLIDER_DIST 70
 
 #include "GameObject.h"
+#include "../src/xml/pugixml.hpp"
 
 class State {
 public:
@@ -55,7 +56,7 @@ protected:
 
     bool debug = false;
 
-    void AddEnemy(string name, int hp, Vec2 pos);
+    void AddEnemy(pugi::xml_node node);
 
     void AddCrate(string type, int health, Vec2 pos, bool startFalling);
 };
