@@ -7,7 +7,7 @@
 #include "Sprite.h"
 
 #define PLAYER_SPEED  300
-#define JUMP_SPEED    500
+#define JUMP_SPEED    600
 #define GRAVITY       50.0f
 #define PLAYER_T "Player"
 #define PLAYER_MAX_LIVES 9
