@@ -5,9 +5,9 @@
 #include <Sprite.h>
 #include <Gravity.h>
 #include <CollisionTile.h>
-#include <Player.h>
 #include <Bullet.h>
 #include <Collider.h>
+#include <NewPlayer.h>
 #include "FallingChasingEnemy.h"
 
 FallingChasingEnemy::FallingChasingEnemy(GameObject &associated, int hp, Vec2 initialPosition, bool startFalling)
@@ -34,7 +34,7 @@ FallingChasingEnemy::FallingChasingEnemy(GameObject &associated, int hp, Vec2 in
 }
 
 void FallingChasingEnemy::Update(float dt) {
-    auto playerBox = Player::player->GetAssociatedBox();
+    auto playerBox = NewPlayer::player->GetAssociatedBox();
 
     if(state == E_STOPPED) {
         if (playerBox.x > associated.box.x - PLAYER_DISTANCE_OFFSET && !fell) {
@@ -112,11 +112,11 @@ void FallingChasingEnemy::NotifyCollision(GameObject &other) {
         associated.box.y =  other.box.y - associated.box.h;
     }
 
-    auto player = (Player*) other.GetComponent(PLAYER_T);
+    auto player = (NewPlayer*) other.GetComponent(PLAYER_TYPE);
     if(player){
         if(state == E_ATTACKING && !hit){
             hit = true;
-            Player::player->DecrementHp();
+            NewPlayer::player->DecrementHp();
         }
     }
 

@@ -8,12 +8,9 @@
 #include <Game.h>
 #include "TileMap.h"
 #include <InputManager.h>
-#include <Crate.h>
 #include <SpriteSheet.h>
-#include <LifeCrate.h>
 #include <MenuHUD.h>
-#include <FallingChasingEnemy.h>
-#include <WalkingShootingEnemy.h>
+#include <NewPlayer.h>
 #include "Stage1.h"
 
 Stage1::Stage1() {
@@ -34,7 +31,7 @@ Stage1::Stage1() {
     AddObject(mapGO);
 
     auto playerGO(new GameObject);
-    playerGO->AddComponent(new Player(*playerGO));
+    playerGO->AddComponent(new NewPlayer(*playerGO));
     playerGO->box += {0, GAME_HEIGHT - playerGO->box.h - 32 * 5};
     AddCollisionObject(playerGO);
 

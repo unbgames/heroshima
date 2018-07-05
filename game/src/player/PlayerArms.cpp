@@ -50,7 +50,7 @@ void PlayerArms::Update(float dt) {
             associated.box.x += (playerGO.orientation == Orientation::LEFT ? -5 : 5);
         }
         if(shootCooldownTimer.Get() >= gun->getCooldownTime() && (gun->getAmmo() > 0 || gun->getAmmo() == -1)) {
-            state = SHOOTING;
+//            state = SHOOTING;
             int shootAngle = (playerGO.orientation == Orientation::LEFT ? 180 : 0);
             Shoot(shootAngle);
             shootCooldownTimer.Restart();
@@ -66,7 +66,7 @@ void PlayerArms::Update(float dt) {
         if (Player::player->getMovementState() == WALKING) {
             state = WALKING;
         } else if (Player::player->getMovementState() == RESTING) {
-            state = RESTING;
+//            state = RESTING;
 
         } else if (Player::player->getMovementState() == CROUCH){
             state = CROUCH;
@@ -84,7 +84,7 @@ void PlayerArms::Update(float dt) {
 
 void PlayerArms::Render() {
     auto sprite = (Sprite*)associated.GetComponent(SPRITE_TYPE);
-    if (state == SHOOTING) {
+    if (/*state == SHOOTING*/true) {
         sprite->Open(gun->getSpriteShoot().sprite);
         sprite->SetFrameCount(gun->getSpriteShoot().frameCount);
         sprite->SetFrameTime(gun->getSpriteShoot().frameTime);

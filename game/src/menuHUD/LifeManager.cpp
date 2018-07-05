@@ -2,11 +2,12 @@
 // Created by edgar on 01/06/18.
 //
 
-#include <Player.h>
 #include <Game.h>
 #include <CameraFollower.h>
 #include <PeriodicEvent.h>
 #include <TimerEvent.h>
+#include <NewPlayer.h>
+#include <Sprite.h>
 #include "LifeManager.h"
 
 Vec2 LifeManager::offset = Vec2(0, 0);
@@ -17,7 +18,7 @@ int LifeManager::lastHp = 0;
 LifeManager::LifeManager(Vec2 offset) {
     LifeManager::offset = LifeManager::startOffset = { offset.x + LIFE_MARGIN_LEFT, offset.y };
     hearts.resize(PLAYER_MAX_LIVES);
-    lastHp = Player::player->GetHp();
+    lastHp = NewPlayer::player->GetHp();
 }
 
 LifeManager::~LifeManager() {
@@ -25,7 +26,7 @@ LifeManager::~LifeManager() {
 }
 
 void LifeManager::Update() {
-    int life = Player::player->GetHp();
+    int life = NewPlayer::player->GetHp();
     for (unsigned i = 0; i < hearts.size(); i++) {
         if (hearts[i].lock()) {
             hearts[i].lock()->RequestDelete();
@@ -59,5 +60,5 @@ void LifeManager::Update() {
         hearts[i] = (Game::GetInstance().GetCurrentState().AddObject(heartGO));
     }
     offset = startOffset;
-    lastHp = Player::player->GetHp();
+    lastHp = NewPlayer::player->GetHp();
 }

@@ -38,7 +38,7 @@ Player::~Player() {
 
 void Player::Start() {
     jumpState = FALLING;
-    movementState = RESTING;
+//    movementState = RESTING;
 
     auto pBodyGO = new GameObject;
     playerArms = new PlayerArms(*pBodyGO, Game::GetInstance().GetCurrentState().GetCollisionObjectPtr(&associated));
@@ -83,7 +83,7 @@ void Player::Update(float dt) {
         movementState = CROUCH;
         bodyState = SpriteSheet::crouch;
     } else {
-        movementState = RESTING;
+//        movementState = RESTING;
         bodyState = SpriteSheet::idle;
     }
 

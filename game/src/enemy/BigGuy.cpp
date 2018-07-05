@@ -4,10 +4,10 @@
 
 #include <Gravity.h>
 #include <Sprite.h>
-#include <Player.h>
 #include <Bullet.h>
 #include <CollisionTile.h>
 #include <Camera.h>
+#include <NewPlayer.h>
 #include "BigGuy.h"
 
 BigGuy::BigGuy(GameObject &associated, int hp, const Vec2 &initialPosition, float maxDistance) : Enemy(associated, hp, initialPosition),
@@ -28,7 +28,7 @@ BigGuy::BigGuy(GameObject &associated, int hp, const Vec2 &initialPosition, floa
 }
 
 void BigGuy::Update(float dt) {
-    auto playerBox = Player::player->GetAssociatedBox();
+    auto playerBox = NewPlayer::player->GetAssociatedBox();
 
     if(state == E_WALKING){
         attackCooldown.Update(dt);

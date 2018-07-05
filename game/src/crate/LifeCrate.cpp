@@ -5,10 +5,10 @@
 #include <Sprite.h>
 #include <Sound.h>
 #include <Text.h>
-#include <Player.h>
 #include <LineTween.h>
 #include <Game.h>
 #include <PeriodicEvent.h>
+#include <NewPlayer.h>
 #include "LifeCrate.h"
 
 LifeCrate::LifeCrate(GameObject &associated, const Vec2 &initialPosition, int health, bool startFalling) :
@@ -41,7 +41,7 @@ void LifeCrate::onCatch() {
                                              [text] {text->SetAlpha(0);},
                                              [text] {text->SetAlpha(255);}, 0.1, 0.5));
 
-    Player::player->SetHp(Player::player->GetHp() + health);
+    NewPlayer::player->SetHp(NewPlayer::player->GetHp() + health);
 
     Game::GetInstance().GetCurrentState().AddObject(catchGO);
 

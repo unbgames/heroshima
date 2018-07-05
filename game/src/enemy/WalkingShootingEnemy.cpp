@@ -5,10 +5,10 @@
 #include <Sprite.h>
 #include <Gravity.h>
 #include <CollisionTile.h>
-#include <Player.h>
 #include <Bullet.h>
 #include <Sound.h>
 #include <Game.h>
+#include <NewPlayer.h>
 #include "WalkingShootingEnemy.h"
 
 WalkingShootingEnemy::WalkingShootingEnemy(GameObject &associated, int hp, Vec2 initialPosition) : Enemy(associated, hp, initialPosition) {
@@ -30,7 +30,7 @@ WalkingShootingEnemy::WalkingShootingEnemy(GameObject &associated, int hp, Vec2 
 }
 
 void WalkingShootingEnemy::Update(float dt) {
-    auto playerBox = Player::player->GetAssociatedBox();
+    auto playerBox = NewPlayer::player->GetAssociatedBox();
 
     if(state == E_STOPPED) {
         if (playerBox.x > associated.box.x - PLAYER_DISTANCE_OFFSET) {
