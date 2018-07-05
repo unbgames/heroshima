@@ -19,7 +19,7 @@ using std::string;
 
 Player *Player::player = nullptr;
 PlayerArms *Player::playerArms = nullptr;
-Player::Player(GameObject &associated) : Component(associated), hp(2) {
+Player::Player(GameObject &associated) : Component(associated), hp(2), usedSecondJump(false) {
 
     bodyState = SpriteSheet::idle;
 
@@ -87,7 +87,7 @@ void Player::Update(float dt) {
         bodyState = SpriteSheet::idle;
     }
 
-    if (jumpState == JUMPING || jumpState == FALLING) {
+    if (jumpState == FALLING || jumpState == JUMPING) {
 
         // Adiciona gravidade
         verticalSpeed += GRAVITY * dt;
@@ -99,13 +99,21 @@ void Player::Update(float dt) {
             bodyState = SpriteSheet::falling;
         }
 
+        if (!usedSecondJump) {
+
+            if (InputManager::GetInstance().KeyPress(W_KEY)) {
+                verticalSpeed = -1 * JUMP_SPEED * dt;
+                usedSecondJump = true;
+            }
+
+        }
+
     } else {
 
         if (InputManager::GetInstance().KeyPress(W_KEY)) {
             verticalSpeed -= JUMP_SPEED * dt;
             jumpState = JUMPING;
-        } else {
-            jumpState = FALLING;
+            usedSecondJump = false;
         }
     }
 

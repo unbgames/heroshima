@@ -46,6 +46,7 @@ private:
     float verticalSpeed;
     float horizontalSpeed;
     int hp;
+    bool usedSecondJump;
 
 };
 
