@@ -26,6 +26,7 @@ public:
     void Update(float dt) override;
     void Render() override;
     bool Is(string type) override;
+    void Start() override;
 
     static PlayerArms* playerArms;
 
@@ -35,6 +36,9 @@ public:
     void DecrementHp();
 
     void NotifyCollision(GameObject &other) override;
+
+    MoveState getMovementState();
+    JumpState getJumpState();
 
 private:
     StaticSprite currentSprite;
@@ -51,7 +55,6 @@ private:
     Vec2 speed;
     float verticalSpeed;
     float horizontalSpeed;
-
 };
 
 

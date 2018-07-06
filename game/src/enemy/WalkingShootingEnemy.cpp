@@ -30,33 +30,31 @@ WalkingShootingEnemy::WalkingShootingEnemy(GameObject &associated, int hp, Vec2 
 }
 
 void WalkingShootingEnemy::Update(float dt) {
-    auto playerBox = NewPlayer::player->GetAssociatedBox();
+    if(NewPlayer::player) {
+        auto playerBox = NewPlayer::player->GetAssociatedBox();
 
-    if(state == E_STOPPED) {
-        if (playerBox.x > associated.box.x - PLAYER_DISTANCE_OFFSET) {
-            state = E_ATTACKING;
+        if (state == E_STOPPED) {
+            if (playerBox.x > associated.box.x - PLAYER_DISTANCE_OFFSET) {
+                state = E_ATTACKING;
+            }
+        } else if (state == E_ATTACKING) {
+            attackingTimer.Update(dt);
+            if (attackingTimer.Get() > attacking.frameCount * attacking.frameTime) {
+                int shootAngle = (associated.orientation != Orientation::LEFT ? 180 : 0);
+                Shoot(shootAngle);
+                state = E_IDLE;
+                attackingTimer.Restart();
+            }
+        } else if (state == E_DEAD_BY_BULLET) {
+            deadTimer.Update(dt);
+            if (deadTimer.Get() > deadByBullet.frameCount * deadByBullet.frameTime) {
+                associated.RequestDelete();
+            }
         }
-    }
 
-    else if(state == E_ATTACKING){
-        attackingTimer.Update(dt);
-        if(attackingTimer.Get() > attacking.frameCount * attacking.frameTime){
-            int shootAngle = (associated.orientation != Orientation::LEFT ? 180 : 0);
-            Shoot(shootAngle);
-            state = E_IDLE;
-            attackingTimer.Restart();
+        if (hp <= 0) {
+            state = E_DEAD_BY_BULLET;
         }
-    }
-
-    else if(state == E_DEAD_BY_BULLET){
-        deadTimer.Update(dt);
-        if(deadTimer.Get() > deadByBullet.frameCount * deadByBullet.frameTime){
-            associated.RequestDelete();
-        }
-    }
-
-    if(hp <= 0){
-        state = E_DEAD_BY_BULLET;
     }
 }
 

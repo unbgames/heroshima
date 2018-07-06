@@ -29,12 +29,14 @@ public:
     void SetGun(Gun* gun);
     Gun* GetGun();
 
+    void RequestDelete();
+
 private:
     MoveState state;
 
     Gun *gun;
 
-    weak_ptr<GameObject> player;
+    GameObject& player;
     //int offset = 0;
     Timer shootCooldownTimer;
 

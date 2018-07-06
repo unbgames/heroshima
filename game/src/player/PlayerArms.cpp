@@ -6,28 +6,23 @@
 #include <RotationTween.h>
 #include <WeaponCrate.h>
 #include <Sound.h>
+#include <NewPlayer.h>
+#include <Sprite.h>
 
 #include "Bullet.h"
 #include "Game.h"
 #include "InputManager.h"
-#include "Player.h"
 #include "SpriteSheet.h"
 
 using std::string;
 using std::weak_ptr;
 
-PlayerArms::PlayerArms(GameObject &associated, weak_ptr<GameObject> player) : Component(associated) {
+PlayerArms::PlayerArms(GameObject &associated, weak_ptr<GameObject> player) : Component(associated), player(*player.lock()) {
 
     gun = SpriteSheet::pistol;
 
-    this->player = player;
-    GameObject &playerGO = *player.lock();
-//    if (playerGO.IsDead()) {
-//        associated.RequestDelete();
-//    }
-
     Sprite* img = new Sprite(associated, gun->getSpriteRest().sprite, gun->getSpriteRest().frameCount, gun->getSpriteRest().frameTime);
-    associated.orientation = playerGO.orientation;
+    associated.orientation = this->player.orientation;
     associated.box.w = img->GetWidth();
     associated.box.h = img->GetHeight();
     associated.AddComponent(img);
@@ -37,21 +32,21 @@ void PlayerArms::Start() {
 }
 
 void PlayerArms::Update(float dt) {
-    GameObject &playerGO = *player.lock();
-    if (playerGO.IsDead()) {//FIXME segfault
+    if (player.IsDead()) {//FIXME segfault
         associated.RequestDelete();
+        return;
     }
 
-    associated.box = playerGO.box;
-    associated.orientation = playerGO.orientation;
+    associated.box = player.box;
+    associated.orientation = player.orientation;
     if (InputManager::GetInstance().IsKeyDown(SPACE_BAR_KEY)) {
-        if (Player::player->getMovementState() == CROUCH){
+        if (NewPlayer::player->getMovementState() == CROUCH){
             associated.box.y += 30;
-            associated.box.x += (playerGO.orientation == Orientation::LEFT ? -5 : 5);
+            associated.box.x += (player.orientation == Orientation::LEFT ? -5 : 5);
         }
         if(shootCooldownTimer.Get() >= gun->getCooldownTime() && (gun->getAmmo() > 0 || gun->getAmmo() == -1)) {
 //            state = SHOOTING;
-            int shootAngle = (playerGO.orientation == Orientation::LEFT ? 180 : 0);
+            int shootAngle = (player.orientation == Orientation::LEFT ? 180 : 0);
             Shoot(shootAngle);
             shootCooldownTimer.Restart();
 
@@ -62,13 +57,13 @@ void PlayerArms::Update(float dt) {
 
     } else {
         auto sprite = (Sprite*)associated.GetComponent(SPRITE_TYPE);
-        Sprite* playerSprite = (Sprite*)playerGO.GetComponent(SPRITE_TYPE);
-        if (Player::player->getMovementState() == WALKING) {
+        Sprite* playerSprite = (Sprite*)player.GetComponent(SPRITE_TYPE);
+        if (NewPlayer::player->getMovementState() == WALKING) {
             state = WALKING;
-        } else if (Player::player->getMovementState() == RESTING) {
+        } else if (NewPlayer::player->getMovementState() == RESTING) {
 //            state = RESTING;
 
-        } else if (Player::player->getMovementState() == CROUCH){
+        } else if (NewPlayer::player->getMovementState() == CROUCH){
             state = CROUCH;
         }
         sprite->SetFrame(playerSprite->GetCurrentFrame());
@@ -166,4 +161,8 @@ void PlayerArms::SetGun(Gun *gun) {
 
 Gun* PlayerArms::GetGun() {
     return this->gun;
+}
+
+void PlayerArms::RequestDelete() {
+    associated.RequestDelete();
 }

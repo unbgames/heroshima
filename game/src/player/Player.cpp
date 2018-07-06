@@ -125,6 +125,7 @@ void Player::Update(float dt) {
 
     if(hp <= 0){
         associated.RequestDelete();
+        playerArms->RequestDelete();
     }
 }
 

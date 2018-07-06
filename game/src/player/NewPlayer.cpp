@@ -30,11 +30,13 @@ NewPlayer::NewPlayer(GameObject &associated) : Component(associated), hp(2), use
     associated.AddComponent(new Collider(associated, {0.4, 0.9}, {-8, 5}));
     player = this;
 
-    auto pBodyGO = new GameObject;
-    playerArms = new PlayerArms(*pBodyGO, Game::GetInstance().GetCurrentState().GetCollisionObjectPtr(&associated));
-    pBodyGO->AddComponent(playerArms);
-    Game::GetInstance().GetCurrentState().AddCollisionObject(pBodyGO);
+}
 
+void NewPlayer::Start() {
+    auto arms = new GameObject;
+    playerArms = new PlayerArms(*arms, Game::GetInstance().GetCurrentState().GetCollisionObjectPtr(&associated));
+    arms->AddComponent(playerArms);
+    Game::GetInstance().GetCurrentState().AddCollisionObject(arms);
 }
 
 NewPlayer::~NewPlayer() {
@@ -49,6 +51,15 @@ void NewPlayer::Update(float dt) {
     } else {
         Camera::Unfollow();
     }
+
+    //To test the life indicator
+    if(InputManager::GetInstance().MousePress(RIGHT_MOUSE_BUTTON))DecrementHp();
+    if(InputManager::GetInstance().MousePress(LEFT_MOUSE_BUTTON))IncremmentHp();
+    //Remove
+
+    //To test wiggle effect
+    if(InputManager::GetInstance().IsKeyDown(ENTER_KEY))Camera::Wiggle(0.5);
+    //Remove
 
     if(isDamage){
 
@@ -117,6 +128,7 @@ void NewPlayer::Update(float dt) {
 
     if(hp <= 0){
         associated.RequestDelete();
+        Camera::Unfollow();
     }
 
 }
@@ -198,4 +210,12 @@ void NewPlayer::NotifyCollision(GameObject &other) {
             jumpState = landed ? ONGROUND : LANDING;
         }
     }
+}
+
+MoveState NewPlayer::getMovementState() {
+    return movementState;
+}
+
+JumpState NewPlayer::getJumpState() {
+    return jumpState;
 }

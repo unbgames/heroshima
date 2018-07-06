@@ -22,10 +22,12 @@ Crate::Crate(GameObject &associated, Vec2 initialPosition, bool startFalling) :
 }
 
 void Crate::Update(float dt) {
-    if(NewPlayer::player->GetAssociatedBox().x > associated.box.x - CRATE_OFFSET){
-        if (!fell){
-            fell = true;
-            associated.AddComponent(new Gravity(associated));
+    if(NewPlayer::player) {
+        if (NewPlayer::player->GetAssociatedBox().x > associated.box.x - CRATE_OFFSET) {
+            if (!fell) {
+                fell = true;
+                associated.AddComponent(new Gravity(associated));
+            }
         }
     }
 }
