@@ -32,7 +32,7 @@ Stage1::Stage1() {
 
     auto playerGO(new GameObject);
     playerGO->AddComponent(new NewPlayer(*playerGO));
-    playerGO->box += {0, GAME_HEIGHT - playerGO->box.h - 32 * 5};
+    playerGO->box += {50, GAME_HEIGHT - playerGO->box.h - 200};
     AddCollisionObject(playerGO);
 
     quitRequested = false;

@@ -6,9 +6,14 @@
 #define SRC_NEWPLAYER_H
 
 #define PLAYER_MAX_LIVES 9
+#define PLAYER_SPEED  400
+
+#define JUMP_SPEED    600
 
 #define PLAYER_TYPE "Player"
 
+#include "Timer.h"
+#include "PlayerArms.h"
 #include "Component.h"
 
 class NewPlayer : public Component {
@@ -22,11 +27,14 @@ public:
     void Render() override;
     bool Is(string type) override;
 
+    static PlayerArms* playerArms;
 
     int GetHp() const;
     void SetHp(int hp);
     void IncremmentHp();
     void DecrementHp();
+
+    void NotifyCollision(GameObject &other) override;
 
 private:
     StaticSprite currentSprite;
@@ -36,7 +44,13 @@ private:
     AttackingState attackingState;
 
     int hp;
-    bool usedSecondJump;
+    bool usedSecondJump, landed;
+    bool isDamage;
+    Timer landingTimer;
+
+    Vec2 speed;
+    float verticalSpeed;
+    float horizontalSpeed;
 
 };
 

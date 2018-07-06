@@ -19,12 +19,15 @@ Gun *SpriteSheet::heavy = new Gun(3, 300, 0.1f,
                               StaticSprite("img/crouch_arms.png", 4, 0.1f),
         Projectile("img/minionbullet2.png", 700, 3, 0.01f));
 
-StaticSprite SpriteSheet::idle = StaticSprite("img/idle.png", 4, 0.3f);
+StaticSprite SpriteSheet::idle = StaticSprite("img/hiro/idle.png", 4, 0.3f);
 
-StaticSprite SpriteSheet::walking = StaticSprite("img/running.png", 8, 0.06f);
+StaticSprite SpriteSheet::walking = StaticSprite("img/hiro/running.png", 8, 0.06f);
 
-StaticSprite SpriteSheet::crouch = StaticSprite("img/crouch.png", 4, 0.3f);
+StaticSprite SpriteSheet::crouch = StaticSprite("img/hiro/crouch.png", 4, 0.3f);
 
-StaticSprite SpriteSheet::jumping = StaticSprite("img/jumping_up.png", 4, 0.1f);
+StaticSprite SpriteSheet::jumping = StaticSprite("img/hiro/jump_up.png", 4, 0.16f);
 
-StaticSprite SpriteSheet::falling = StaticSprite("img/falling.png", 4, 0.1f);
+StaticSprite SpriteSheet::falling = StaticSprite("img/hiro/jump_down.png", 4, 0.1f);
+
+StaticSprite SpriteSheet::landing = StaticSprite("img/hiro/landing.png", 3, 0.04f);
+

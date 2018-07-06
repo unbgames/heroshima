@@ -22,9 +22,9 @@ PlayerArms::PlayerArms(GameObject &associated, weak_ptr<GameObject> player) : Co
 
     this->player = player;
     GameObject &playerGO = *player.lock();
-    if (playerGO.IsDead()) {
-        associated.RequestDelete();
-    }
+//    if (playerGO.IsDead()) {
+//        associated.RequestDelete();
+//    }
 
     Sprite* img = new Sprite(associated, gun->getSpriteRest().sprite, gun->getSpriteRest().frameCount, gun->getSpriteRest().frameTime);
     associated.orientation = playerGO.orientation;
