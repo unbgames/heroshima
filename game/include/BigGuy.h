@@ -6,10 +6,11 @@
 #define SRC_BIGGUY_H
 
 #define SPEED 100
-#define PLAYER_DISTANCE_OFFSET 60
+#define PLAYER_DISTANCE_OFFSET 100
 
 
 #include "Enemy.h"
+#include "Sound.h"
 
 class BigGuy : public Enemy {
 public:
@@ -20,7 +21,9 @@ public:
     void NotifyCollision(GameObject &other) override;
 
 private:
-    bool going;
+    Sound *walkSound, *explosionSound;
+
+    bool going, damaged, canDamage;
     float maxDistance;
     Vec2 initialPosition;
     Timer attackingTimer, deadTimer, attackCooldown;
