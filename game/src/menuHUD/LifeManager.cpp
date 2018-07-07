@@ -6,7 +6,7 @@
 #include <CameraFollower.h>
 #include <PeriodicEvent.h>
 #include <TimerEvent.h>
-#include <NewPlayer.h>
+#include <Player.h>
 #include <Sprite.h>
 #include "LifeManager.h"
 
@@ -18,7 +18,7 @@ int LifeManager::lastHp = 0;
 LifeManager::LifeManager(Vec2 offset) {
     LifeManager::offset = LifeManager::startOffset = { offset.x + LIFE_MARGIN_LEFT, offset.y };
     hearts.resize(PLAYER_MAX_LIVES);
-    lastHp = NewPlayer::player->GetHp();
+    lastHp = Player::player->GetHp();
 }
 
 LifeManager::~LifeManager() {
@@ -26,7 +26,7 @@ LifeManager::~LifeManager() {
 }
 
 void LifeManager::Update() {
-    int life = NewPlayer::player->GetHp();
+    int life = Player::player->GetHp();
     for (unsigned i = 0; i < hearts.size(); i++) {
         if (hearts[i].lock()) {
             hearts[i].lock()->RequestDelete();
@@ -60,5 +60,5 @@ void LifeManager::Update() {
         hearts[i] = (Game::GetInstance().GetCurrentState().AddObject(heartGO));
     }
     offset = startOffset;
-    lastHp = NewPlayer::player->GetHp();
+    lastHp = Player::player->GetHp();
 }

@@ -6,7 +6,7 @@
 #include <RotationTween.h>
 #include <WeaponCrate.h>
 #include <Sound.h>
-#include <NewPlayer.h>
+#include <Player.h>
 #include <Sprite.h>
 
 #include "Bullet.h"
@@ -39,9 +39,9 @@ void PlayerArms::Update(float dt) {
 
     associated.box = player.box;
     associated.orientation = player.orientation;
-    if(NewPlayer::player){
-        movementState = NewPlayer::player->getMovementState();
-        jumpState = NewPlayer::player->getJumpState();
+    if(Player::player){
+        movementState = Player::player->getMovementState();
+        jumpState = Player::player->getJumpState();
     }
 
     if (InputManager::GetInstance().IsKeyDown(SPACE_BAR_KEY)) {

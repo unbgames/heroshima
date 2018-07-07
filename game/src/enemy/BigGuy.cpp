@@ -7,7 +7,7 @@
 #include <Bullet.h>
 #include <CollisionTile.h>
 #include <Camera.h>
-#include <NewPlayer.h>
+#include <Player.h>
 #include "BigGuy.h"
 
 BigGuy::BigGuy(GameObject &associated, int hp, const Vec2 &initialPosition, float maxDistance) : Enemy(associated, hp, initialPosition),
@@ -28,8 +28,8 @@ BigGuy::BigGuy(GameObject &associated, int hp, const Vec2 &initialPosition, floa
 }
 
 void BigGuy::Update(float dt) {
-    if(NewPlayer::player) {
-        auto playerBox = NewPlayer::player->GetAssociatedBox();
+    if(Player::player) {
+        auto playerBox = Player::player->GetAssociatedBox();
 
         if (state == E_WALKING) {
             attackCooldown.Update(dt);

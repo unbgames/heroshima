@@ -5,7 +5,7 @@
 #include <CollisionTile.h>
 #include <Collider.h>
 #include <Gravity.h>
-#include <NewPlayer.h>
+#include <Player.h>
 #include "Crate.h"
 
 Crate::Crate(GameObject &associated, Vec2 initialPosition, bool startFalling) :
@@ -22,8 +22,8 @@ Crate::Crate(GameObject &associated, Vec2 initialPosition, bool startFalling) :
 }
 
 void Crate::Update(float dt) {
-    if(NewPlayer::player) {
-        if (NewPlayer::player->GetAssociatedBox().x > associated.box.x - CRATE_OFFSET) {
+    if(Player::player) {
+        if (Player::player->GetAssociatedBox().x > associated.box.x - CRATE_OFFSET) {
             if (!fell) {
                 fell = true;
                 associated.AddComponent(new Gravity(associated));
@@ -47,7 +47,7 @@ void Crate::NotifyCollision(GameObject &other) {
         associated.box.y =  other.box.y - associated.box.h;
     }
 
-    auto player = (NewPlayer*) other.GetComponent(PLAYER_TYPE);
+    auto player = (Player*) other.GetComponent(PLAYER_TYPE);
     if(player){
         onCatch();
     }

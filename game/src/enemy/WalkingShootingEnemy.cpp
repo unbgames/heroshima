@@ -8,7 +8,7 @@
 #include <Bullet.h>
 #include <Sound.h>
 #include <Game.h>
-#include <NewPlayer.h>
+#include <Player.h>
 #include "WalkingShootingEnemy.h"
 
 WalkingShootingEnemy::WalkingShootingEnemy(GameObject &associated, int hp, Vec2 initialPosition) : Enemy(associated, hp, initialPosition) {
@@ -30,8 +30,8 @@ WalkingShootingEnemy::WalkingShootingEnemy(GameObject &associated, int hp, Vec2 
 }
 
 void WalkingShootingEnemy::Update(float dt) {
-    if(NewPlayer::player) {
-        auto playerBox = NewPlayer::player->GetAssociatedBox();
+    if(Player::player) {
+        auto playerBox = Player::player->GetAssociatedBox();
 
         if (state == E_STOPPED) {
             if (playerBox.x > associated.box.x - PLAYER_DISTANCE_OFFSET) {

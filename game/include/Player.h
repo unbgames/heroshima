@@ -1,30 +1,33 @@
-#ifndef PLAYER_H
-#define PLAYER_H
+//
+// Created by edgar on 05/07/18.
+//
 
-#include "Vec2.h"
+#ifndef SRC_PLAYER_CLASS
+#define SRC_PLAYER_CLASS
+
+#define PLAYER_MAX_LIVES 9
+#define PLAYER_SPEED  400
+
+#define JUMP_SPEED    600
+
+#define PLAYER_TYPE "Player"
+
+#include "Timer.h"
 #include "PlayerArms.h"
 #include "Component.h"
-#include "Sprite.h"
-
-#define PLAYER_SPEED  300
-#define JUMP_SPEED    600
-#define GRAVITY       50.0f
-#define PLAYER_T "Player"
-#define PLAYER_MAX_LIVES 9
 
 class Player : public Component {
 public:
-    Player(GameObject& associated);
+    Player(GameObject &associated);
     ~Player();
 
-    void Start() override;
+    static Player* player;
+
     void Update(float dt) override;
     void Render() override;
     bool Is(string type) override;
+    void Start() override;
 
-    void NotifyCollision(GameObject &other) override;
-
-    static Player* player;
     static PlayerArms* playerArms;
 
     int GetHp() const;
@@ -32,23 +35,26 @@ public:
     void IncremmentHp();
     void DecrementHp();
 
-    MoveState getMovementState() const;
+    void NotifyCollision(GameObject &other) override;
+
+    MoveState getMovementState();
     JumpState getJumpState();
 
 private:
-
-    StaticSprite bodyState;
+    StaticSprite currentSprite;
 
     MoveState movementState;
     JumpState jumpState;
 
+    int hp;
+    bool usedSecondJump, landed;
+    bool isDamage;
+    Timer landingTimer;
+
     Vec2 speed;
     float verticalSpeed;
     float horizontalSpeed;
-    int hp;
-    bool usedSecondJump;
-
 };
 
 
-#endif // PLAYER_H
+#endif //SRC_PLAYER_CLASS
