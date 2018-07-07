@@ -68,6 +68,19 @@ void PlayerArms::Update(float dt) {
         if(isAttacking) associated.box.x += associated.orientation == RIGHT ? 10 : -10;
     }
 
+    //THIS IS A F#$@* PIECE OF SHIT
+    if(!isAttacking){
+        if(jumpState == JUMPING){
+            associated.box.y -= 8;
+        } else if(jumpState == FALLING){
+            associated.box.x += associated.orientation == RIGHT ? 5 : -5;
+            associated.box.y -= 16;
+        } else if (jumpState == LANDING){
+            associated.box.x += associated.orientation == RIGHT ? 10 : -10;
+        }
+
+    }
+
     if(gun == SpriteSheet::heavy && gun->getAmmo() <= 0){
         DropGun();
         SetGun(SpriteSheet::pistol);
@@ -79,7 +92,8 @@ void PlayerArms::Update(float dt) {
 void PlayerArms::Render() {
     auto sprite = (Sprite*)associated.GetComponent(SPRITE_TYPE);
     string file;
-    float frameCount, frameTime;
+    int frameCount = 0;
+    float frameTime = 0;
     if(movementState == IDLE){
         if(!isAttacking){
             file = gun->getSpriteRest().sprite;
@@ -113,8 +127,33 @@ void PlayerArms::Render() {
         }
     }
 
-    if(jumpState == JUMPING){
+    if(jumpState == JUMPING || jumpState == FALLING){
+        if(!isAttacking){
+            if(jumpState == JUMPING){
+                file = "img/hiro/jump_up_arms.png";
+                frameTime = 0.16f;
+            } else if(jumpState == FALLING){
+                file = file = gun->getSpriteRest().sprite;
+                frameTime = 0.1f;
+            }
+            frameCount = 4;
 
+        } else{
+            file = gun->getSpriteShoot().sprite;
+            frameCount = gun->getSpriteShoot().frameCount;
+            frameTime = gun->getSpriteShoot().frameTime;
+        }
+    } else if (jumpState == LANDING){
+        if(!isAttacking){
+            file = gun->getSpriteRest().sprite;
+            frameTime = gun->getSpriteRest().frameTime;
+            frameCount = gun->getSpriteRest().frameCount;
+
+        } else{
+            file = gun->getSpriteShoot().sprite;
+            frameCount = gun->getSpriteShoot().frameCount;
+            frameTime = gun->getSpriteShoot().frameTime;
+        }
     }
 
     sprite->Open(file);
