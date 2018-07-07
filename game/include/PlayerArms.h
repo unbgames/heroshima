@@ -32,7 +32,9 @@ public:
     void RequestDelete();
 
 private:
-    MoveState state;
+    MoveState movementState;
+    JumpState jumpState;
+    bool isAttacking;
 
     Gun *gun;
 

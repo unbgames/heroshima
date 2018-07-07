@@ -45,7 +45,6 @@ private:
 
     MoveState movementState;
     JumpState jumpState;
-    AttackingState attackingState;
 
     int hp;
     bool usedSecondJump, landed;
