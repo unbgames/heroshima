@@ -43,7 +43,9 @@ bool Sound::IsOpen() {
     return chunk != nullptr;
 }
 
-void Sound::Update(float dt) {}
+void Sound::Update(float dt) {
+    if(!IsSoundPlaying()) associated.RequestDelete();
+}
 
 void Sound::Render() {}
 

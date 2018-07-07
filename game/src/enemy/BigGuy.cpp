@@ -8,11 +8,13 @@
 #include <CollisionTile.h>
 #include <Camera.h>
 #include <Player.h>
+#include <Game.h>
+#include <Sound.h>
 #include "BigGuy.h"
 
 BigGuy::BigGuy(GameObject &associated, int hp, const Vec2 &initialPosition, float maxDistance) : Enemy(associated, hp, initialPosition),
                                                                                                  going(true), initialPosition(initialPosition),
-                                                                                                 maxDistance(maxDistance) {
+                                                                                                 maxDistance(maxDistance), damaged(false), canDamage(true) {
 
     walking = StaticSprite("img/enemy/BigGuy/walking.png", 6, 0.1f);
     attacking = StaticSprite("img/enemy/BigGuy/attack.png", 9, 0.1f);
@@ -22,17 +24,24 @@ BigGuy::BigGuy(GameObject &associated, int hp, const Vec2 &initialPosition, floa
 
     Sprite* img = new Sprite(associated, walking.sprite, walking.frameCount, walking.frameTime);
 
+    walkSound = new Sound(associated, "audio/enemy/BigGuy/passos1.mp3");
+    explosionSound = new Sound(associated, "audio/enemy/BigGuy/explosion1.mp3");
+
     associated.orientation = RIGHT;
     associated.AddComponent(img);
     associated.AddComponent(new Gravity(associated));
 }
 
 void BigGuy::Update(float dt) {
-    if(Player::player) {
+    if(Player::player && IsCloseEnoughToPlayer(700)) {
         auto playerBox = Player::player->GetAssociatedBox();
 
         if (state == E_WALKING) {
+            canDamage = true;
             attackCooldown.Update(dt);
+            if(!walkSound->IsSoundPlaying()){
+                walkSound->Play();
+            }
             if (going) {
                 if (associated.box.x < maxDistance + initialPosition.x) {
                     associated.orientation = RIGHT;
@@ -59,6 +68,10 @@ void BigGuy::Update(float dt) {
 
             if (attackingTimer.Get() > (attacking.frameCount * attacking.frameTime) * (5.0F / 9.0F)) {
                 Camera::Wiggle(0.2);
+                damaged = canDamage;
+                if(!explosionSound->IsSoundPlaying()){
+                    explosionSound->Play(1);
+                }
             }
             if (attackingTimer.Get() > attacking.frameCount * attacking.frameTime) {
                 state = E_WALKING;
@@ -91,5 +104,12 @@ void BigGuy::NotifyCollision(GameObject &other) {
     auto bullet = (Bullet*) other.GetComponent(BULLET_TYPE);
     if(bullet && !bullet->targetsPlayer){
         hp -= bullet->GetDamage();
+    }
+
+    auto player = (Player*)other.GetComponent(PLAYER_TYPE);
+    if(player && state == E_ATTACKING && damaged){
+        player->DecrementHp();
+        if(player->GetHp() <= 0) state = E_WALKING;
+        canDamage = false;
     }
 }

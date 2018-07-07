@@ -38,7 +38,7 @@ Stage1::Stage1() {
 }
 
 void Stage1::LoadAssets() {
-    backgroundMusic.Open("audio/stageState.ogg");
+    backgroundMusic.Open("audio/Japans-Victory-Theme.ogg");
 }
 
 void Stage1::Update(float dt) {
