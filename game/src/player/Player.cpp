@@ -12,14 +12,14 @@
 #include <CollisionTile.h>
 #include <Gravity.h>
 #include <PlayerArms.h>
-#include "NewPlayer.h"
+#include "Player.h"
 
 using std::weak_ptr;
 using std::string;
 
-NewPlayer *NewPlayer::player = nullptr;
-PlayerArms *NewPlayer::playerArms = nullptr;
-NewPlayer::NewPlayer(GameObject &associated) : Component(associated), hp(2), usedSecondJump(false), isDamage(false), landed(false) {
+Player *Player::player = nullptr;
+PlayerArms *Player::playerArms = nullptr;
+Player::Player(GameObject &associated) : Component(associated), hp(2), usedSecondJump(false), isDamage(false), landed(false) {
 
     currentSprite = SpriteSheet::idle;
 
@@ -32,18 +32,18 @@ NewPlayer::NewPlayer(GameObject &associated) : Component(associated), hp(2), use
 
 }
 
-void NewPlayer::Start() {
+void Player::Start() {
     auto arms = new GameObject;
     playerArms = new PlayerArms(*arms, Game::GetInstance().GetCurrentState().GetCollisionObjectPtr(&associated));
     arms->AddComponent(playerArms);
     Game::GetInstance().GetCurrentState().AddCollisionObject(arms);
 }
 
-NewPlayer::~NewPlayer() {
+Player::~Player() {
     player = nullptr;
 }
 
-void NewPlayer::Update(float dt) {
+void Player::Update(float dt) {
     // Logic to camera following
     if (associated.box.x > (float)GAME_WIDTH / 2) {
         Camera::Follow(&associated);
@@ -133,7 +133,7 @@ void NewPlayer::Update(float dt) {
 
 }
 
-void NewPlayer::Render() {
+void Player::Render() {
     if(movementState == CROUCH){
         currentSprite = SpriteSheet::crouch;
     }
@@ -164,36 +164,36 @@ void NewPlayer::Render() {
     sprite->SetFrameTime(currentSprite.frameTime);
 }
 
-bool NewPlayer::Is(string type) {
+bool Player::Is(string type) {
     return type == PLAYER_TYPE;
 }
 
-int NewPlayer::GetHp() const {
+int Player::GetHp() const {
     return hp;
 }
 
-void NewPlayer::SetHp(int hp) {
+void Player::SetHp(int hp) {
     if(hp <= PLAYER_MAX_LIVES && hp >= 0) {
         this->hp = hp;
         LifeManager::Update();
     }
 }
 
-void NewPlayer::IncremmentHp() {
+void Player::IncremmentHp() {
     if(this->hp < PLAYER_MAX_LIVES) {
         this->hp++;
         LifeManager::Update();
     }
 }
 
-void NewPlayer::DecrementHp() {
+void Player::DecrementHp() {
     if(this->hp > 0) {
         this->hp--;
         LifeManager::Update();
     }
 }
 
-void NewPlayer::NotifyCollision(GameObject &other) {
+void Player::NotifyCollision(GameObject &other) {
     auto collisionTile = (CollisionTile*) other.GetComponent(COLLISION_TILE_T);
     auto collider = (Collider*) associated.GetComponent(COLLIDER_TYPE);
     if (collisionTile && collider) {
@@ -212,10 +212,10 @@ void NewPlayer::NotifyCollision(GameObject &other) {
     }
 }
 
-MoveState NewPlayer::getMovementState() {
+MoveState Player::getMovementState() {
     return movementState;
 }
 
-JumpState NewPlayer::getJumpState() {
+JumpState Player::getJumpState() {
     return jumpState;
 }
