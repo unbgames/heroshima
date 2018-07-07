@@ -4,7 +4,6 @@
 
 #include <Camera.h>
 #include <Collider.h>
-#include "Player.h"
 #include "CollisionTile.h"
 #include "TileMap.h"
 #include "Game.h"

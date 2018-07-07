@@ -2,7 +2,6 @@
 // Created by edgar on 28/05/18.
 //
 
-#include <Player.h>
 #include <Sound.h>
 #include "WeaponCrate.h"
 
@@ -13,7 +12,7 @@ WeaponCrate::WeaponCrate(GameObject &associated, const Vec2 &initialPosition, Gu
 
 void WeaponCrate::onCatch() {
     gun->setAmmo(gun->getFull());
-    Player::playerArms->SetGun(gun);
+//    NewPlayer::playerArms->SetGun(gun);
     associated.RequestDelete();
 
     //FIXME garantir que esse GO eh deletado apos terminar de tocar o som

@@ -2,11 +2,12 @@
 // Created by edgar on 19/04/18.
 //
 
-#include <Player.h>
 #include <Game.h>
 #include <MathUtil.h>
 #include <CollisionTile.h>
 #include <Enemy.h>
+#include <Sprite.h>
+#include <Player.h>
 #include "Collider.h"
 #include "Bullet.h"
 
@@ -59,7 +60,7 @@ void Bullet::NotifyCollision(GameObject &other) {
 
     }
 
-    if(other.GetComponent(PLAYER_T) && !other.GetComponent(BULLET_TYPE) && targetsPlayer){
+    if(other.GetComponent(PLAYER_TYPE) && !other.GetComponent(BULLET_TYPE) && targetsPlayer){
         Explode();
     }
 }

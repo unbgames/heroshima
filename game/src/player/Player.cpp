@@ -1,17 +1,17 @@
-#include <iostream>
-#include <memory>
-#include <LifeManager.h>
-#include <SpriteSheet.h>
-#include <Bullet.h>
-#include <Camera.h>
-#include <Enemy.h>
+//
+// Created by edgar on 05/07/18.
+//
 
-#include "InputManager.h"
-#include "Collider.h"
-#include "PlayerArms.h"
-#include "Game.h"
-#include "CollisionTile.h"
-#include "Sprite.h"
+#include <Collider.h>
+#include <Sprite.h>
+#include <SpriteSheet.h>
+#include <LifeManager.h>
+#include <Camera.h>
+#include <Game.h>
+#include <InputManager.h>
+#include <CollisionTile.h>
+#include <Gravity.h>
+#include <PlayerArms.h>
 #include "Player.h"
 
 using std::weak_ptr;
@@ -19,37 +19,31 @@ using std::string;
 
 Player *Player::player = nullptr;
 PlayerArms *Player::playerArms = nullptr;
-Player::Player(GameObject &associated) : Component(associated), hp(2), usedSecondJump(false) {
+Player::Player(GameObject &associated) : Component(associated), hp(2), usedSecondJump(false), isDamage(false), landed(false) {
 
-    bodyState = SpriteSheet::idle;
+    currentSprite = SpriteSheet::idle;
 
-    Sprite* img = new Sprite(associated, bodyState.sprite, bodyState.frameCount, bodyState.frameTime);
-    associated.box.w = img->GetWidth();
-    associated.box.y = img->GetWidth();
-    associated.AddComponent(img);
+    Sprite* body = new Sprite(associated, currentSprite.sprite, currentSprite.frameCount, currentSprite.frameTime);
+    associated.box.w = body->GetWidth();
+    associated.box.y = body->GetWidth();
+    associated.AddComponent(body);
     associated.AddComponent(new Collider(associated, {0.4, 0.9}, {-8, 5}));
-
     player = this;
+
+}
+
+void Player::Start() {
+    auto arms = new GameObject;
+    playerArms = new PlayerArms(*arms, Game::GetInstance().GetCurrentState().GetCollisionObjectPtr(&associated));
+    arms->AddComponent(playerArms);
+    Game::GetInstance().GetCurrentState().AddCollisionObject(arms);
 }
 
 Player::~Player() {
     player = nullptr;
 }
 
-void Player::Start() {
-    jumpState = FALLING;
-    movementState = RESTING;
-
-    auto pBodyGO = new GameObject;
-    playerArms = new PlayerArms(*pBodyGO, Game::GetInstance().GetCurrentState().GetCollisionObjectPtr(&associated));
-    pBodyGO->AddComponent(playerArms);
-    Game::GetInstance().GetCurrentState().AddCollisionObject(pBodyGO);
-
-}
-
 void Player::Update(float dt) {
-//    cout<<associated.box.x<<endl;
-
     // Logic to camera following
     if (associated.box.x > (float)GAME_WIDTH / 2) {
         Camera::Follow(&associated);
@@ -67,49 +61,58 @@ void Player::Update(float dt) {
     if(InputManager::GetInstance().IsKeyDown(ENTER_KEY))Camera::Wiggle(0.5);
     //Remove
 
-    if (InputManager::GetInstance().IsKeyDown(A_KEY) || InputManager::GetInstance().IsKeyDown(D_KEY)) {
-        movementState = WALKING;
-        bodyState = SpriteSheet::walking;
+    if(isDamage){
 
-        if (InputManager::GetInstance().IsKeyDown(A_KEY)){
-            associated.box.x -= PLAYER_SPEED * dt;
-            associated.orientation = Orientation::LEFT;
-        }
-        if (InputManager::GetInstance().IsKeyDown(D_KEY)){
-            associated.box.x += PLAYER_SPEED * dt;
-            associated.orientation = Orientation::RIGHT;
-        }
-    } else if(InputManager::GetInstance().IsKeyDown(S_KEY)){
-        movementState = CROUCH;
-        bodyState = SpriteSheet::crouch;
     } else {
-        movementState = RESTING;
-        bodyState = SpriteSheet::idle;
+        if (InputManager::GetInstance().IsKeyDown(S_KEY)) {
+            movementState = CROUCH;
+            if (InputManager::GetInstance().IsKeyDown(A_KEY)) {
+                associated.orientation = Orientation::LEFT;
+            }
+            if (InputManager::GetInstance().IsKeyDown(D_KEY)) {
+                associated.orientation = Orientation::RIGHT;
+            }
+        } else if (InputManager::GetInstance().IsKeyDown(A_KEY) || InputManager::GetInstance().IsKeyDown(D_KEY)) {
+            movementState = WALKING;
+            if (InputManager::GetInstance().IsKeyDown(A_KEY)) {
+                associated.box.x -= PLAYER_SPEED * dt;
+                associated.orientation = Orientation::LEFT;
+            }
+            if (InputManager::GetInstance().IsKeyDown(D_KEY)) {
+                associated.box.x += PLAYER_SPEED * dt;
+                associated.orientation = Orientation::RIGHT;
+            }
+        } else {
+            movementState = IDLE;
+        }
     }
 
-    if (jumpState == FALLING || jumpState == JUMPING) {
+    // Adiciona gravidade
+    verticalSpeed += Gravity::GetGravityAcc() * dt;
 
-        // Adiciona gravidade
-        verticalSpeed += GRAVITY * dt;
-        bodyState = SpriteSheet::jumping;
+    if (jumpState == FALLING || jumpState == JUMPING) {
+        landed = false;
 
         // Se começar a cair mudar de estado
         if (verticalSpeed > 0) {
             jumpState = FALLING;
-            bodyState = SpriteSheet::falling;
         }
 
         if (!usedSecondJump) {
-
             if (InputManager::GetInstance().KeyPress(W_KEY)) {
                 verticalSpeed = -1 * JUMP_SPEED * dt;
                 usedSecondJump = true;
             }
-
         }
-
-    } else {
-
+    } else if(jumpState == LANDING) {
+        landingTimer.Update(dt);
+        horizontalSpeed += (associated.orientation == RIGHT ? 50 : -50) * dt;
+        if(landingTimer.Get() > currentSprite.frameTime * currentSprite.frameCount){
+            landed = true;
+            landingTimer.Restart();
+            jumpState = ONGROUND;
+        }
+    } else if(jumpState == ONGROUND) {
         if (InputManager::GetInstance().KeyPress(W_KEY)) {
             verticalSpeed -= JUMP_SPEED * dt;
             jumpState = JUMPING;
@@ -125,47 +128,44 @@ void Player::Update(float dt) {
 
     if(hp <= 0){
         associated.RequestDelete();
+        Camera::Unfollow();
     }
+
 }
 
 void Player::Render() {
+    if(movementState == CROUCH){
+        currentSprite = SpriteSheet::crouch;
+    }
+
+    if(movementState == WALKING){
+        currentSprite = SpriteSheet::walking;
+    }
+
+    if(movementState == IDLE){
+        currentSprite = SpriteSheet::idle;
+    }
+
+    if(jumpState == JUMPING){
+        currentSprite = SpriteSheet::jumping;
+    }
+
+    if(jumpState == FALLING){
+        currentSprite = SpriteSheet::falling;
+    }
+
+    if(jumpState == LANDING){
+        currentSprite = SpriteSheet::landing;
+    }
+
     auto sprite = (Sprite*)associated.GetComponent(SPRITE_TYPE);
-    sprite->Open(bodyState.sprite);
-    sprite->SetFrameCount(bodyState.frameCount);
-    sprite->SetFrameTime(bodyState.frameTime);
+    sprite->Open(currentSprite.sprite);
+    sprite->SetFrameCount(currentSprite.frameCount);
+    sprite->SetFrameTime(currentSprite.frameTime);
 }
 
 bool Player::Is(string type) {
-    return PLAYER_T == type;
-}
-
-void Player::NotifyCollision(GameObject &other) {
-    auto collisionTile = (CollisionTile*) other.GetComponent(COLLISION_TILE_T);
-    auto collider = (Collider*) associated.GetComponent(COLLIDER_TYPE);
-    if (collisionTile && collider) {
-        auto edge = collider->GetEdge();
-        if (edge.RIGHT) {
-            horizontalSpeed = 0;
-            associated.box.x =  other.box.x - associated.box.w;
-        } else if (edge.LEFT) {
-            horizontalSpeed = 0;
-            associated.box.x =  other.box.x + other.box.w;
-        } else if (edge.BOTTOM) {
-            verticalSpeed = 0;
-            associated.box.y =  other.box.y - associated.box.h;
-            jumpState = ONGROUND;
-        }
-    }
-
-    auto bullet = (Bullet*) other.GetComponent(BULLET_TYPE);
-    if(bullet && bullet->targetsPlayer){
-        DecrementHp();
-    }
-
-    auto enemy = (Enemy*) associated.GetComponent(ENEMY_TYPE);
-    if(enemy && enemy->getState() == E_ATTACKING){
-        DecrementHp();
-    }
+    return type == PLAYER_TYPE;
 }
 
 int Player::GetHp() const {
@@ -193,7 +193,26 @@ void Player::DecrementHp() {
     }
 }
 
-MoveState Player::getMovementState() const {
+void Player::NotifyCollision(GameObject &other) {
+    auto collisionTile = (CollisionTile*) other.GetComponent(COLLISION_TILE_T);
+    auto collider = (Collider*) associated.GetComponent(COLLIDER_TYPE);
+    if (collisionTile && collider) {
+        auto edge = collider->GetEdge();
+        if (edge.RIGHT) {
+            horizontalSpeed = 0;
+            associated.box.x =  other.box.x - associated.box.w;
+        } else if (edge.LEFT) {
+            horizontalSpeed = 0;
+            associated.box.x =  other.box.x + other.box.w;
+        } else if (edge.BOTTOM) {
+            verticalSpeed = 0;
+            associated.box.y =  other.box.y - associated.box.h;
+            jumpState = landed ? ONGROUND : LANDING;
+        }
+    }
+}
+
+MoveState Player::getMovementState() {
     return movementState;
 }
 

@@ -25,3 +25,7 @@ float Gravity::GetVerticalSpeed() const {
 void Gravity::SetVerticalSpeed(float verticalSpeed) {
     this->verticalSpeed = verticalSpeed;
 }
+
+float Gravity::GetGravityAcc() {
+    return 50.0F;
+}

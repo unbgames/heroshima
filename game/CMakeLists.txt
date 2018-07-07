@@ -42,7 +42,6 @@ add_executable(HEROshima src/Main.cpp
         src/engine/GameData.cpp include/GameData.h
         src/state/Menu.cpp include/Menu.h
         src/state/Stage1.cpp include/Stage1.h
-        src/player/Player.cpp include/Player.h
         src/engine/components/CollisionTile.cpp include/CollisionTile.h
         src/player/PlayerArms.cpp include/PlayerArms.h
         include/Gun.h src/player/Gun.cpp
@@ -64,5 +63,7 @@ add_executable(HEROshima src/Main.cpp
         src/enemy/Enemy.cpp include/Enemy.h
         src/enemy/FallingChasingEnemy.cpp include/FallingChasingEnemy.h
         src/enemy/WalkingShootingEnemy.cpp include/WalkingShootingEnemy.h
-        src/xml/pugiconfig.hpp src/xml/pugixml.cpp src/xml/pugixml.hpp src/enemy/BigGuy.cpp include/BigGuy.h)
+        src/xml/pugiconfig.hpp src/xml/pugixml.cpp src/xml/pugixml.hpp
+        src/enemy/BigGuy.cpp include/BigGuy.h
+        src/player/Player.cpp include/Player.h)
 

@@ -4,10 +4,10 @@
 
 #include <Gravity.h>
 #include <Sprite.h>
-#include <Player.h>
 #include <Bullet.h>
 #include <CollisionTile.h>
 #include <Camera.h>
+#include <Player.h>
 #include "BigGuy.h"
 
 BigGuy::BigGuy(GameObject &associated, int hp, const Vec2 &initialPosition, float maxDistance) : Enemy(associated, hp, initialPosition),
@@ -28,57 +28,54 @@ BigGuy::BigGuy(GameObject &associated, int hp, const Vec2 &initialPosition, floa
 }
 
 void BigGuy::Update(float dt) {
-    auto playerBox = Player::player->GetAssociatedBox();
+    if(Player::player) {
+        auto playerBox = Player::player->GetAssociatedBox();
 
-    if(state == E_WALKING){
-        attackCooldown.Update(dt);
-        if (going) {
-            if(associated.box.x < maxDistance + initialPosition.x) {
-                associated.orientation = RIGHT;
-                associated.box.x += SPEED * dt;
+        if (state == E_WALKING) {
+            attackCooldown.Update(dt);
+            if (going) {
+                if (associated.box.x < maxDistance + initialPosition.x) {
+                    associated.orientation = RIGHT;
+                    associated.box.x += SPEED * dt;
+                } else {
+                    going = false;
+                }
+
             } else {
-                going = false;
+                if (associated.box.x > initialPosition.x) {
+                    associated.orientation = LEFT;
+                    associated.box.x -= SPEED * dt;
+                } else going = true;
             }
 
-        } else {
-            if(associated.box.x > initialPosition.x) {
-                associated.orientation = LEFT;
-                associated.box.x -= SPEED * dt;
-            } else going = true;
+            if (IsCloseEnoughToPlayer(PLAYER_DISTANCE_OFFSET)) {
+                if (attackCooldown.Get() > 3)
+                    state = E_ATTACKING;
+            }
+        } else if (state == E_ATTACKING) {
+            associated.orientation = playerBox.x < associated.box.x ? LEFT : RIGHT;
+            going = associated.orientation != LEFT;
+            attackingTimer.Update(dt);
+
+            if (attackingTimer.Get() > (attacking.frameCount * attacking.frameTime) * (5.0F / 9.0F)) {
+                Camera::Wiggle(0.2);
+            }
+            if (attackingTimer.Get() > attacking.frameCount * attacking.frameTime) {
+                state = E_WALKING;
+                attackCooldown.Restart();
+                attackingTimer.Restart();
+            }
+        } else if (state == E_DEAD_BY_BULLET) {
+            deadTimer.Update(dt);
+            if (deadTimer.Get() > deadByBullet.frameCount * deadByBullet.frameTime) {
+                associated.RequestDelete();
+            }
         }
 
-        if(IsCloseEnoughToPlayer(PLAYER_DISTANCE_OFFSET)){
-            if(attackCooldown.Get() > 3)
-            state = E_ATTACKING;
-        }
-    }
-
-    else if(state == E_ATTACKING){
-        associated.orientation = playerBox.x < associated.box.x ? LEFT : RIGHT;
-        going = associated.orientation != LEFT;
-        attackingTimer.Update(dt);
-
-        if(attackingTimer.Get() > (attacking.frameCount * attacking.frameTime) * (5.0F/9.0F)){
-            Camera::Wiggle(0.2);
-        }
-        if(attackingTimer.Get() > attacking.frameCount * attacking.frameTime) {
-            state = E_WALKING;
-            attackCooldown.Restart();
-            attackingTimer.Restart();
-        }
-    }
-
-    else if(state == E_DEAD_BY_BULLET){
-        deadTimer.Update(dt);
-        if(deadTimer.Get() > deadByBullet.frameCount * deadByBullet.frameTime){
-            associated.RequestDelete();
+        if (hp <= 0) {
+            state = E_DEAD_BY_BULLET;
         }
     }
-
-    if(hp <= 0){
-        state = E_DEAD_BY_BULLET;
-    }
-
 }
 
 void BigGuy::NotifyCollision(GameObject &other) {

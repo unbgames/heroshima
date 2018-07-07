@@ -2,10 +2,10 @@
 // Created by edgar on 28/05/18.
 //
 
-#include <Player.h>
 #include <CollisionTile.h>
 #include <Collider.h>
 #include <Gravity.h>
+#include <Player.h>
 #include "Crate.h"
 
 Crate::Crate(GameObject &associated, Vec2 initialPosition, bool startFalling) :
@@ -22,10 +22,12 @@ Crate::Crate(GameObject &associated, Vec2 initialPosition, bool startFalling) :
 }
 
 void Crate::Update(float dt) {
-    if(Player::player->GetAssociatedBox().x > associated.box.x - CRATE_OFFSET){
-        if (!fell){
-            fell = true;
-            associated.AddComponent(new Gravity(associated));
+    if(Player::player) {
+        if (Player::player->GetAssociatedBox().x > associated.box.x - CRATE_OFFSET) {
+            if (!fell) {
+                fell = true;
+                associated.AddComponent(new Gravity(associated));
+            }
         }
     }
 }
@@ -45,7 +47,7 @@ void Crate::NotifyCollision(GameObject &other) {
         associated.box.y =  other.box.y - associated.box.h;
     }
 
-    auto player = (Player*) other.GetComponent(PLAYER_T);
+    auto player = (Player*) other.GetComponent(PLAYER_TYPE);
     if(player){
         onCatch();
     }

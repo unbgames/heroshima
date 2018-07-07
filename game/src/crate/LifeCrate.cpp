@@ -5,10 +5,10 @@
 #include <Sprite.h>
 #include <Sound.h>
 #include <Text.h>
-#include <Player.h>
 #include <LineTween.h>
 #include <Game.h>
 #include <PeriodicEvent.h>
+#include <Player.h>
 #include "LifeCrate.h"
 
 LifeCrate::LifeCrate(GameObject &associated, const Vec2 &initialPosition, int health, bool startFalling) :

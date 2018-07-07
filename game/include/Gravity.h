@@ -20,6 +20,7 @@ public:
     bool Is(string type) override;
 
     float GetVerticalSpeed() const;
+    static float GetGravityAcc();
 
     void SetVerticalSpeed(float verticalSpeed);
 

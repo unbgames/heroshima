@@ -5,8 +5,8 @@
 #include <Sprite.h>
 #include <CameraFollower.h>
 #include <Game.h>
-#include <MenuHUD.h>
 #include <Player.h>
+#include <MenuHUD.h>
 #include <LifeManager.h>
 #include <SpriteSheet.h>
 #include "GunManager.h"
