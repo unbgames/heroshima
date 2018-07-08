@@ -9,7 +9,7 @@ Gun *SpriteSheet::pistol = new Gun(1, -1 /*for infinite ammo*/, 0.5f,
                                StaticSprite("img/hiro/running_arms.png", 8, 0.06f),
                                StaticSprite("img/hiro/shooting_arms.png", 4, 0.1f),
                                StaticSprite("img/hiro/crouch_arms.png", 4, 0.3f, 40),
-        Projectile("img/bullet.png", 700, 4, 0.01f));
+        Projectile("img/bullet.png", 1000, 4, 0.01f));
 
 
 Gun *SpriteSheet::heavy = new Gun(3, 100, 0.1f,

@@ -217,15 +217,17 @@ void Player::NotifyCollision(GameObject &other) {
             verticalSpeed = 0;
             associated.box.y = other.box.y - associated.box.h + 1;
             jumpState = landed ? ONGROUND : LANDING;
-        } else if (edge.RIGHT) {
-            movementState = BLOCKED_RIGHT;
-            horizontalSpeed = 0;
-            associated.box.x = other.box.x - associated.box.w;
-        } else if (edge.LEFT) {
-            movementState = BLOCKED_LEFT;
-            horizontalSpeed = 0;
-            associated.box.x = other.box.x;
         }
+
+//        else if (edge.RIGHT) {
+//            movementState = BLOCKED_RIGHT;
+//            horizontalSpeed = 0;
+//            associated.box.x = other.box.x - associated.box.w;
+//        } else if (edge.LEFT) {
+//            movementState = BLOCKED_LEFT;
+//            horizontalSpeed = 0;
+//            associated.box.x = other.box.x;
+//        }
 
 
     }
