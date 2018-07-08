@@ -15,7 +15,7 @@
 FallingChasingEnemy::FallingChasingEnemy(GameObject &associated, int hp, Vec2 initialPosition, bool startFalling)
         : Enemy(associated, hp, initialPosition), fell(false), landed(false), hit(false), speed({0, 0}) {
 
-    falling = StaticSprite("img/assassin_idel.png", 2, 0.2f);
+    falling = StaticSprite("img/assassin_idel.png", 4, 0.2f);
     chasing = StaticSprite("img/assassin_andando.png", 6, 0.06f);
     idle = StaticSprite("img/assassin_idel.png", 4, 0.2f);
     stopped = StaticSprite("img/assassin_idel.png", 4, 0.2f);
