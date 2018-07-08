@@ -17,15 +17,15 @@ Stage1::Stage1() {
 
     auto bgGO(new GameObject);
     bgGO->AddComponent(new CameraFollower(*bgGO));
-    Sprite *bgSprite = new Sprite(*bgGO, "img/bg.png");
+    Sprite *bgSprite = new Sprite(*bgGO, "img/bg2.png");
     bgGO->AddComponent(bgSprite);
     AddObject(bgGO);
 
     auto mapGO(new GameObject);
     mapGO->box.w = GAME_WIDTH;
     mapGO->box.h = GAME_HEIGHT;
-    TileSet *tileSet = new TileSet(32, 32, "img/tileset.png");
-    TileMap *tileMap = new TileMap(*mapGO, "map/tileMap.txt", tileSet);
+    TileSet *tileSet = new TileSet(128, 128, "img/HIROSHIMA-LV1-128x128.png");
+    TileMap *tileMap = new TileMap(*mapGO, "map/HIROSHIMA-LV1-128x128.txt", tileSet);
     mapGO->AddComponent(tileMap);
     AddObject(mapGO);
 
@@ -38,7 +38,7 @@ Stage1::Stage1() {
 }
 
 void Stage1::LoadAssets() {
-    backgroundMusic.Open("audio/Japans-Victory-Theme.ogg");
+    backgroundMusic.Open("audio/FASE1HEROJAZZBl.ogg");
 }
 
 void Stage1::Update(float dt) {

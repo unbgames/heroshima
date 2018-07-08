@@ -25,14 +25,14 @@ void Camera::Unfollow() {
 }
 
 void Camera::Update(float dt) {
-    if(focus != nullptr){
-        if(focus->box.y < GAME_HEIGHT){
-            pos = {- GAME_WIDTH/2, - GAME_HEIGHT + VERTICAL_OFFSET + BODY_OFFSET};
+    if (focus != nullptr) {
+        if (focus->box.y < GAME_HEIGHT) {
+            pos = {-GAME_WIDTH / 2, -GAME_HEIGHT + VERTICAL_OFFSET + BODY_OFFSET};
 
-            if(followX){
+            if (followX) {
                 pos += {focus->box.x, 0};
             }
-            if(followY){
+            if (followY) {
                 pos += {0, focus->box.y - BODY_OFFSET};
             }
         }

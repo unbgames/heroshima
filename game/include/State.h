@@ -5,7 +5,7 @@
 #ifndef STATE_CLASS
 #define STATE_CLASS
 
-#define MINIMUM_COLLIDER_DIST 70
+#define MINIMUM_COLLIDER_DIST 150
 
 #include "GameObject.h"
 #include "../src/xml/pugixml.hpp"

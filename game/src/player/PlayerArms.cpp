@@ -175,7 +175,7 @@ void PlayerArms::Shoot(float angle) {
         bulletGo->box.x = associated.box.GetPos().x + bulletGo->box.w;
         bulletGo->box.y = associated.box.GetPos().y + associated.box.h/2 - bulletGo->box.h + 8 + (movementState == CROUCH ? gun->getSpriteCrouch().offset : 0);
     }
-    auto sound(new Sound(*bulletGo, "audio/tiro.ogg"));
+    auto sound(new Sound(*bulletGo, "audio/GUN SHOT.ogg"));
     sound->Play();
     Game::GetInstance().GetCurrentState().AddCollisionObject(bulletGo, { 1.0f, 0.3f }, { 20.0f, -5.0f });
 }
