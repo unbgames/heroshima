@@ -27,7 +27,7 @@ public:
     virtual weak_ptr<GameObject> GetObjectPtr(GameObject *go);
     virtual weak_ptr<GameObject> AddTileObject(GameObject *go);
     virtual weak_ptr<GameObject> GetTileObjectPtr(GameObject *go);
-    virtual weak_ptr<GameObject> AddCollisionObject(GameObject *go);
+    virtual weak_ptr<GameObject> AddCollisionObject(GameObject *go, Vec2 scale = { 1, 1 }, Vec2 offset = { 0, 0 });
     virtual weak_ptr<GameObject> GetCollisionObjectPtr(GameObject *go);
 
     bool PopRequested();

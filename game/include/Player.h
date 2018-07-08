@@ -8,7 +8,7 @@
 #define PLAYER_MAX_LIVES 9
 #define PLAYER_SPEED  400
 
-#define JUMP_SPEED    600
+#define JUMP_SPEED  500
 
 #define PLAYER_TYPE "Player"
 

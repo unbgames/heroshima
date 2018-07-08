@@ -104,7 +104,7 @@ void PlayerArms::Render() {
             frameCount = gun->getSpriteShoot().frameCount;
             frameTime = gun->getSpriteShoot().frameTime;
         }
-    } else if (movementState == WALKING) {
+    } else if (movementState == WALKING || movementState == BLOCKED_LEFT || movementState == BLOCKED_RIGHT) {
         if(!isAttacking) {
             file = gun->getSpriteWalk().sprite;
             frameCount = gun->getSpriteWalk().frameCount;
@@ -177,7 +177,7 @@ void PlayerArms::Shoot(float angle) {
     }
     auto sound(new Sound(*bulletGo, "audio/tiro.ogg"));
     sound->Play();
-    Game::GetInstance().GetCurrentState().AddCollisionObject(bulletGo);
+    Game::GetInstance().GetCurrentState().AddCollisionObject(bulletGo, { 1.0f, 0.3f }, { 20.0f, -5.0f });
 }
 
 void PlayerArms::DropGun() {

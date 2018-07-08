@@ -19,12 +19,14 @@ public:
     void Render() override;
     bool Is(string type) override;
 
-    void setScale(const Vec2 &scale);
-    void setOffset(const Vec2 &offset);
+    void SetScale(const Vec2 &scale);
+    void SetOffset(const Vec2 &offset);
 
     const Edge &GetEdge() const;
+    const Rect &GetBox() const;
 
     void SetEdge(const Edge &edge);
+    void SetBox(const Rect &box);
 
 private:
     Vec2 scale;

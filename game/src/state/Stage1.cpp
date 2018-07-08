@@ -31,8 +31,8 @@ Stage1::Stage1() {
 
     auto playerGO(new GameObject);
     playerGO->AddComponent(new Player(*playerGO));
-    playerGO->box += {50, GAME_HEIGHT - playerGO->box.h - 200};
-    AddCollisionObject(playerGO);
+    playerGO->box += {50, GAME_HEIGHT - playerGO->box.h - 32 * 2 - 200};
+    AddCollisionObject(playerGO, {0.4, 0.9}, {-8, 5});
 
     quitRequested = false;
 }
@@ -54,11 +54,11 @@ void Stage1::Update(float dt) {
         setDebug(!isDebug());
     }
 
-    TestCollision();
-
     UpdateArray(dt);
 
     IsDeadArray();
+
+    TestCollision();
 
     //cout<<"objetos: " << objectArray.size() << " tiles: " << tileObjectArray.size() << " colliders: " << collisionObjectArray.size() <<endl;
 }

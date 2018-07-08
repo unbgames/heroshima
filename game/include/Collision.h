@@ -6,7 +6,7 @@ class Collision {
 public:
     //Expects angles in degrees
     static inline bool IsColliding(Collider *colA, Collider *colB, float angleOfA, float angleOfB) {
-        Rect a = colA->GetAssociatedBox(), b = colB->GetAssociatedBox();
+        Rect a = colA->GetBox(), b = colB->GetBox();
         Vec2 A[] = { Vec2( a.x, a.y + a.h ),
                      Vec2( a.x + a.w, a.y + a.h ),
                      Vec2( a.x + a.w, a.y ),
@@ -57,17 +57,17 @@ public:
         auto crossHeight = height * dx;
 
         if(abs(dx) <= width && abs(dy) <= height){
-            if(crossWidth>crossHeight){
-                if(crossWidth > -crossHeight){
-                    top = true;
+            if (crossWidth <= crossHeight) {
+                if (crossWidth <= -crossHeight) {
+                    bottom = true;
                 } else{
-                    right = true;
+                    left = true;
                 }
             } else{
-                if(crossWidth > -crossHeight){
-                    left = true;
+                if(crossWidth <= -crossHeight){
+                    right = true;
                 } else{
-                    bottom = true;
+                    top = true;
                 }
             }
         }

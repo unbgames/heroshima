@@ -68,8 +68,11 @@ weak_ptr<GameObject> State::GetTileObjectPtr(GameObject *go) {
     return weak_ptr<GameObject>();
 }
 
-weak_ptr<GameObject> State::AddCollisionObject(GameObject *go) {
+weak_ptr<GameObject> State::AddCollisionObject(GameObject *go, Vec2 scale, Vec2 offset) {
     shared_ptr<GameObject> gameObject(go);
+    auto collider = (Collider*) gameObject->GetComponent(COLLIDER_TYPE);
+    collider->SetScale(scale);
+    collider->SetOffset(offset);
     collisionObjectArray.push_back(gameObject);
     if(started){
         gameObject->Start();
@@ -237,14 +240,22 @@ void State::AddEnemy(pugi::xml_node node) {
 
     if(name == "WalkingShootingEnemy"){
         enemy = new WalkingShootingEnemy(*enemyGO, hp, pos);
+        enemyGO->AddComponent(enemy);
+        AddCollisionObject(enemyGO);
+
     } else if(name == "FallingChasingEnemy"){
         enemy = new FallingChasingEnemy(*enemyGO, hp, pos);
+        enemyGO->AddComponent(enemy);
+        AddCollisionObject(enemyGO);
+
     } else if(name =="BigGuy"){
+
         enemy = new BigGuy(*enemyGO, hp, pos, node.child("maxDistance").text().as_float());
+        enemyGO->AddComponent(enemy);
+        AddCollisionObject(enemyGO, { 0.6f, 0.6f }, { 0, 50.0f });
     }
 
-    enemyGO->AddComponent(enemy);
-    AddCollisionObject(enemyGO);
+
 }
 
 void State::AddCrate(string type, int health, Vec2 pos, bool startFalling) {

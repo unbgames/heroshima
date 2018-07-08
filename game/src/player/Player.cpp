@@ -2,6 +2,8 @@
 // Created by edgar on 05/07/18.
 //
 
+#include <cmath>
+
 #include <Collider.h>
 #include <Sprite.h>
 #include <SpriteSheet.h>
@@ -19,7 +21,7 @@ using std::string;
 
 Player *Player::player = nullptr;
 PlayerArms *Player::playerArms = nullptr;
-Player::Player(GameObject &associated) : Component(associated), hp(2), usedSecondJump(false), isDamage(false), landed(false) {
+Player::Player(GameObject &associated) : Component(associated), hp(2), usedSecondJump(false), isDamage(false), landed(false), movementState(IDLE), jumpState(FALLING) {
 
     currentSprite = SpriteSheet::idle;
 
@@ -27,7 +29,7 @@ Player::Player(GameObject &associated) : Component(associated), hp(2), usedSecon
     associated.box.w = body->GetWidth();
     associated.box.y = body->GetWidth();
     associated.AddComponent(body);
-    associated.AddComponent(new Collider(associated, {0.4, 0.9}, {-8, 5}));
+    associated.AddComponent(new Collider(associated));
     player = this;
 
 }
@@ -36,7 +38,8 @@ void Player::Start() {
     auto arms = new GameObject;
     playerArms = new PlayerArms(*arms, Game::GetInstance().GetCurrentState().GetCollisionObjectPtr(&associated));
     arms->AddComponent(playerArms);
-    Game::GetInstance().GetCurrentState().AddCollisionObject(arms);
+    arms->AddComponent(new Collider(*arms));
+    Game::GetInstance().GetCurrentState().AddCollisionObject(arms, { 0.5, 0.35 }, { -0.4f, 4.8f });
 }
 
 Player::~Player() {
@@ -64,6 +67,7 @@ void Player::Update(float dt) {
     if(isDamage){
 
     } else {
+        auto sprite = (Sprite*)associated.GetComponent(SPRITE_TYPE);
         if (InputManager::GetInstance().IsKeyDown(S_KEY)) {
             movementState = CROUCH;
             if (InputManager::GetInstance().IsKeyDown(A_KEY)) {
@@ -73,13 +77,15 @@ void Player::Update(float dt) {
                 associated.orientation = Orientation::RIGHT;
             }
         } else if (InputManager::GetInstance().IsKeyDown(A_KEY) || InputManager::GetInstance().IsKeyDown(D_KEY)) {
-            movementState = WALKING;
+
             if (InputManager::GetInstance().IsKeyDown(A_KEY)) {
-                associated.box.x -= PLAYER_SPEED * dt;
+                associated.box.x -= ((0.35 * abs(cos((sprite->GetCurrentFrame() + 1) * (M_PI / 4)))) + 0.65) * PLAYER_SPEED * dt;
+                movementState = WALKING;
                 associated.orientation = Orientation::LEFT;
             }
             if (InputManager::GetInstance().IsKeyDown(D_KEY)) {
-                associated.box.x += PLAYER_SPEED * dt;
+                associated.box.x += ((0.35 * abs(cos((sprite->GetCurrentFrame() + 1) * (M_PI / 4)))) + 0.65) * PLAYER_SPEED * dt;
+                movementState = WALKING;
                 associated.orientation = Orientation::RIGHT;
             }
         } else {
@@ -104,7 +110,9 @@ void Player::Update(float dt) {
                 usedSecondJump = true;
             }
         }
+
     } else if(jumpState == LANDING) {
+
         landingTimer.Update(dt);
         horizontalSpeed += (associated.orientation == RIGHT ? 50 : -50) * dt;
         if(landingTimer.Get() > currentSprite.frameTime * currentSprite.frameCount){
@@ -112,9 +120,11 @@ void Player::Update(float dt) {
             landingTimer.Restart();
             jumpState = ONGROUND;
         }
+
     } else if(jumpState == ONGROUND) {
+
         if (InputManager::GetInstance().KeyPress(W_KEY)) {
-            verticalSpeed -= JUMP_SPEED * dt;
+            verticalSpeed -= (Gravity::GetGravityAcc() + JUMP_SPEED) * dt;
             jumpState = JUMPING;
             usedSecondJump = false;
         }
@@ -123,10 +133,14 @@ void Player::Update(float dt) {
     speed = Vec2(horizontalSpeed, verticalSpeed);
     associated.box += speed;
 
+    // Force update from collider
+    auto collider = (Collider*) associated.GetComponent(COLLIDER_TYPE);
+    collider->Update(dt);
+
     // Recomeça o movimento
     horizontalSpeed = 0;
 
-    if(hp <= 0){
+    if (hp <= 0) {
         associated.RequestDelete();
         Camera::Unfollow();
     }
@@ -138,7 +152,7 @@ void Player::Render() {
         currentSprite = SpriteSheet::crouch;
     }
 
-    if(movementState == WALKING){
+    if(movementState == WALKING || movementState == BLOCKED_LEFT || movementState == BLOCKED_RIGHT){
         currentSprite = SpriteSheet::walking;
     }
 
@@ -198,17 +212,22 @@ void Player::NotifyCollision(GameObject &other) {
     auto collider = (Collider*) associated.GetComponent(COLLIDER_TYPE);
     if (collisionTile && collider) {
         auto edge = collider->GetEdge();
-        if (edge.RIGHT) {
-            horizontalSpeed = 0;
-            associated.box.x =  other.box.x - associated.box.w;
-        } else if (edge.LEFT) {
-            horizontalSpeed = 0;
-            associated.box.x =  other.box.x + other.box.w;
-        } else if (edge.BOTTOM) {
+
+        if (edge.BOTTOM) {
             verticalSpeed = 0;
-            associated.box.y =  other.box.y - associated.box.h;
+            associated.box.y = other.box.y - associated.box.h + 1;
             jumpState = landed ? ONGROUND : LANDING;
+        } else if (edge.RIGHT) {
+            movementState = BLOCKED_RIGHT;
+            horizontalSpeed = 0;
+            associated.box.x = other.box.x - associated.box.w;
+        } else if (edge.LEFT) {
+            movementState = BLOCKED_LEFT;
+            horizontalSpeed = 0;
+            associated.box.x = other.box.x;
         }
+
+
     }
 }
 

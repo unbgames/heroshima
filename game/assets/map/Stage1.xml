@@ -4,19 +4,19 @@
             <name>WalkingShootingEnemy</name>
             <hp>2</hp>
             <x>1200</x>
-            <y>670</y>
+            <y>0</y>
         </enemy>
         <enemy>
             <name>FallingChasingEnemy</name>
             <hp>2</hp>
-            <x>1600</x>
-            <y>0</y>
+            <x>1700</x>
+            <y>5</y>
         </enemy>
         <enemy>
             <name>BigGuy</name>
             <hp>5</hp>
             <x>2500</x>
-            <y>370</y>
+            <y>100</y>
             <maxDistance>590</maxDistance>
         </enemy>
     </enemies>

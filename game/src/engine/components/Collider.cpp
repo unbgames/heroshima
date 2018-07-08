@@ -9,6 +9,16 @@
 
 Collider::Collider(GameObject &associated, Vec2 scale, Vec2 offset) : Component(associated), scale(scale), offset(offset) {
 
+    Rect aux = Rect();
+
+    aux.w = associated.box.w * scale.x;
+    aux.h = associated.box.h * scale.y;
+
+    const Vec2 &center = associated.box.GetCenter();
+    aux.x = center.x - aux.w / 2;
+    aux.y = center.y - aux.h / 2;
+
+    this->box = aux + offset.RotateDeg((float)(associated.angleDeg));
 }
 
 void Collider::Update(float dt) {
@@ -18,8 +28,8 @@ void Collider::Update(float dt) {
     aux.h = associated.box.h * scale.y;
 
     const Vec2 &center = associated.box.GetCenter();
-    aux.x = center.x - aux.w/2;
-    aux.y = center.y - aux.h/2;
+    aux.x = center.x - aux.w / 2;
+    aux.y = center.y - aux.h / 2;
 
     this->box = aux + offset.RotateDeg((float)(associated.angleDeg));
 
@@ -57,11 +67,11 @@ bool Collider::Is(string type) {
     return type == COLLIDER_TYPE;
 }
 
-void Collider::setScale(const Vec2 &scale) {
+void Collider::SetScale(const Vec2 &scale) {
     this->scale = scale;
 }
 
-void Collider::setOffset(const Vec2 &offset) {
+void Collider::SetOffset(const Vec2 &offset) {
     this->offset = offset;
 }
 
@@ -69,6 +79,14 @@ const Edge &Collider::GetEdge() const {
     return edge;
 }
 
+const Rect &Collider::GetBox() const {
+    return box;
+}
+
 void Collider::SetEdge(const Edge &edge) {
     Collider::edge = edge;
+}
+
+void Collider::SetBox(const Rect &box) {
+    Collider::box = box;
 }

@@ -6,6 +6,7 @@
 #define SRC_GRAVITY_H
 
 #define GRAVITY 50.0f
+#define GRAVITY_LIMIT 200.0f
 #define GRAVITY_TYPE "Gravity"
 
 

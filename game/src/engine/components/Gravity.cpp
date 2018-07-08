@@ -8,6 +8,9 @@ Gravity::Gravity(GameObject &associated) : Component(associated), verticalSpeed(
 
 void Gravity::Update(float dt) {
     verticalSpeed += GRAVITY * dt;
+    if (verticalSpeed > GRAVITY_LIMIT) {
+        verticalSpeed = GRAVITY_LIMIT;
+    }
     speed = Vec2(0, verticalSpeed);
     associated.box += speed;
 }
@@ -27,5 +30,5 @@ void Gravity::SetVerticalSpeed(float verticalSpeed) {
 }
 
 float Gravity::GetGravityAcc() {
-    return 50.0F;
+    return GRAVITY;
 }
