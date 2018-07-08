@@ -6,8 +6,8 @@
 #include "InputManager.h"
 #include "Camera.h"
 
-Vec2 Camera::pos = *new Vec2();
-Vec2 Camera::speed = *new Vec2();
+Vec2 Camera::pos = *new Vec2(0,0);
+Vec2 Camera::speed = *new Vec2(0,0);
 GameObject *Camera::focus = nullptr;
 Timer Camera::timer = Timer();
 bool Camera::followX = false;

@@ -51,7 +51,7 @@ void Player::Update(float dt) {
     // Logic to camera following
     if (associated.box.x < -30) {
         movementState = BLOCKED_LEFT;
-    } else if (associated.box.x > (float)GAME_WIDTH / 2) {
+    } else if (associated.box.x > (float)GAME_WIDTH / 2 + 10) {
         Camera::Follow(&associated);
         Camera::followX = true;
     } else {
