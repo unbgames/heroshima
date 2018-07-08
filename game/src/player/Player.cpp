@@ -39,8 +39,7 @@ void Player::Start() {
     auto arms = new GameObject;
     playerArms = new PlayerArms(*arms, Game::GetInstance().GetCurrentState().GetCollisionObjectPtr(&associated));
     arms->AddComponent(playerArms);
-    arms->AddComponent(new Collider(*arms));
-    Game::GetInstance().GetCurrentState().AddCollisionObject(arms, { 0.5, 0.35 }, { -0.4f, 4.8f });
+    Game::GetInstance().GetCurrentState().AddCollisionObject(arms);
 }
 
 Player::~Player() {

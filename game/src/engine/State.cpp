@@ -71,8 +71,10 @@ weak_ptr<GameObject> State::GetTileObjectPtr(GameObject *go) {
 weak_ptr<GameObject> State::AddCollisionObject(GameObject *go, Vec2 scale, Vec2 offset) {
     shared_ptr<GameObject> gameObject(go);
     auto collider = (Collider*) gameObject->GetComponent(COLLIDER_TYPE);
-    collider->SetScale(scale);
-    collider->SetOffset(offset);
+    if (collider != nullptr) {
+        collider->SetScale(scale);
+        collider->SetOffset(offset);
+    }
     collisionObjectArray.push_back(gameObject);
     if(started){
         gameObject->Start();

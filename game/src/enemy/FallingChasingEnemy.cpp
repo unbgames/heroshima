@@ -92,7 +92,7 @@ void FallingChasingEnemy::Update(float dt) {
                 state = E_IDLE;
                 attackingTimer.Restart();
             } else if (abs(associated.box.x - playerBox.x) > 25) {
-                associated.box.x += (associated.orientation == RIGHT ? 1 : -1) * SPEED * dt;
+                associated.box.x += (associated.orientation == RIGHT ? 0.5 : -0.5) * SPEED * dt;
             }
 
         } else if (state == E_DEAD_BY_BULLET) {

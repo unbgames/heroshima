@@ -1,16 +1,10 @@
 <stage>
     <enemies>
         <enemy>
-            <name>WalkingShootingEnemy</name>
-            <hp>2</hp>
-            <x>1200</x>
-            <y>0</y>
-        </enemy>
-        <enemy>
             <name>FallingChasingEnemy</name>
             <hp>2</hp>
             <x>1700</x>
-            <y>5</y>
+            <y>0</y>
         </enemy>
         <enemy>
             <name>BigGuy</name>
