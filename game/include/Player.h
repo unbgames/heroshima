@@ -42,6 +42,8 @@ public:
     MoveState getMovementState();
     JumpState getJumpState();
 
+    bool UseSword() const;
+
 
 private:
     StaticSprite currentSprite;
@@ -50,7 +52,9 @@ private:
     JumpState jumpState;
 
     int hp;
-    bool usedSecondJump, landed, transformed, attacking;
+    bool usedSecondJump, landed, transformed, useSword;
+
+private:
     bool isDamage;
     Timer landingTimer;
     Timer transformationTimer;

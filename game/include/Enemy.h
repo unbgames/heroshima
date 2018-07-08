@@ -5,6 +5,8 @@
 #ifndef SRC_ENEMY_H
 #define SRC_ENEMY_H
 
+#define SWORD_TRIGGER_DISTANCE 40
+
 #define ENEMY_TYPE "Enemy"
 
 #include "Component.h"
@@ -13,6 +15,8 @@
 class Enemy : public Component {
 public:
     explicit Enemy(GameObject &associated, int hp, Vec2 initialPosition);
+
+    virtual ~Enemy();
 
     void Start() override;
 
@@ -29,6 +33,9 @@ protected:
 
     EnemyState state;
     int hp;
+
+    GameObject *swordColliderLeft;
+    GameObject *swordColliderRight;
 
     bool IsCloseEnoughToPlayer(float distance);
 

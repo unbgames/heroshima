@@ -47,12 +47,14 @@ void PlayerArms::Update(float dt) {
     if (InputManager::GetInstance().IsKeyDown(SPACE_BAR_KEY)) {
         isAttacking = true;
         if(shootCooldownTimer.Get() >= gun->getCooldownTime() && (gun->getAmmo() > 0 || gun->getAmmo() == -1)) {
-            int shootAngle = (player.orientation == Orientation::LEFT ? 180 : 0);
-            Shoot(shootAngle);
-            shootCooldownTimer.Restart();
+            if(!Player::player->UseSword()) {
+                int shootAngle = (player.orientation == Orientation::LEFT ? 180 : 0);
+                Shoot(shootAngle);
+                shootCooldownTimer.Restart();
 
-            if(gun->getAmmo() != -1) {
-                gun->decrementAmmo();
+                if (gun->getAmmo() != -1) {
+                    gun->decrementAmmo();
+                }
             }
         }
 
@@ -87,6 +89,8 @@ void PlayerArms::Update(float dt) {
     }
 
     shootCooldownTimer.Update(dt);
+
+//    cout<< Player::player->UseSword()<<endl;
 }
 
 void PlayerArms::Render() {
@@ -101,9 +105,7 @@ void PlayerArms::Render() {
             frameCount = gun->getSpriteRest().frameCount;
             frameTime = gun->getSpriteRest().frameTime;
         } else{
-            file = gun->getSpriteShoot().sprite;
-            frameCount = gun->getSpriteShoot().frameCount;
-            frameTime = gun->getSpriteShoot().frameTime;
+            Attack(file, frameCount, frameTime);
         }
     } else if (movementState == WALKING || movementState == BLOCKED_LEFT || movementState == BLOCKED_RIGHT) {
         if(!isAttacking) {
@@ -111,9 +113,7 @@ void PlayerArms::Render() {
             frameCount = gun->getSpriteWalk().frameCount;
             frameTime = gun->getSpriteWalk().frameTime;
         } else {
-            file = gun->getSpriteShoot().sprite;
-            frameCount = gun->getSpriteShoot().frameCount;
-            frameTime = gun->getSpriteShoot().frameTime;
+            Attack(file, frameCount, frameTime);
         }
 
     } else if (movementState == CROUCH) {
@@ -122,9 +122,7 @@ void PlayerArms::Render() {
             frameCount = gun->getSpriteCrouch().frameCount;
             frameTime = gun->getSpriteCrouch().frameTime;
         } else{
-            file = gun->getSpriteShoot().sprite;
-            frameCount = gun->getSpriteShoot().frameCount;
-            frameTime = gun->getSpriteShoot().frameTime;
+            Attack(file, frameCount, frameTime);
         }
     }
 
@@ -140,9 +138,7 @@ void PlayerArms::Render() {
             frameCount = 4;
 
         } else{
-            file = gun->getSpriteShoot().sprite;
-            frameCount = gun->getSpriteShoot().frameCount;
-            frameTime = gun->getSpriteShoot().frameTime;
+            Attack(file, frameCount, frameTime);
         }
     } else if (jumpState == LANDING){
         if(!isAttacking){
@@ -151,9 +147,7 @@ void PlayerArms::Render() {
             frameCount = gun->getSpriteRest().frameCount;
 
         } else{
-            file = gun->getSpriteShoot().sprite;
-            frameCount = gun->getSpriteShoot().frameCount;
-            frameTime = gun->getSpriteShoot().frameTime;
+            Attack(file, frameCount, frameTime);
         }
     }
 
@@ -165,6 +159,18 @@ void PlayerArms::Render() {
     sprite->Open(file);
     sprite->SetFrameCount(frameCount);
     sprite->SetFrameTime(frameTime);
+}
+
+void PlayerArms::Attack(string &file, int &frameCount, float &frameTime) const {
+    auto sprite = (Sprite*)associated.GetComponent(SPRITE_TYPE);
+    if(!Player::player->UseSword()) {
+        sprite->SetVisible(true);
+        file = gun->getSpriteShoot().sprite;
+        frameCount = gun->getSpriteShoot().frameCount;
+        frameTime = gun->getSpriteShoot().frameTime;
+    } else{
+        sprite->SetVisible(false);
+    }
 }
 
 bool PlayerArms::Is(string type) {
@@ -231,4 +237,8 @@ Gun* PlayerArms::GetGun() {
 
 void PlayerArms::RequestDelete() {
     associated.RequestDelete();
+}
+
+bool PlayerArms::IsAttacking() {
+    return isAttacking;
 }

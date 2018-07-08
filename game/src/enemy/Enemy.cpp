@@ -7,10 +7,24 @@
 #include <Game.h>
 #include <Player.h>
 #include "Enemy.h"
+#include "SwordThreshold.h"
 
 Enemy::Enemy(GameObject &associated, int hp, Vec2 initialPosition) : Component(associated), hp(hp) {
     associated.AddComponent(new Collider(associated));
     associated.box += initialPosition;
+
+    swordColliderLeft = new GameObject();
+    swordColliderRight = new GameObject();
+
+    swordColliderLeft->AddComponent(new SwordThreshold(*swordColliderLeft));
+    swordColliderRight->AddComponent(new SwordThreshold(*swordColliderRight));
+
+    Game::GetInstance().GetCurrentState().AddCollisionObject(swordColliderLeft);
+    Game::GetInstance().GetCurrentState().AddCollisionObject(swordColliderRight);
+
+    swordColliderLeft->box = associated.box - Vec2(SWORD_TRIGGER_DISTANCE, 0);
+    swordColliderRight->box = associated.box + Vec2(SWORD_TRIGGER_DISTANCE, 0);
+
 }
 
 void Enemy::Start() {
@@ -55,6 +69,8 @@ void Enemy::Render() {
     sprite->SetFrameCount(current.frameCount);
     sprite->SetFrameTime(current.frameTime);
 
+    swordColliderLeft->box = associated.box - Vec2(SWORD_TRIGGER_DISTANCE, 0);
+    swordColliderRight->box = associated.box + Vec2(SWORD_TRIGGER_DISTANCE, 0);
 }
 
 bool Enemy::Is(string type) {
@@ -72,4 +88,9 @@ int Enemy::getHp() {
 bool Enemy::IsCloseEnoughToPlayer(float distance) {
     auto playerBox = Player::player->GetAssociatedBox();
     return (associated.box.x > playerBox.x - distance - associated.box.w/2 && associated.box.x < playerBox.x + distance);
+}
+
+Enemy::~Enemy() {
+    swordColliderLeft->RequestDelete();
+    swordColliderRight->RequestDelete();
 }

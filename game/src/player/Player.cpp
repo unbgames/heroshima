@@ -14,6 +14,7 @@
 #include <CollisionTile.h>
 #include <Gravity.h>
 #include <PlayerArms.h>
+#include <SwordThreshold.h>
 #include "Player.h"
 
 using std::weak_ptr;
@@ -21,7 +22,7 @@ using std::string;
 
 Player *Player::player = nullptr;
 PlayerArms *Player::playerArms = nullptr;
-Player::Player(GameObject &associated) : Component(associated), hp(2), usedSecondJump(false), isDamage(false), landed(false), movementState(IDLE), jumpState(ONGROUND), transformed(false), attacking(false) {
+Player::Player(GameObject &associated) : Component(associated), hp(2), usedSecondJump(false), isDamage(false), landed(false), movementState(IDLE), jumpState(ONGROUND), transformed(false) {
 
     currentSprite = SpriteSheet::transformation;
 
@@ -47,7 +48,6 @@ Player::~Player() {
 }
 
 void Player::Update(float dt) {
-
 
     // Logic to camera following
     if (associated.box.x < -30) {
@@ -152,6 +152,8 @@ void Player::Update(float dt) {
                 usedSecondJump = false;
             }
         }
+
+        cout<<useSword<<endl;
     }
 
     speed = Vec2(horizontalSpeed, verticalSpeed);
@@ -263,6 +265,13 @@ void Player::NotifyCollision(GameObject &other) {
 
 
     }
+
+        auto swordTrigger = (SwordThreshold *) other.GetComponent(SWORD_THRESHOLD_TYPE);
+        if (swordTrigger) {
+            useSword = true;
+        } else {
+            useSword = false;
+        }
 }
 
 bool Player::IsTransformed() const {
@@ -270,7 +279,7 @@ bool Player::IsTransformed() const {
 }
 
 bool Player::IsAttacking() const {
-    return attacking;
+    return playerArms->IsAttacking();
 }
 
 MoveState Player::getMovementState() {
@@ -279,4 +288,8 @@ MoveState Player::getMovementState() {
 
 JumpState Player::getJumpState() {
     return jumpState;
+}
+
+bool Player::UseSword() const {
+    return useSword;
 }

@@ -31,6 +31,8 @@ public:
 
     void RequestDelete();
 
+    bool IsAttacking();
+
 private:
     MoveState movementState;
     JumpState jumpState;
@@ -42,6 +44,7 @@ private:
     //int offset = 0;
     Timer shootCooldownTimer;
 
+    void Attack(string &file, int &frameCount, float &frameTime) const;
 };
 
 

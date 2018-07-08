@@ -33,3 +33,12 @@ StaticSprite SpriteSheet::landing = StaticSprite("img/hiro/landing.png", 3, 0.04
 
 StaticSprite SpriteSheet::transformation = StaticSprite("img/hiro/transformation.png", 5, 0.15f);
 
+StaticSprite SpriteSheet::sword1 = StaticSprite("img/hiro/attack_1.png", 6, 0.05f);
+
+StaticSprite SpriteSheet::sword2 = StaticSprite("img/hiro/attack_2.png", 3, 0.1f);
+
+StaticSprite SpriteSheet::sword3 = StaticSprite("img/hiro/attack_3.png", 5, 0.05f);
+
+StaticSprite SpriteSheet::swordCrouch = StaticSprite("img/hiro/crouch_attack.png", 5, 0.05f);
+
+

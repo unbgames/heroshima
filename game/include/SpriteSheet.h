@@ -18,5 +18,9 @@ public:
     static StaticSprite falling;
     static StaticSprite landing;
     static StaticSprite transformation;
+    static StaticSprite sword1;
+    static StaticSprite sword2;
+    static StaticSprite sword3;
+    static StaticSprite swordCrouch;
 
 };
