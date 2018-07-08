@@ -34,6 +34,7 @@ private:
     vector<Text*> options;
     int optSelected;
     bool selected;
+    vector<bool> soundChoiceControl;
 
     GameObject controles;
     bool showControles;

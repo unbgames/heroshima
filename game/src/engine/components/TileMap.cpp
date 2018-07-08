@@ -67,16 +67,10 @@ void TileMap::Start() {
 }
 
 void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
-    float paralax;
-    if (layer == (mapDepth - 1)) {
-        paralax = (float)PARALLAX_FACTOR * (layer - 1);
-    } else {
-        paralax = (float)PARALLAX_FACTOR * layer;
-    }
     for (int i = 0; i < mapWidth; i++) {
         for (int j = 0; j < mapHeight; j++) {
-            auto x = (int)(i * tileSet->GetTileWidth() - cameraX * paralax);
-            auto y = (int)(j * tileSet->GetTileHeight() - cameraY * paralax);
+            auto x = (int)(i * tileSet->GetTileWidth() - cameraX * PARALLAX_FACTOR * ((layer == (mapDepth - 1) ? layer : (layer + 1))));
+            auto y = (int)(j * tileSet->GetTileHeight() - cameraY * PARALLAX_FACTOR * ((layer == (mapDepth - 1) ? layer : (layer + 1))));
 
             tileSet->RenderTile((unsigned)At(i, j, layer), x, y);
         }

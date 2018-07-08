@@ -5,6 +5,8 @@
 #include <InputManager.h>
 #include <Resources.h>
 #include <Sprite.h>
+#include <Sound.h>
+#include <Game.h>
 #include "Menu.h"
 
 Menu::Menu(GameObject &associated) : Component(associated) {
@@ -20,12 +22,14 @@ Menu::Menu(GameObject &associated) : Component(associated) {
     Text *startText = new Text(*startGO, "font/JAPAN.ttf", 60, Text::TextStyle::BLENDED, LABEL_NEW_GAME, {255, 255, 255, 255});
     options.emplace_back(startText);
     associated.AddComponent(startText);
+    soundChoiceControl.push_back(false);
 
     auto controlsGO(new GameObject);
     controlsGO->box += associated.box.GetPos() + Vec2(0, startGO->box.h);
     Text *controlsText = new Text(*controlsGO, "font/JAPAN.ttf", 60, Text::TextStyle::BLENDED, LABEL_CONTROLS, {255, 255, 255, 255});
     options.emplace_back(controlsText);
     associated.AddComponent(controlsText);
+    soundChoiceControl.push_back(false);
 
     controles.AddComponent(new Sprite(controles, "img/controles_old_style.png"));
     controles.box += {controlsGO->box.x + controlsGO->box.w + 20, controlsGO->box.y};
@@ -35,6 +39,7 @@ Menu::Menu(GameObject &associated) : Component(associated) {
     Text *exitText = new Text(*exitGO, "font/JAPAN.ttf", 60, Text::TextStyle::BLENDED, LABEL_EXIT_GAME, {255, 255, 255, 255});
     options.emplace_back(exitText);
     associated.AddComponent(exitText);
+    soundChoiceControl.push_back(false);
 }
 
 Menu::~Menu() {
@@ -52,15 +57,26 @@ void Menu::Update(float dt){
         if(optSelected == (int) options.size()) optSelected = 0;
     }
 
-    for (auto &option : options) {
-        if(option->GetAssociatedBox().Contains(inputManager.GetMouse())){
-            optSelected = FindOption(option->GetText());
-            if(inputManager.MouseRelease(LEFT_MOUSE_BUTTON) || inputManager.KeyPress(ENTER_KEY)){
+    for (auto i = 0; i < options.size(); i++) {
+        if (options[i]->GetAssociatedBox().Contains(inputManager.GetMouse())) {
+            optSelected = FindOption(options[i]->GetText());
+            if (inputManager.MouseRelease(LEFT_MOUSE_BUTTON) || inputManager.KeyPress(ENTER_KEY)) {
                 selected = true;
                 break;
             }
-        } else{
-            if(inputManager.KeyPress(ENTER_KEY)){
+
+            if (soundChoiceControl[i]) {
+                soundChoiceControl[i] = false;
+                auto choiceGO(new GameObject);
+                auto reloadSound(new Sound(*choiceGO, "audio/recarregar.ogg"));
+                reloadSound->Play();
+                choiceGO->AddComponent(reloadSound);
+                Game::GetInstance().GetCurrentState().AddObject(choiceGO);
+            }
+
+        } else {
+            soundChoiceControl[i] = true;
+            if (inputManager.KeyPress(ENTER_KEY)) {
                 selected = true;
                 break;
             }

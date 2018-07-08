@@ -22,7 +22,7 @@ using std::string;
 
 Player *Player::player = nullptr;
 PlayerArms *Player::playerArms = nullptr;
-Player::Player(GameObject &associated) : Component(associated), hp(2), usedSecondJump(false), isDamage(false), landed(false), movementState(IDLE), jumpState(ONGROUND), transformed(false) {
+Player::Player(GameObject &associated) : Component(associated), hp(2), usedSecondJump(false), isDamage(false), landed(false), movementState(IDLE), jumpState(ONGROUND), transformed(false), horizontalSpeed(0.0), verticalSpeed(0.0) {
 
     currentSprite = SpriteSheet::transformation;
 
