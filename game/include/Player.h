@@ -31,6 +31,8 @@ public:
     static PlayerArms* playerArms;
 
     int GetHp() const;
+    bool IsTransformed() const;
+    bool IsAttacking() const;
     void SetHp(int hp);
     void IncremmentHp();
     void DecrementHp();
@@ -40,6 +42,7 @@ public:
     MoveState getMovementState();
     JumpState getJumpState();
 
+
 private:
     StaticSprite currentSprite;
 
@@ -47,9 +50,10 @@ private:
     JumpState jumpState;
 
     int hp;
-    bool usedSecondJump, landed;
+    bool usedSecondJump, landed, transformed, attacking;
     bool isDamage;
     Timer landingTimer;
+    Timer transformationTimer;
 
     Vec2 speed;
     float verticalSpeed;

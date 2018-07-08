@@ -84,7 +84,7 @@ void WalkingShootingEnemy::Shoot(float angle) {
         bulletGo->box.x = associated.box.GetPos().x + bulletGo->box.w;
         bulletGo->box.y = associated.box.GetPos().y + associated.box.h/2 - bulletGo->box.h + 8;
     }
-    auto sound(new Sound(*bulletGo, "audio/tiro.ogg"));
+    auto sound(new Sound(*bulletGo, "audio/GUN SHOT.ogg"));
     sound->Play();
     bulletGo->AddComponent(sound);
     Game::GetInstance().GetCurrentState().AddCollisionObject(bulletGo);

@@ -31,3 +31,5 @@ StaticSprite SpriteSheet::falling = StaticSprite("img/hiro/jump_down.png", 4, 0.
 
 StaticSprite SpriteSheet::landing = StaticSprite("img/hiro/landing.png", 3, 0.04f);
 
+StaticSprite SpriteSheet::transformation = StaticSprite("img/hiro/transformation.png", 5, 0.15f);
+

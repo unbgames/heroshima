@@ -17,5 +17,6 @@ public:
     static StaticSprite jumping;
     static StaticSprite falling;
     static StaticSprite landing;
+    static StaticSprite transformation;
 
 };

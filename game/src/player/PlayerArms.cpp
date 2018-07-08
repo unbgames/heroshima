@@ -90,6 +90,7 @@ void PlayerArms::Update(float dt) {
 }
 
 void PlayerArms::Render() {
+
     auto sprite = (Sprite*)associated.GetComponent(SPRITE_TYPE);
     string file;
     int frameCount = 0;
@@ -154,6 +155,11 @@ void PlayerArms::Render() {
             frameCount = gun->getSpriteShoot().frameCount;
             frameTime = gun->getSpriteShoot().frameTime;
         }
+    }
+
+    auto playerComp = (Player*) player.GetComponent(PLAYER_TYPE);
+    if (playerComp != nullptr) {
+        sprite->SetVisible(!playerComp->IsAttacking() || playerComp->IsTransformed());
     }
 
     sprite->Open(file);

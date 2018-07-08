@@ -43,6 +43,7 @@ int &TileMap::At(int x, int y, int z) {
     return tileMatrix[x + (y * mapWidth) + (z * mapWidth * mapHeight)];
 }
 
+
 void TileMap::Start() {
 
     // Set Collision Tiles
@@ -66,10 +67,16 @@ void TileMap::Start() {
 }
 
 void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
-    for (int i = 0; i < mapWidth; i++){
-        for (int j = 0; j < mapHeight; j++){
-            auto x = (int)(i * tileSet->GetTileWidth() - cameraX * PARALLAX_FACTOR * layer);
-            auto y = (int)(j * tileSet->GetTileHeight() - cameraY);
+    float paralax;
+    if (layer == (mapDepth - 1)) {
+        paralax = (float)PARALLAX_FACTOR * (layer - 1);
+    } else {
+        paralax = (float)PARALLAX_FACTOR * layer;
+    }
+    for (int i = 0; i < mapWidth; i++) {
+        for (int j = 0; j < mapHeight; j++) {
+            auto x = (int)(i * tileSet->GetTileWidth() - cameraX * paralax);
+            auto y = (int)(j * tileSet->GetTileHeight() - cameraY * paralax);
 
             tileSet->RenderTile((unsigned)At(i, j, layer), x, y);
         }
