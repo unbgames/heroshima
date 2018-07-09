@@ -10,6 +10,7 @@
 #include <Bullet.h>
 #include <Sound.h>
 #include <Game.h>
+#include <Camera.h>
 #include "Soldier.h"
 
 Soldier::Soldier(GameObject &associated, int hp, const Vec2 &initialPosition, float maxDistance) : Enemy(associated, hp,
@@ -148,5 +149,5 @@ void Soldier::Shoot(float angle) {
 //    auto sound(new Sound(*bulletGo, "audio/GUN SHOT.ogg"));
 //    sound->Play();
 //    bulletGo->AddComponent(sound);
-    Game::GetInstance().GetCurrentState().AddCollisionObject(bulletGo);
+    Game::GetInstance().GetCurrentState().AddCollisionObject(bulletGo, {1,1}, {0, -COLLISION_OFFSET * (associated.orientation == Orientation::RIGHT ? 1 : -1)});
 }

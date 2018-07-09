@@ -104,53 +104,51 @@ void PlayerArms::Render() {
     int frameCount = 0;
     float frameTime = 0;
     if(movementState == IDLE){
-        if(!isAttacking){
-            file = gun->getSpriteRest().sprite;
-            frameCount = gun->getSpriteRest().frameCount;
-            frameTime = gun->getSpriteRest().frameTime;
-        } else{
+        file = gun->getSpriteRest().sprite;
+        frameCount = gun->getSpriteRest().frameCount;
+        frameTime = gun->getSpriteRest().frameTime;
+        if (isAttacking) {
             Attack(file, frameCount, frameTime);
         }
     } else if (movementState == WALKING || movementState == BLOCKED_LEFT || movementState == BLOCKED_RIGHT) {
-        if(!isAttacking) {
-            file = gun->getSpriteWalk().sprite;
-            frameCount = gun->getSpriteWalk().frameCount;
-            frameTime = gun->getSpriteWalk().frameTime;
-        } else {
+
+        file = gun->getSpriteWalk().sprite;
+        frameCount = gun->getSpriteWalk().frameCount;
+        frameTime = gun->getSpriteWalk().frameTime;
+        if (isAttacking) {
             Attack(file, frameCount, frameTime);
         }
 
     } else if (movementState == CROUCH) {
-        if(!isAttacking){
-            file = gun->getSpriteCrouch().sprite;
-            frameCount = gun->getSpriteCrouch().frameCount;
-            frameTime = gun->getSpriteCrouch().frameTime;
-        } else{
+
+        file = gun->getSpriteCrouch().sprite;
+        frameCount = gun->getSpriteCrouch().frameCount;
+        frameTime = gun->getSpriteCrouch().frameTime;
+        if (isAttacking) {
             Attack(file, frameCount, frameTime);
         }
     }
 
     if(jumpState == JUMPING || jumpState == FALLING){
-        if(!isAttacking){
-            if(jumpState == JUMPING){
-                file = "img/hiro/jump_up_arms.png";
-                frameTime = 0.16f;
-            } else if(jumpState == FALLING){
-                file = file = gun->getSpriteRest().sprite;
-                frameTime = 0.1f;
-            }
-            frameCount = 4;
 
-        } else{
+        if (jumpState == JUMPING) {
+            file = "img/hiro/jump_up_arms.png";
+            frameTime = 0.16f;
+        } else if(jumpState == FALLING){
+            file = file = gun->getSpriteRest().sprite;
+            frameTime = 0.1f;
+        }
+        frameCount = 4;
+        if (isAttacking) {
             Attack(file, frameCount, frameTime);
         }
-    } else if (jumpState == LANDING){
-        if(!isAttacking){
-            file = gun->getSpriteRest().sprite;
-            frameTime = gun->getSpriteRest().frameTime;
-            frameCount = gun->getSpriteRest().frameCount;
 
-        } else{
+    } else if (jumpState == LANDING) {
+
+        file = gun->getSpriteRest().sprite;
+        frameTime = gun->getSpriteRest().frameTime;
+        frameCount = gun->getSpriteRest().frameCount;
+        if (isAttacking) {
             Attack(file, frameCount, frameTime);
         }
     }
