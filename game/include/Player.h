@@ -53,7 +53,7 @@ private:
     BodyState bodyState;
 
     int hp;
-    bool usedSecondJump, landed, useSword, playedDeathSound;
+    bool usedSecondJump, landed, useSword, playedDeathSound, playedLandingSound;
 
 private:
     Timer landingTimer;

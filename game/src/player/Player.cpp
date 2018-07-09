@@ -24,7 +24,7 @@ using std::string;
 
 Player *Player::player = nullptr;
 PlayerArms *Player::playerArms = nullptr;
-Player::Player(GameObject &associated) : Component(associated), hp(2), usedSecondJump(false), landed(false), movementState(IDLE), jumpState(ONGROUND), horizontalSpeed(0.0), verticalSpeed(0.0), playedDeathSound(false) {
+Player::Player(GameObject &associated) : Component(associated), hp(2), usedSecondJump(false), landed(false), movementState(IDLE), jumpState(ONGROUND), horizontalSpeed(0.0), verticalSpeed(0.0), playedDeathSound(false), playedLandingSound(false) {
 
     currentSprite = SpriteSheet::soldier;
     bodyState = INITIAL;
@@ -176,11 +176,6 @@ void Player::Update(float dt) {
                 landed = true;
                 landingTimer.Restart();
                 jumpState = ONGROUND;
-                auto landingGO(new GameObject);
-                auto landingSound(new Sound(*landingGO, "audio/ATERRISSAGEM.ogg"));
-                landingSound->Play();
-                landingGO->AddComponent(landingSound);
-                Game::GetInstance().GetCurrentState().AddObject(landingGO);
             }
 
         } else if (jumpState == ONGROUND) {
@@ -190,7 +185,7 @@ void Player::Update(float dt) {
                 jumpState = JUMPING;
                 usedSecondJump = false;
                 auto jumpGO(new GameObject);
-                auto jumpSound(new Sound(*jumpGO, "audio/SALTO.ogg"));
+                auto jumpSound(new Sound(*jumpGO, "audio/SALTO.wav"));
                 jumpSound->Play();
                 jumpGO->AddComponent(jumpSound);
                 Game::GetInstance().GetCurrentState().AddObject(jumpGO);
@@ -325,6 +320,14 @@ void Player::NotifyCollision(GameObject &other) {
             auto offset = (Vec2(0,0)-collider->GetOffset()).RotateDeg((float)(associated.angleDeg));
             associated.box.y = collider->GetBox().GetCenter().y - (collider->GetBox().h / collider->GetScale().y) / 2 + offset.y;
             jumpState = landed ? ONGROUND : LANDING;
+            if (jumpState == LANDING && !playedLandingSound) {
+                auto landingGO(new GameObject);
+                auto landingSound(new Sound(*landingGO, "audio/ATERRISSAGEM.wav"));
+                landingSound->Play();
+                landingGO->AddComponent(landingSound);
+                Game::GetInstance().GetCurrentState().AddObject(landingGO);
+                playedLandingSound = true;
+            }
         }
 
 //        else if (edge.RIGHT) {
