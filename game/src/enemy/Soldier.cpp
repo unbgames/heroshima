@@ -125,6 +125,7 @@ void Soldier::NotifyCollision(GameObject &other) {
     auto bullet = (Bullet*) other.GetComponent(BULLET_TYPE);
     if(bullet && !bullet->targetsPlayer){
         hp -= bullet->GetDamage();
+
     }
 
     auto player = (Player*)other.GetComponent(PLAYER_TYPE);
@@ -138,7 +139,7 @@ void Soldier::NotifyCollision(GameObject &other) {
 void Soldier::Shoot(float angle) {
     auto bulletGo = new GameObject;
     auto collider = (Collider*) associated.GetComponent(COLLIDER_TYPE);
-    bulletGo->AddComponent(new Bullet(*bulletGo, angle, 400, 1, 1000, "img/minionbullet2.png", 3, 0.01f, true));
+    bulletGo->AddComponent(new Bullet(*bulletGo, angle, 400, 1, 1500, "img/minionbullet2.png", 3, 0.01f, true));
     if(associated.orientation == Orientation::RIGHT){
         bulletGo->box.x = collider->box.GetPos().x + collider->box.w - bulletGo->box.w - 8;
         bulletGo->box.y = collider->box.GetPos().y + collider->box.h/2 - bulletGo->box.h + 8;
@@ -146,8 +147,8 @@ void Soldier::Shoot(float angle) {
         bulletGo->box.x = collider->box.GetPos().x + bulletGo->box.w;
         bulletGo->box.y = collider->box.GetPos().y + collider->box.h/2 - bulletGo->box.h + 8;
     }
-//    auto sound(new Sound(*bulletGo, "audio/GUN SHOT.ogg"));
-//    sound->Play();
-//    bulletGo->AddComponent(sound);
+    auto sound(new Sound(*bulletGo, "audio/GUN SHOT.ogg"));
+    sound->Play();
+    bulletGo->AddComponent(sound);
     Game::GetInstance().GetCurrentState().AddCollisionObject(bulletGo, {1,1}, {0, -COLLISION_OFFSET * (associated.orientation == Orientation::RIGHT ? 1 : -1)});
 }

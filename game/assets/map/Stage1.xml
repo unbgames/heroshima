@@ -2,7 +2,7 @@
     <enemies>
         <enemy>
             <name>FallingChasingEnemy</name>
-            <hp>10</hp>
+            <hp>5</hp>
             <x>950</x>
             <y>0</y>
         </enemy>
@@ -34,7 +34,7 @@
         </enemy>
         <enemy>
             <name>BigGuy</name>
-            <hp>100</hp>
+            <hp>150</hp>
             <x>4500</x>
             <y>100</y>
             <maxDistance>590</maxDistance>
@@ -51,13 +51,13 @@
         <crate>
             <type>heavy</type>
             <x>1600</x>
-            <ammo>50</ammo>
+            <ammo>30</ammo>
             <startFalling>true</startFalling>
         </crate>
         <crate>
             <type>heavy</type>
             <x>4000</x>
-            <ammo>100</ammo>
+            <ammo>200</ammo>
             <startFalling>true</startFalling>
         </crate>
     </crates>
