@@ -16,6 +16,7 @@
 #include <PlayerArms.h>
 #include <SwordThreshold.h>
 #include <Sound.h>
+#include <TitleState.h>
 #include "Player.h"
 
 using std::weak_ptr;
@@ -23,7 +24,7 @@ using std::string;
 
 Player *Player::player = nullptr;
 PlayerArms *Player::playerArms = nullptr;
-Player::Player(GameObject &associated) : Component(associated), hp(2), usedSecondJump(false), landed(false), movementState(IDLE), jumpState(ONGROUND), horizontalSpeed(0.0), verticalSpeed(0.0) {
+Player::Player(GameObject &associated) : Component(associated), hp(2), usedSecondJump(false), landed(false), movementState(IDLE), jumpState(ONGROUND), horizontalSpeed(0.0), verticalSpeed(0.0), playedDeathSound(false) {
 
     currentSprite = SpriteSheet::soldier;
     bodyState = INITIAL;
@@ -54,6 +55,10 @@ void Player::Update(float dt) {
     // Logic to camera following
     if (collider->box.x < 10) {
         movementState = BLOCKED_LEFT;
+    } else if (collider->box.x > 11600) {
+        Camera::Unfollow();
+    } else if (collider->box.x > 11800) {
+        movementState = BLOCKED_RIGHT;
     } else if (collider->box.x > (float)GAME_WIDTH / 2 + 50) {
         Camera::Follow(&associated);
         Camera::followX = true;
@@ -94,6 +99,14 @@ void Player::Update(float dt) {
         }
 
     } else if (bodyState == DAMAGED) {
+
+    } else if (bodyState == DEATH) {
+
+        deadTimer.Update(dt);
+        if (deadTimer.Get() > currentSprite.frameCount * currentSprite.frameTime) {
+            associated.RequestDelete();
+            Game::GetInstance().Push(new TitleState());
+        }
 
     } else {
 
@@ -137,21 +150,21 @@ void Player::Update(float dt) {
             landed = false;
 
             // Se começar a cair mudar de estado
-            if (verticalSpeed > 0) {
-                jumpState = FALLING;
-            }
+                    if (verticalSpeed > 0) {
+                        jumpState = FALLING;
+                    }
 
-            if (!usedSecondJump) {
-                if (InputManager::GetInstance().KeyPress(W_KEY)) {
-                    verticalSpeed = -1 * JUMP_SPEED * dt;
-                    usedSecondJump = true;
-                    auto jumpGO(new GameObject);
-                    auto jumpSound(new Sound(*jumpGO, "audio/SALTO.ogg"));
-                    jumpSound->Play();
-                    jumpGO->AddComponent(jumpSound);
-                    Game::GetInstance().GetCurrentState().AddObject(jumpGO);
-                }
-            }
+                    if (!usedSecondJump) {
+                        if (InputManager::GetInstance().KeyPress(W_KEY)) {
+                            verticalSpeed = -1 * JUMP_SPEED * dt;
+                            usedSecondJump = true;
+                            auto jumpGO(new GameObject);
+                            auto jumpSound(new Sound(*jumpGO, "audio/SALTO.ogg"));
+                            jumpSound->Play();
+                            jumpGO->AddComponent(jumpSound);
+                            Game::GetInstance().GetCurrentState().AddObject(jumpGO);
+                        }
+                    }
 
         } else if (jumpState == LANDING) {
 
@@ -182,7 +195,7 @@ void Player::Update(float dt) {
             }
         }
 
-//        if(IsAttacking() && useSword){
+        //        if(IsAttacking() && useSword){
 //            movementState = SWORD_ATTACK;
 //            swordTimer.Update(dt);
 //
@@ -207,13 +220,17 @@ void Player::Update(float dt) {
     horizontalSpeed = 0;
 
     if (hp <= 0) {
-        associated.RequestDelete();
+        bodyState = DEATH;
         Camera::Unfollow();
-        auto dyingGO(new GameObject);
-        auto dyingSound(new Sound(*dyingGO, "audio/MORTEHERO.ogg"));
-        dyingSound->Play();
-        dyingGO->AddComponent(dyingSound);
-        Game::GetInstance().GetCurrentState().AddObject(dyingGO);
+
+        if (!playedDeathSound) {
+            auto dyingGO(new GameObject);
+            auto dyingSound(new Sound(*dyingGO, "audio/MORTEHERO.ogg"));
+            dyingSound->Play();
+            dyingGO->AddComponent(dyingSound);
+            Game::GetInstance().GetCurrentState().AddObject(dyingGO);
+            playedDeathSound = true;
+        }
     }
 
 }
@@ -224,6 +241,8 @@ void Player::Render() {
         currentSprite = SpriteSheet::soldier;
     } else if (bodyState == TRANSFORMING) {
         currentSprite = SpriteSheet::transformation;
+    } else if (bodyState == DEATH) {
+        currentSprite = SpriteSheet::death;
     } else {
 
         if (movementState == CROUCH) {
@@ -250,7 +269,7 @@ void Player::Render() {
             currentSprite = SpriteSheet::landing;
         }
 
-//        if(movementState == SWORD_ATTACK){
+        //        if(movementState == SWORD_ATTACK){
 //            int random = rand() % 3;
 //            if(random == 0) currentSprite = SpriteSheet::sword1;
 //            else if(random == 1) currentSprite = SpriteSheet::sword2;

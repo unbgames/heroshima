@@ -53,11 +53,11 @@ private:
     BodyState bodyState;
 
     int hp;
-    bool usedSecondJump, landed, useSword;
+    bool usedSecondJump, landed, useSword, playedDeathSound;
 
 private:
     Timer landingTimer;
-    Timer transformationTimer, swordTimer;
+    Timer transformationTimer, swordTimer, deadTimer;
 
     Vec2 speed;
     float verticalSpeed;

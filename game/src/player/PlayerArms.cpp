@@ -157,7 +157,7 @@ void PlayerArms::Render() {
 
     auto playerComp = (Player*) player.GetComponent(PLAYER_TYPE);
     if (playerComp != nullptr) {
-        sprite->SetVisible(playerComp->GetBodyState() != TRANSFORMING && playerComp->GetBodyState() != INITIAL);
+        sprite->SetVisible(playerComp->GetBodyState() != TRANSFORMING && playerComp->GetBodyState() != INITIAL && playerComp->GetBodyState() != DEATH);
     }
 
     sprite->Open(file);

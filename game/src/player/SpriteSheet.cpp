@@ -35,6 +35,8 @@ StaticSprite SpriteSheet::soldier = StaticSprite("img/hiro/idle_soldier.png", 4,
 
 StaticSprite SpriteSheet::transformation = StaticSprite("img/hiro/transformation.png", 5, 0.15f);
 
+StaticSprite SpriteSheet::death = StaticSprite("img/hiro/death.png", 8, 0.15f);
+
 StaticSprite SpriteSheet::sword1 = StaticSprite("img/hiro/attack_1.png", 6, 0.05f);
 
 StaticSprite SpriteSheet::sword2 = StaticSprite("img/hiro/attack_2.png", 3, 0.1f);

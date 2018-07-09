@@ -19,6 +19,7 @@ public:
     static StaticSprite landing;
     static StaticSprite soldier;
     static StaticSprite transformation;
+    static StaticSprite death;
     static StaticSprite sword1;
     static StaticSprite sword2;
     static StaticSprite sword3;
