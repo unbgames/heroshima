@@ -67,10 +67,16 @@ void TileMap::Start() {
 }
 
 void TileMap::RenderLayer(int layer, int cameraX, int cameraY) {
+    float paralaxFactor;
+    if (layer > (mapDepth - 3)) { // Duas ultimas camadas seguem a camera
+        paralaxFactor = 1;
+    } else {
+        paralaxFactor = (float)(layer + 1) / (mapDepth - 1);
+    }
     for (int i = 0; i < mapWidth; i++) {
         for (int j = 0; j < mapHeight; j++) {
-            auto x = (int)(i * tileSet->GetTileWidth() - cameraX * PARALLAX_FACTOR * ((layer == (mapDepth - 1) ? layer : (layer + 1))));
-            auto y = (int)(j * tileSet->GetTileHeight() - cameraY * PARALLAX_FACTOR * ((layer == (mapDepth - 1) ? layer : (layer + 1))));
+            auto x = (int)(i * tileSet->GetTileWidth() - cameraX * paralaxFactor);
+            auto y = (int)(j * tileSet->GetTileHeight() - cameraY * paralaxFactor);
 
             tileSet->RenderTile((unsigned)At(i, j, layer), x, y);
         }

@@ -6,7 +6,6 @@
 #define TILEMAP_CLASS
 
 #define TILE_MAP_TYPE "TileMap"
-#define PARALLAX_FACTOR 0.25
 
 using namespace std;
 
