@@ -24,7 +24,7 @@ using std::string;
 
 Player *Player::player = nullptr;
 PlayerArms *Player::playerArms = nullptr;
-Player::Player(GameObject &associated) : Component(associated), hp(PLAYER_MAX_LIVES), usedSecondJump(false), landed(false), movementState(IDLE), jumpState(ONGROUND), horizontalSpeed(0.0), verticalSpeed(0.0), playedDeathSound(false), playedLandingSound(false)  {
+Player::Player(GameObject &associated) : Component(associated), hp(PLAYER_MAX_LIVES), usedSecondJump(false), landed(false), movementState(IDLE), jumpState(ONGROUND), horizontalSpeed(0.0), verticalSpeed(0.0) {
 
     currentSprite = SpriteSheet::soldier;
     bodyState = INITIAL;
