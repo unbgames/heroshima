@@ -104,6 +104,8 @@ void Player::Update(float dt) {
 
         deadTimer.Update(dt);
         if (deadTimer.Get() > currentSprite.frameCount * currentSprite.frameTime) {
+            Camera::Unfollow();
+            Camera::pos = {0,0};
             associated.RequestDelete();
             Game::GetInstance().Push(new TitleState());
         }
@@ -221,7 +223,6 @@ void Player::Update(float dt) {
 
     if (hp <= 0) {
         bodyState = DEATH;
-        Camera::Unfollow();
 
         if (!playedDeathSound) {
             auto dyingGO(new GameObject);
