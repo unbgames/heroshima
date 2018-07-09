@@ -14,6 +14,7 @@
 #include <WeaponCrate.h>
 #include <SpriteSheet.h>
 #include <BigGuy.h>
+#include <Soldier.h>
 #include "../xml/pugixml.hpp"
 
 State::State() : popRequested(false), quitRequested(false), started(false) {}
@@ -252,10 +253,13 @@ void State::AddEnemy(pugi::xml_node node) {
         AddCollisionObject(enemyGO, {1,1}, {0, -COLLISION_OFFSET});
 
     } else if(name =="BigGuy"){
-
         enemy = new BigGuy(*enemyGO, hp, pos, node.child("maxDistance").text().as_float());
         enemyGO->AddComponent(enemy);
         AddCollisionObject(enemyGO, { 0.6f, 0.6f }, { 0, 50.0f-COLLISION_OFFSET });
+    } else if(name == "Soldier"){
+        enemy = new Soldier(*enemyGO, hp, pos, node.child("maxDistance").text().as_float());
+        enemyGO->AddComponent(enemy);
+        AddCollisionObject(enemyGO, { 0.6f, 0.6f }, { 0, 25.0f-COLLISION_OFFSET });
     }
 
 

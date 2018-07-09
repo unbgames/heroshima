@@ -65,5 +65,5 @@ add_executable(HEROshima src/Main.cpp
         src/enemy/WalkingShootingEnemy.cpp include/WalkingShootingEnemy.h
         src/xml/pugiconfig.hpp src/xml/pugixml.cpp src/xml/pugixml.hpp
         src/enemy/BigGuy.cpp include/BigGuy.h
-        src/player/Player.cpp include/Player.h src/engine/components/SwordThreshold.cpp include/SwordThreshold.h)
+        src/player/Player.cpp include/Player.h src/engine/components/SwordThreshold.cpp include/SwordThreshold.h src/enemy/Soldier.cpp include/Soldier.h)
 

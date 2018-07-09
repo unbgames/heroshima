@@ -62,6 +62,7 @@ void Bullet::NotifyCollision(GameObject &other) {
 
     if(other.GetComponent(PLAYER_TYPE) && !other.GetComponent(BULLET_TYPE) && targetsPlayer){
         Explode();
+        Player::player->DecrementHp();
     }
 }
 

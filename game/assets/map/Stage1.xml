@@ -1,6 +1,13 @@
 <stage>
     <enemies>
         <enemy>
+            <name>Soldier</name>
+            <hp>10</hp>
+            <x>600</x>
+            <y>100</y>
+            <maxDistance>100</maxDistance>
+        </enemy>
+        <enemy>
             <name>FallingChasingEnemy</name>
             <hp>30</hp>
             <x>1700</x>
