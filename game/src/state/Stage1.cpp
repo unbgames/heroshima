@@ -68,6 +68,7 @@ void Stage1::Render() {
 }
 
 void Stage1::Start() {
+    Camera::pos = {0,0};
     StartArray();
     LoadAssets();
     backgroundMusic.Play();

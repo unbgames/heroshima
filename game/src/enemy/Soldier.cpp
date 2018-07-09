@@ -17,7 +17,7 @@ Soldier::Soldier(GameObject &associated, int hp, const Vec2 &initialPosition, fl
                                                                                                          initialPosition), maxDistance(maxDistance), verticalSpeed(verticalSpeed), speed(Vec2(0,0)) {
 
     walking = StaticSprite("img/enemy/Soldier/soldier_walk.png", 6, 0.1f);
-    attacking = StaticSprite("img/enemy/Soldier/soldier_shooting.png", 10, 0.1f);
+    attacking = StaticSprite("img/enemy/Soldier/soldier_shooting1.png", 10, 0.1f);
     deadByBullet = StaticSprite("img/enemy/Soldier/soldier_deathshot.png", 7, 0.1f);
     deadBySword = StaticSprite("img/enemy/Soldier/soldier_deathsword.png", 7, 0.1f);
     idle = StaticSprite("img/enemy/Soldier/soldier_idle.png", 4, 0.1f);
@@ -42,7 +42,7 @@ void Soldier::Update(float dt) {
     auto collider = (Collider*) associated.GetComponent(COLLIDER_TYPE);
     collider->box += speed;
 
-    if(Player::player && IsCloseEnoughToPlayer(700)) {
+    if(Player::player && IsCloseEnoughToPlayer(1000)) {
         auto playerBox = Player::player->GetAssociatedBox();
         if(state == E_IDLE){
             idleTimer.Update(dt);

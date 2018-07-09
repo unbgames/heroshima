@@ -6,13 +6,14 @@
 #include <Player.h>
 #include "WeaponCrate.h"
 
-WeaponCrate::WeaponCrate(GameObject &associated, const Vec2 &initialPosition, Gun* gun, bool startFalling) :
-        Crate(associated, initialPosition, startFalling), gun(gun) {
-
+WeaponCrate::WeaponCrate(GameObject &associated, const Vec2 &initialPosition, Gun *gun, int ammo, bool startFalling) :
+        Crate(associated, initialPosition, startFalling), gun(gun), ammo(ammo) {
 }
 
 void WeaponCrate::onCatch() {
-    gun->setAmmo(gun->getFull());
+    if(ammo < 0) gun->setAmmo(gun->getFull());
+    else gun->setAmmo(ammo);
+
     Player::playerArms->SetGun(gun);
     associated.RequestDelete();
 

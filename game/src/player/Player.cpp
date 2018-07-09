@@ -24,7 +24,7 @@ using std::string;
 
 Player *Player::player = nullptr;
 PlayerArms *Player::playerArms = nullptr;
-Player::Player(GameObject &associated) : Component(associated), hp(PLAYER_MAX_LIVES), usedSecondJump(false), landed(false), movementState(IDLE), jumpState(ONGROUND), horizontalSpeed(0.0), verticalSpeed(0.0) {
+Player::Player(GameObject &associated) : Component(associated), hp(PLAYER_MAX_LIVES-2), usedSecondJump(false), landed(false), movementState(IDLE), jumpState(ONGROUND), horizontalSpeed(0.0), verticalSpeed(0.0) {
 
     currentSprite = SpriteSheet::soldier;
     bodyState = INITIAL;
@@ -67,12 +67,12 @@ void Player::Update(float dt) {
     }
 
     //To test the life indicator
-    if(InputManager::GetInstance().MousePress(RIGHT_MOUSE_BUTTON))DecrementHp();
-    if(InputManager::GetInstance().MousePress(LEFT_MOUSE_BUTTON))IncremmentHp();
+//    if(InputManager::GetInstance().MousePress(RIGHT_MOUSE_BUTTON))DecrementHp();
+//    if(InputManager::GetInstance().MousePress(LEFT_MOUSE_BUTTON))IncremmentHp();
     //Remove
 
     //To test wiggle effect
-    if(InputManager::GetInstance().IsKeyDown(ENTER_KEY))Camera::Wiggle(0.5);
+//    if(InputManager::GetInstance().IsKeyDown(ENTER_KEY))Camera::Wiggle(0.5);
     //Remove
 
     // Adiciona gravidade

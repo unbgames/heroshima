@@ -173,6 +173,9 @@ void PlayerArms::Attack(string &file, int &frameCount, float &frameTime) const {
             frameTime = gun->getSpriteShoot().frameTime;
         } else{
             sprite->SetVisible(false);
+            file = gun->getSpriteShoot().sprite;
+            frameCount = gun->getSpriteShoot().frameCount;
+            frameTime = gun->getSpriteShoot().frameTime;
         }
     }
 }

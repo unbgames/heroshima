@@ -11,13 +11,14 @@
 
 class WeaponCrate : public Crate {
 public:
-    explicit WeaponCrate(GameObject &associated, const Vec2 &initialPosition, Gun* gun, bool startFalling = true);
+    explicit WeaponCrate(GameObject &associated, const Vec2 &initialPosition, Gun *gun, int ammo, bool startFalling);
 
 protected:
     void onCatch() override;
 
 private:
     Gun* gun;
+    int ammo;
 
 };
 

@@ -58,7 +58,7 @@ protected:
 
     void AddEnemy(pugi::xml_node node);
 
-    void AddCrate(string type, int health, Vec2 pos, bool startFalling);
+    void AddCrate(string type, int health, Vec2 pos, int ammo, bool startFalling);
 };
 
 
