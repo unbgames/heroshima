@@ -23,9 +23,9 @@ MenuHUD::MenuHUD(GameObject &associated, bool isFace, bool isLifeIndicator, bool
         AddClock();
     }
 
-//    auto gunIcon(new GameObject());
-//    gunIcon->AddComponent(new GunManager(*gunIcon, {GAME_WIDTH - gunIcon->box.w - MARGIN_LEFT, MARGIN_TOP}));
-//    Game::GetInstance().GetCurrentState().AddObject(gunIcon);
+    auto gunIcon(new GameObject());
+    gunIcon->AddComponent(new GunManager(*gunIcon, {GAME_WIDTH - gunIcon->box.w - MARGIN_LEFT, MARGIN_TOP}));
+    Game::GetInstance().GetCurrentState().AddObject(gunIcon);
 
 
 }

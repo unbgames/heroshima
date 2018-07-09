@@ -161,7 +161,7 @@ void Player::Update(float dt) {
                             verticalSpeed = -1 * JUMP_SPEED * dt;
                             usedSecondJump = true;
                             auto jumpGO(new GameObject);
-                            auto jumpSound(new Sound(*jumpGO, "audio/SALTO.ogg"));
+                            auto jumpSound(new Sound(*jumpGO, "audio/SALTO.wav"));
                             jumpSound->Play();
                             jumpGO->AddComponent(jumpSound);
                             Game::GetInstance().GetCurrentState().AddObject(jumpGO);
