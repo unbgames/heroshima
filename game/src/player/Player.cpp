@@ -152,7 +152,17 @@ void Player::Update(float dt) {
             }
         }
 
-        cout<<useSword<<endl;
+//        if(IsAttacking() && useSword){
+//            movementState = SWORD_ATTACK;
+//            swordTimer.Update(dt);
+//
+//            if(swordTimer.Get() > currentSprite.frameCount * currentSprite.frameTime){
+//                movementState = IDLE;
+//                swordTimer.Restart();
+//            }
+//        }
+
+//        cout<<(useSword ? "true" : "false") <<endl;
     }
 
     speed = Vec2(horizontalSpeed, verticalSpeed);
@@ -203,6 +213,13 @@ void Player::Render() {
         if (jumpState == LANDING) {
             currentSprite = SpriteSheet::landing;
         }
+
+//        if(movementState == SWORD_ATTACK){
+//            int random = rand() % 3;
+//            if(random == 0) currentSprite = SpriteSheet::sword1;
+//            else if(random == 1) currentSprite = SpriteSheet::sword2;
+//            else  currentSprite = SpriteSheet::sword3;
+//        }
     }
 
     auto sprite = (Sprite*)associated.GetComponent(SPRITE_TYPE);

@@ -57,7 +57,7 @@ private:
 private:
     bool isDamage;
     Timer landingTimer;
-    Timer transformationTimer;
+    Timer transformationTimer, swordTimer;
 
     Vec2 speed;
     float verticalSpeed;
