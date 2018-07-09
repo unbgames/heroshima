@@ -21,7 +21,7 @@ Bullet::Bullet(GameObject &associated,
                float frameTime,
                bool targetsPlayer) : Component(associated), angle(angle) {
 
-    this->damage = damage;
+     this->damage = damage;
     this->targetsPlayer = targetsPlayer;
 
     associated.AddComponent(new Sprite(associated, move(sprite), frameCount, frameTime));

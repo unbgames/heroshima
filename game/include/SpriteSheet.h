@@ -17,6 +17,7 @@ public:
     static StaticSprite jumping;
     static StaticSprite falling;
     static StaticSprite landing;
+    static StaticSprite soldier;
     static StaticSprite transformation;
     static StaticSprite sword1;
     static StaticSprite sword2;

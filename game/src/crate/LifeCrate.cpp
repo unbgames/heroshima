@@ -27,7 +27,7 @@ void LifeCrate::onCatch() {
     associated.RequestDelete();
 
     auto catchGO(new GameObject);
-    auto recharge(new Sound(*catchGO, "audio/recarregar.ogg"));
+    auto recharge(new Sound(*catchGO, "audio/COLETA VIDA.ogg"));
     recharge->Play();
     catchGO->AddComponent(recharge);
     Text *text = new Text(*catchGO, "font/Japanese.ttf", 30, Text::BLENDED, "+" + to_string(health), {255, 255, 255, 255});

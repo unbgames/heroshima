@@ -3,6 +3,7 @@
 //
 
 #include <Sound.h>
+#include <Player.h>
 #include "WeaponCrate.h"
 
 WeaponCrate::WeaponCrate(GameObject &associated, const Vec2 &initialPosition, Gun* gun, bool startFalling) :
@@ -12,12 +13,12 @@ WeaponCrate::WeaponCrate(GameObject &associated, const Vec2 &initialPosition, Gu
 
 void WeaponCrate::onCatch() {
     gun->setAmmo(gun->getFull());
-//    NewPlayer::playerArms->SetGun(gun);
+    Player::playerArms->SetGun(gun);
     associated.RequestDelete();
 
     //FIXME garantir que esse GO eh deletado apos terminar de tocar o som
     auto bulletGO(new GameObject);
-    auto sound(new Sound(*bulletGO, "audio/heavy_machine_gun.wav"));
+    auto sound(new Sound(*bulletGO, "audio/COLETA BALAS.ogg"));
     sound->Play();
 
 }

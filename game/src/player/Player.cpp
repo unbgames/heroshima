@@ -23,9 +23,10 @@ using std::string;
 
 Player *Player::player = nullptr;
 PlayerArms *Player::playerArms = nullptr;
-Player::Player(GameObject &associated) : Component(associated), hp(2), usedSecondJump(false), isDamage(false), landed(false), movementState(IDLE), jumpState(ONGROUND), transformed(false), horizontalSpeed(0.0), verticalSpeed(0.0) {
+Player::Player(GameObject &associated) : Component(associated), hp(2), usedSecondJump(false), landed(false), movementState(IDLE), jumpState(ONGROUND), horizontalSpeed(0.0), verticalSpeed(0.0) {
 
-    currentSprite = SpriteSheet::transformation;
+    currentSprite = SpriteSheet::soldier;
+    bodyState = INITIAL;
 
     Sprite* body = new Sprite(associated, currentSprite.sprite, currentSprite.frameCount, currentSprite.frameTime);
     associated.box.w = body->GetWidth();
@@ -72,15 +73,27 @@ void Player::Update(float dt) {
     // Adiciona gravidade
     verticalSpeed += Gravity::GetGravityAcc() * dt;
 
-    if (!transformed) {
+    if (bodyState == INITIAL) {
+        if (InputManager::GetInstance().IsKeyDown(A_KEY) ||
+            InputManager::GetInstance().IsKeyDown(D_KEY) ||
+            InputManager::GetInstance().IsKeyDown(W_KEY) ||
+            InputManager::GetInstance().IsKeyDown(S_KEY)) {
+            bodyState = TRANSFORMING;
+            auto transformGO(new GameObject);
+            auto transformSound(new Sound(*transformGO, "audio/TRANSFORMAÇÃO.ogg"));
+            transformSound->Play();
+            transformGO->AddComponent(transformSound);
+            Game::GetInstance().GetCurrentState().AddObject(transformGO);
+        }
+    } else if (bodyState == TRANSFORMING) {
 
         transformationTimer.Update(dt);
         if(transformationTimer.Get() > currentSprite.frameTime * currentSprite.frameCount){
-            transformed = true;
+            bodyState = DEFAULT;
             jumpState = ONGROUND;
         }
 
-    } else if (isDamage) {
+    } else if (bodyState == DAMAGED) {
 
     } else {
 
@@ -207,10 +220,10 @@ void Player::Update(float dt) {
 
 void Player::Render() {
 
-    if (!transformed) {
-
+    if (bodyState == INITIAL) {
+        currentSprite = SpriteSheet::soldier;
+    } else if (bodyState == TRANSFORMING) {
         currentSprite = SpriteSheet::transformation;
-
     } else {
 
         if (movementState == CROUCH) {
@@ -315,8 +328,8 @@ void Player::NotifyCollision(GameObject &other) {
     }
 }
 
-bool Player::IsTransformed() const {
-    return transformed;
+BodyState Player::GetBodyState() const {
+    return bodyState;
 }
 
 bool Player::IsAttacking() const {

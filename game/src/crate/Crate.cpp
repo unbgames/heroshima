@@ -22,8 +22,10 @@ Crate::Crate(GameObject &associated, Vec2 initialPosition, bool startFalling) :
 }
 
 void Crate::Update(float dt) {
+
+    auto collider = (Collider*) associated.GetComponent(COLLIDER_TYPE);
     if(Player::player) {
-        if (Player::player->GetAssociatedBox().x > associated.box.x - CRATE_OFFSET) {
+        if (Player::player->GetAssociatedBox().x > collider->box.x - CRATE_OFFSET) {
             if (!fell) {
                 fell = true;
                 associated.AddComponent(new Gravity(associated));
@@ -40,11 +42,14 @@ bool Crate::Is(string type) {
 
 void Crate::NotifyCollision(GameObject &other) {
     auto collisionTile = (CollisionTile*) other.GetComponent(COLLISION_TILE_T);
+    auto collider = (Collider*) associated.GetComponent(COLLIDER_TYPE);
     if (collisionTile) {
         Component *gravity = associated.GetComponent(GRAVITY_TYPE);
         //Removes gravity after touch ground;
         if(gravity){associated.RemoveComponent(gravity);}
-        associated.box.y =  other.box.y - associated.box.h;
+        collider->box.y = other.box.y - collider->box.h;
+        auto offset = (Vec2(0,0)-collider->GetOffset()).RotateDeg((float)(associated.angleDeg));
+        associated.box.y = collider->GetBox().GetCenter().y - (collider->GetBox().h / collider->GetScale().y) / 2 + offset.y;
     }
 
     auto player = (Player*) other.GetComponent(PLAYER_TYPE);

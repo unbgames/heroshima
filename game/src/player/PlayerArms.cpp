@@ -8,6 +8,7 @@
 #include <Sound.h>
 #include <Player.h>
 #include <Sprite.h>
+#include <Camera.h>
 
 #include "Bullet.h"
 #include "Game.h"
@@ -32,7 +33,7 @@ void PlayerArms::Start() {
 }
 
 void PlayerArms::Update(float dt) {
-    if (player.IsDead()) {
+    if (Player::player == nullptr || player.IsDead()) {
         associated.RequestDelete();
         return;
     }
@@ -49,11 +50,14 @@ void PlayerArms::Update(float dt) {
         if(shootCooldownTimer.Get() >= gun->getCooldownTime() && (gun->getAmmo() > 0 || gun->getAmmo() == -1)) {
             if(!Player::player->UseSword()) {
                 int shootAngle = (player.orientation == Orientation::LEFT ? 180 : 0);
-                Shoot(shootAngle);
-                shootCooldownTimer.Restart();
+                auto playerComp = (Player*) player.GetComponent(PLAYER_TYPE);
+                if (playerComp != nullptr && playerComp->GetBodyState() != TRANSFORMING && playerComp->GetBodyState() != INITIAL) {
+                    Shoot(shootAngle);
+                    shootCooldownTimer.Restart();
 
-                if (gun->getAmmo() != -1) {
-                    gun->decrementAmmo();
+                    if (gun->getAmmo() != -1) {
+                        gun->decrementAmmo();
+                    }
                 }
             }
         }
@@ -153,7 +157,7 @@ void PlayerArms::Render() {
 
     auto playerComp = (Player*) player.GetComponent(PLAYER_TYPE);
     if (playerComp != nullptr) {
-        sprite->SetVisible(!playerComp->IsAttacking() || playerComp->IsTransformed());
+        sprite->SetVisible(playerComp->GetBodyState() != TRANSFORMING && playerComp->GetBodyState() != INITIAL);
     }
 
     sprite->Open(file);
@@ -163,13 +167,15 @@ void PlayerArms::Render() {
 
 void PlayerArms::Attack(string &file, int &frameCount, float &frameTime) const {
     auto sprite = (Sprite*)associated.GetComponent(SPRITE_TYPE);
-    if(!Player::player->UseSword()) {
-        sprite->SetVisible(true);
-        file = gun->getSpriteShoot().sprite;
-        frameCount = gun->getSpriteShoot().frameCount;
-        frameTime = gun->getSpriteShoot().frameTime;
-    } else{
-        sprite->SetVisible(false);
+    if (Player::player != nullptr) {
+        if(!Player::player->UseSword()) {
+            sprite->SetVisible(true);
+            file = gun->getSpriteShoot().sprite;
+            frameCount = gun->getSpriteShoot().frameCount;
+            frameTime = gun->getSpriteShoot().frameTime;
+        } else{
+            sprite->SetVisible(false);
+        }
     }
 }
 
@@ -178,6 +184,7 @@ bool PlayerArms::Is(string type) {
 }
 
 void PlayerArms::Shoot(float angle) {
+
     auto bulletGo = new GameObject;
     bulletGo->AddComponent(new Bullet(*bulletGo, angle, gun->getProjectile().speed, gun->getDamage(), 1000, gun->getProjectile().sprite, gun->getProjectile().frameCount, gun->getProjectile().frameTime, false));
     if(associated.orientation == Orientation::RIGHT){
@@ -189,7 +196,7 @@ void PlayerArms::Shoot(float angle) {
     }
     auto sound(new Sound(*bulletGo, "audio/GUN SHOT.ogg"));
     sound->Play();
-    Game::GetInstance().GetCurrentState().AddCollisionObject(bulletGo, { 1.0f, 0.3f }, { 20.0f, -5.0f });
+    Game::GetInstance().GetCurrentState().AddCollisionObject(bulletGo, { 1.0f, 0.3f }, { 20.0f, ( -5.0f - COLLISION_OFFSET) * (associated.orientation == Orientation::RIGHT ? 1 : -1) });
 }
 
 void PlayerArms::DropGun() {

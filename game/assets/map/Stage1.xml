@@ -2,13 +2,13 @@
     <enemies>
         <enemy>
             <name>FallingChasingEnemy</name>
-            <hp>2</hp>
+            <hp>30</hp>
             <x>1700</x>
             <y>0</y>
         </enemy>
         <enemy>
             <name>BigGuy</name>
-            <hp>5</hp>
+            <hp>100</hp>
             <x>2500</x>
             <y>100</y>
             <maxDistance>590</maxDistance>
@@ -21,11 +21,11 @@
             <health>1</health>
             <startFalling>true</startFalling>
         </crate>
-        <!--<crate>-->
-            <!--<type>heavy</type>-->
-            <!--<x>800</x>-->
-            <!--<y>720</y>-->
-            <!--<startFalling>false</startFalling>-->
-        <!--</crate>-->
+        <crate>
+            <type>heavy</type>
+            <x>800</x>
+            <y>720</y>
+            <startFalling>false</startFalling>
+        </crate>
     </crates>
 </stage>

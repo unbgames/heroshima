@@ -31,7 +31,7 @@ public:
     static PlayerArms* playerArms;
 
     int GetHp() const;
-    bool IsTransformed() const;
+    BodyState GetBodyState() const;
     bool IsAttacking() const;
     void SetHp(int hp);
     void IncremmentHp();
@@ -50,12 +50,12 @@ private:
 
     MoveState movementState;
     JumpState jumpState;
+    BodyState bodyState;
 
     int hp;
-    bool usedSecondJump, landed, transformed, useSword;
+    bool usedSecondJump, landed, useSword;
 
 private:
-    bool isDamage;
     Timer landingTimer;
     Timer transformationTimer, swordTimer;
 

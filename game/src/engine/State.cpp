@@ -271,5 +271,5 @@ void State::AddCrate(string type, int health, Vec2 pos, bool startFalling) {
         crateGO->AddComponent(new WeaponCrate(*crateGO, pos, SpriteSheet::heavy, startFalling));
     }
 
-    AddCollisionObject(crateGO);
+    AddCollisionObject(crateGO, {1, 1}, {0, -COLLISION_OFFSET});
 }
