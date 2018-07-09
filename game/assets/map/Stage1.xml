@@ -50,7 +50,7 @@
         </crate>
         <crate>
             <type>heavy</type>
-            <x>800</x>
+            <x>1600</x>
             <ammo>50</ammo>
             <startFalling>true</startFalling>
         </crate>

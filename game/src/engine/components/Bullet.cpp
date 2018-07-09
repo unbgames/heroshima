@@ -60,7 +60,7 @@ void Bullet::NotifyCollision(GameObject &other) {
 
     }
 
-    if(other.GetComponent(PLAYER_TYPE) && !other.GetComponent(BULLET_TYPE) && targetsPlayer){
+    if(other.GetComponent(PLAYER_TYPE) && !other.GetComponent(BULLET_TYPE) && targetsPlayer && Player::player->getMovementState() != CROUCH){
         Explode();
         Player::player->DecrementHp();
     }
