@@ -13,7 +13,7 @@
 #include "FallingChasingEnemy.h"
 
 FallingChasingEnemy::FallingChasingEnemy(GameObject &associated, int hp, Vec2 initialPosition, bool startFalling)
-        : Enemy(associated, hp, initialPosition), fell(false), landed(false), hit(false), speed({0, 0}) {
+        : Enemy(associated, hp, initialPosition), fell(false), landed(false), hit(false), speed({0, 0}), playDeadByBulledSound(true) {
 
     falling = StaticSprite("img/assassin_idel.png", 4, 0.2f);
     chasing = StaticSprite("img/assassin_andando.png", 6, 0.06f);
@@ -36,12 +36,14 @@ FallingChasingEnemy::FallingChasingEnemy(GameObject &associated, int hp, Vec2 in
 }
 
 void FallingChasingEnemy::Update(float dt) {
+
+    auto collider = (Collider*) associated.GetComponent(COLLIDER_TYPE);
     if (Player::player) {
         auto playerBox = Player::player->GetAssociatedBox();
 
         if (state == E_STOPPED) {
 
-            if (playerBox.x > associated.box.x - PLAYER_DISTANCE_OFFSET && !fell) {
+            if (playerBox.x > collider->box.x - PLAYER_DISTANCE_OFFSET && !fell) {
                 state = E_FALLING;
                 if (!fell) {
                     fell = true;
@@ -61,12 +63,12 @@ void FallingChasingEnemy::Update(float dt) {
         } else if (state == E_CHASING) {
 
             if (!IsCloseEnoughToPlayer(PLAYER_DISTANCE_THRESHOLD)) {
-                if (associated.box.x > playerBox.x + PLAYER_DISTANCE_THRESHOLD) {
+                if (collider->box.x > playerBox.x + PLAYER_DISTANCE_THRESHOLD) {
                     associated.orientation = LEFT;
-                    associated.box.x -= SPEED * dt;
-                } else if (associated.box.x < playerBox.x - PLAYER_DISTANCE_THRESHOLD + associated.box.w / 2) {
+                    collider->box.x -= SPEED * dt;
+                } else if (collider->box.x < playerBox.x - PLAYER_DISTANCE_THRESHOLD + collider->box.w / 2) {
                     associated.orientation = RIGHT;
-                    associated.box.x += SPEED * dt;
+                    collider->box.x += SPEED * dt;
                 }
             } else {
                 state = E_PREPARING;
@@ -91,8 +93,8 @@ void FallingChasingEnemy::Update(float dt) {
             if (attackingTimer.Get() > attacking.frameCount * attacking.frameTime) {
                 state = E_IDLE;
                 attackingTimer.Restart();
-            } else if (abs(associated.box.x - playerBox.x) > 25) {
-                associated.box.x += (associated.orientation == RIGHT ? 0.5 : -0.5) * SPEED * dt;
+            } else if (abs(collider->box.x - playerBox.x) > 25) {
+                collider->box.x += (associated.orientation == RIGHT ? 0.5 : -0.5) * SPEED * dt;
             }
 
         } else if (state == E_DEAD_BY_BULLET) {
@@ -106,13 +108,27 @@ void FallingChasingEnemy::Update(float dt) {
 
         if (hp <= 0) {
             state = E_DEAD_BY_BULLET;
+            if (playDeadByBulledSound) {
+                auto dyingGO(new GameObject);
+                auto dyingSound(new Sound(*dyingGO, "audio/MORTEINIMIGO.ogg"));
+                dyingSound->Play();
+                dyingGO->AddComponent(dyingSound);
+                Game::GetInstance().GetCurrentState().AddObject(dyingGO);
+                playDeadByBulledSound = false;
+            }
         }
+
+        // Atualiza box com box do collider
+        auto offset = (Vec2(0,0)-collider->GetOffset()).RotateDeg((float)(associated.angleDeg));
+        associated.box.x = collider->GetBox().GetCenter().x - (collider->GetBox().w / collider->GetScale().x) / 2 + offset.x;
+        associated.box.y = collider->GetBox().GetCenter().y - (collider->GetBox().h / collider->GetScale().y) / 2 + offset.y;
 
     }
 }
 
 void FallingChasingEnemy::NotifyCollision(GameObject &other) {
     auto collisionTile = (CollisionTile*) other.GetComponent(COLLISION_TILE_T);
+    auto collider = (Collider*) associated.GetComponent(COLLIDER_TYPE);
     if (collisionTile) {
         Gravity *gravity = (Gravity*)associated.GetComponent(GRAVITY_TYPE);
         if(!landed){
@@ -122,7 +138,9 @@ void FallingChasingEnemy::NotifyCollision(GameObject &other) {
             gravity->SetVerticalSpeed(0);
             landed = true;
         }
-        associated.box.y =  other.box.y - associated.box.h;
+        collider->box.y = other.box.y - collider->box.h;
+        auto offset = (Vec2(0,0)-collider->GetOffset()).RotateDeg((float)(associated.angleDeg));
+        associated.box.y = collider->GetBox().GetCenter().y - (collider->GetBox().h / collider->GetScale().y) / 2 + offset.y;
     }
 
     auto player = (Player*) other.GetComponent(PLAYER_TYPE);

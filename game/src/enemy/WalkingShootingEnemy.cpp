@@ -9,6 +9,7 @@
 #include <Sound.h>
 #include <Game.h>
 #include <Player.h>
+#include <Collider.h>
 #include "WalkingShootingEnemy.h"
 
 WalkingShootingEnemy::WalkingShootingEnemy(GameObject &associated, int hp, Vec2 initialPosition) : Enemy(associated, hp, initialPosition) {
@@ -30,11 +31,13 @@ WalkingShootingEnemy::WalkingShootingEnemy(GameObject &associated, int hp, Vec2 
 }
 
 void WalkingShootingEnemy::Update(float dt) {
+
+    auto collider = (Collider*) associated.GetComponent(COLLIDER_TYPE);
     if(Player::player) {
         auto playerBox = Player::player->GetAssociatedBox();
 
         if (state == E_STOPPED) {
-            if (playerBox.x > associated.box.x - PLAYER_DISTANCE_OFFSET) {
+            if (playerBox.x > collider->box.x - PLAYER_DISTANCE_OFFSET) {
                 state = E_ATTACKING;
             }
         } else if (state == E_ATTACKING) {
@@ -55,17 +58,25 @@ void WalkingShootingEnemy::Update(float dt) {
         if (hp <= 0) {
             state = E_DEAD_BY_BULLET;
         }
+
+        // Atualiza box com box do collider
+        auto offset = (Vec2(0,0)-collider->GetOffset()).RotateDeg((float)(associated.angleDeg));
+        associated.box.x = collider->GetBox().GetCenter().x - (collider->GetBox().w / collider->GetScale().x) / 2 + offset.x;
+        associated.box.y = collider->GetBox().GetCenter().y - (collider->GetBox().h / collider->GetScale().y) / 2 + offset.y;
     }
 }
 
 void WalkingShootingEnemy::NotifyCollision(GameObject &other) {
     auto collisionTile = (CollisionTile*) other.GetComponent(COLLISION_TILE_T);
+    auto collider = (Collider*) associated.GetComponent(COLLIDER_TYPE);
     if (collisionTile) {
         Gravity *gravity = (Gravity*)associated.GetComponent(GRAVITY_TYPE);
         if(gravity){
             gravity->SetVerticalSpeed(0);
         }
-        associated.box.y =  other.box.y - associated.box.h;
+        collider->box.y = other.box.y - collider->box.h;
+        auto offset = (Vec2(0,0)-collider->GetOffset()).RotateDeg((float)(associated.angleDeg));
+        associated.box.y = collider->GetBox().GetCenter().y - (collider->GetBox().h / collider->GetScale().y) / 2 + offset.y;
     }
 
     auto bullet = (Bullet*) other.GetComponent(BULLET_TYPE);

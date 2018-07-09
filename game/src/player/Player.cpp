@@ -15,6 +15,7 @@
 #include <Gravity.h>
 #include <PlayerArms.h>
 #include <SwordThreshold.h>
+#include <Sound.h>
 #include "Player.h"
 
 using std::weak_ptr;
@@ -47,11 +48,12 @@ Player::~Player() {
 }
 
 void Player::Update(float dt) {
+    auto collider = (Collider*) associated.GetComponent(COLLIDER_TYPE);
 
     // Logic to camera following
-    if (associated.box.x < -30) {
+    if (collider->box.x < 10) {
         movementState = BLOCKED_LEFT;
-    } else if (associated.box.x > (float)GAME_WIDTH / 2 + 10) {
+    } else if (collider->box.x > (float)GAME_WIDTH / 2 + 50) {
         Camera::Follow(&associated);
         Camera::followX = true;
     } else {
@@ -99,7 +101,7 @@ void Player::Update(float dt) {
             if (InputManager::GetInstance().IsKeyDown(A_KEY)) {
 
                 if (movementState != BLOCKED_LEFT) {
-                    associated.box.x -= ((0.35 * abs(cos((sprite->GetCurrentFrame() + 1) * (M_PI / 4)))) + 0.65) * PLAYER_SPEED * dt;
+                    collider->box.x -= ((0.35f * (float)abs(cos((sprite->GetCurrentFrame() + 1) * (M_PI / 4)))) + 0.65f) * (float)PLAYER_SPEED * dt;
                     movementState = WALKING;
                 }
                 associated.orientation = Orientation::LEFT;
@@ -108,7 +110,7 @@ void Player::Update(float dt) {
             if (InputManager::GetInstance().IsKeyDown(D_KEY)) {
 
                 if (movementState != BLOCKED_RIGHT) {
-                    associated.box.x += ((0.35 * abs(cos((sprite->GetCurrentFrame() + 1) * (M_PI / 4)))) + 0.65) * PLAYER_SPEED * dt;
+                    collider->box.x += ((0.35f * (float)abs(cos((sprite->GetCurrentFrame() + 1) * (M_PI / 4)))) + 0.65f) * (float)PLAYER_SPEED * dt;
                     movementState = WALKING;
                 }
                 associated.orientation = Orientation::RIGHT;
@@ -130,6 +132,11 @@ void Player::Update(float dt) {
                 if (InputManager::GetInstance().KeyPress(W_KEY)) {
                     verticalSpeed = -1 * JUMP_SPEED * dt;
                     usedSecondJump = true;
+                    auto jumpGO(new GameObject);
+                    auto jumpSound(new Sound(*jumpGO, "audio/SALTO.ogg"));
+                    jumpSound->Play();
+                    jumpGO->AddComponent(jumpSound);
+                    Game::GetInstance().GetCurrentState().AddObject(jumpGO);
                 }
             }
 
@@ -141,6 +148,11 @@ void Player::Update(float dt) {
                 landed = true;
                 landingTimer.Restart();
                 jumpState = ONGROUND;
+                auto landingGO(new GameObject);
+                auto landingSound(new Sound(*landingGO, "audio/ATERRISSAGEM.ogg"));
+                landingSound->Play();
+                landingGO->AddComponent(landingSound);
+                Game::GetInstance().GetCurrentState().AddObject(landingGO);
             }
 
         } else if (jumpState == ONGROUND) {
@@ -149,6 +161,11 @@ void Player::Update(float dt) {
                 verticalSpeed -= (Gravity::GetGravityAcc() + JUMP_SPEED) * dt;
                 jumpState = JUMPING;
                 usedSecondJump = false;
+                auto jumpGO(new GameObject);
+                auto jumpSound(new Sound(*jumpGO, "audio/SALTO.ogg"));
+                jumpSound->Play();
+                jumpGO->AddComponent(jumpSound);
+                Game::GetInstance().GetCurrentState().AddObject(jumpGO);
             }
         }
 
@@ -166,11 +183,12 @@ void Player::Update(float dt) {
     }
 
     speed = Vec2(horizontalSpeed, verticalSpeed);
-    associated.box += speed;
+    collider->box += speed;
 
-    // Force update from collider
-    auto collider = (Collider*) associated.GetComponent(COLLIDER_TYPE);
-    collider->Update(dt);
+    // Atualiza box com box do collider
+    auto offset = (Vec2(0,0)-collider->GetOffset()).RotateDeg((float)(associated.angleDeg));
+    associated.box.x = collider->GetBox().GetCenter().x - (collider->GetBox().w / collider->GetScale().x) / 2 + offset.x;
+    associated.box.y = collider->GetBox().GetCenter().y - (collider->GetBox().h / collider->GetScale().y) / 2 + offset.y;
 
     // Recomeça o movimento
     horizontalSpeed = 0;
@@ -178,6 +196,11 @@ void Player::Update(float dt) {
     if (hp <= 0) {
         associated.RequestDelete();
         Camera::Unfollow();
+        auto dyingGO(new GameObject);
+        auto dyingSound(new Sound(*dyingGO, "audio/MORTEHERO.ogg"));
+        dyingSound->Play();
+        dyingGO->AddComponent(dyingSound);
+        Game::GetInstance().GetCurrentState().AddObject(dyingGO);
     }
 
 }
@@ -265,7 +288,9 @@ void Player::NotifyCollision(GameObject &other) {
 
         if (edge.BOTTOM) {
             verticalSpeed = 0;
-            associated.box.y = other.box.y - associated.box.h + 1;
+            collider->box.y = other.box.y - collider->box.h + 1;
+            auto offset = (Vec2(0,0)-collider->GetOffset()).RotateDeg((float)(associated.angleDeg));
+            associated.box.y = collider->GetBox().GetCenter().y - (collider->GetBox().h / collider->GetScale().y) / 2 + offset.y;
             jumpState = landed ? ONGROUND : LANDING;
         }
 
@@ -282,12 +307,12 @@ void Player::NotifyCollision(GameObject &other) {
 
     }
 
-        auto swordTrigger = (SwordThreshold *) other.GetComponent(SWORD_THRESHOLD_TYPE);
-        if (swordTrigger) {
-            useSword = true;
-        } else {
-            useSword = false;
-        }
+    auto swordTrigger = (SwordThreshold *) other.GetComponent(SWORD_THRESHOLD_TYPE);
+    if (swordTrigger) {
+        useSword = true;
+    } else {
+        useSword = false;
+    }
 }
 
 bool Player::IsTransformed() const {

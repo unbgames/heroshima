@@ -19,7 +19,7 @@ public:
     Rect SubVec2(Vec2 v);
     Rect MulVec2(Vec2 v);
 
-    Vec2 GetCenter();
+    Vec2 GetCenter() const;
     Vec2 GetPos();
     void SetPos(Vec2 v);
     void SetCenter(Vec2 v);

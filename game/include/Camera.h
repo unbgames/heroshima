@@ -10,6 +10,7 @@
 
 #define CAMERA_SPEED    300
 #define VERTICAL_OFFSET 150
+#define COLLISION_OFFSET 50
 #define BODY_OFFSET 571
 
 class Camera {

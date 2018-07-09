@@ -4,6 +4,7 @@
 
 #include "State.h"
 #include <Collider.h>
+#include "Camera.h"
 #include <Collision.h>
 #include <Game.h>
 #include <WalkingShootingEnemy.h>
@@ -243,18 +244,18 @@ void State::AddEnemy(pugi::xml_node node) {
     if(name == "WalkingShootingEnemy"){
         enemy = new WalkingShootingEnemy(*enemyGO, hp, pos);
         enemyGO->AddComponent(enemy);
-        AddCollisionObject(enemyGO);
+        AddCollisionObject(enemyGO, {1,1}, {0, -COLLISION_OFFSET});
 
     } else if(name == "FallingChasingEnemy"){
         enemy = new FallingChasingEnemy(*enemyGO, hp, pos);
         enemyGO->AddComponent(enemy);
-        AddCollisionObject(enemyGO);
+        AddCollisionObject(enemyGO, {1,1}, {0, -COLLISION_OFFSET});
 
     } else if(name =="BigGuy"){
 
         enemy = new BigGuy(*enemyGO, hp, pos, node.child("maxDistance").text().as_float());
         enemyGO->AddComponent(enemy);
-        AddCollisionObject(enemyGO, { 0.6f, 0.6f }, { 0, 50.0f });
+        AddCollisionObject(enemyGO, { 0.6f, 0.6f }, { 0, 50.0f-COLLISION_OFFSET });
     }
 
 

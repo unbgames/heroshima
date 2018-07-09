@@ -21,7 +21,7 @@ public:
     void NotifyCollision(GameObject &other) override;
 
 private:
-    bool fell, landed, hit;
+    bool fell, landed, hit, playDeadByBulledSound;
     Vec2 speed;
     Timer idleTimer, preparingTimer, attackingTimer, deadTimer;
 };

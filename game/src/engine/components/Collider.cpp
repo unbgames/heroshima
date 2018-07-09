@@ -22,6 +22,7 @@ Collider::Collider(GameObject &associated, Vec2 scale, Vec2 offset) : Component(
 }
 
 void Collider::Update(float dt) {
+
     Rect aux = Rect();
 
     aux.w = associated.box.w * scale.x;
@@ -32,8 +33,6 @@ void Collider::Update(float dt) {
     aux.y = center.y - aux.h / 2;
 
     this->box = aux + offset.RotateDeg((float)(associated.angleDeg));
-
-//    edge = {false, false, false, false};
 }
 
 void Collider::Render() {
@@ -71,8 +70,16 @@ void Collider::SetScale(const Vec2 &scale) {
     this->scale = scale;
 }
 
+const Vec2 &Collider::GetScale() const {
+    return scale;
+}
+
 void Collider::SetOffset(const Vec2 &offset) {
     this->offset = offset;
+}
+
+const Vec2 &Collider::GetOffset() const {
+    return offset;
 }
 
 const Edge &Collider::GetEdge() const {
@@ -85,8 +92,4 @@ const Rect &Collider::GetBox() const {
 
 void Collider::SetEdge(const Edge &edge) {
     Collider::edge = edge;
-}
-
-void Collider::SetBox(const Rect &box) {
-    Collider::box = box;
 }

@@ -22,11 +22,12 @@ public:
     void SetScale(const Vec2 &scale);
     void SetOffset(const Vec2 &offset);
 
+    const Vec2 &GetScale() const;
+    const Vec2 &GetOffset() const;
     const Edge &GetEdge() const;
     const Rect &GetBox() const;
 
     void SetEdge(const Edge &edge);
-    void SetBox(const Rect &box);
 
 private:
     Vec2 scale;

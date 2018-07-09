@@ -31,8 +31,8 @@ Stage1::Stage1() {
 
     auto playerGO(new GameObject);
     playerGO->AddComponent(new Player(*playerGO));
-    playerGO->box += {50, GAME_HEIGHT - playerGO->box.h - 256 + 70};
-    AddCollisionObject(playerGO, {0.4, 0.9}, {-8, 5});
+    playerGO->box += {50, GAME_HEIGHT - playerGO->box.h - 512};
+    AddCollisionObject(playerGO, {0.4, 0.9}, {-8, -COLLISION_OFFSET});
 
     quitRequested = false;
 }

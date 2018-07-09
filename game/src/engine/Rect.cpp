@@ -20,7 +20,7 @@ Rect Rect::MulVec2(Vec2 v) {
     return {x, y, w * v.x, h * v.y};
 }
 
-Vec2 Rect::GetCenter() {
+Vec2 Rect::GetCenter() const {
     return {x + (w/2), y + (h/2)};
 }
 
