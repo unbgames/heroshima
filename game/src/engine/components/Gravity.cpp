@@ -4,7 +4,11 @@
 
 #include "Gravity.h"
 
-Gravity::Gravity(GameObject &associated) : Component(associated), verticalSpeed(0), speed({0, 0}) {}
+Gravity::Gravity(GameObject &associated) : Component(associated) {
+
+    this->verticalSpeed = 0;
+    this->speed = {0,0};
+}
 
 void Gravity::Update(float dt) {
     verticalSpeed += GRAVITY * dt;

@@ -5,8 +5,8 @@
 #ifndef SRC_BIGGUY_H
 #define SRC_BIGGUY_H
 
-#define SPEED 100
-#define PLAYER_DISTANCE_OFFSET 80
+#define BG_SPEED 100
+#define BG_PLAYER_DISTANCE_OFFSET 80
 
 
 #include "Enemy.h"

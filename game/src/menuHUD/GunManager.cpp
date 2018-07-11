@@ -27,7 +27,6 @@ GunManager::GunManager(GameObject &associated, Vec2 offset) : Component(associat
 void GunManager::Update(float dt) {
     auto sprite = (Sprite*)gunIconGO->GetComponent(SPRITE_TYPE);
     auto text = (Text*)ammoCounterGO->GetComponent(TEXT_TYPE);
-    auto cameraFollower = (CameraFollower*)ammoCounterGO->GetComponent(CAMERA_FOLLOWER_TYPE);
 
     if(Player::playerArms->GetGun() == SpriteSheet::pistol){
         if(sprite) sprite->Open("img/pistol_icon.png");

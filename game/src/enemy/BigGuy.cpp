@@ -13,9 +13,13 @@
 #include <Collider.h>
 #include "BigGuy.h"
 
-BigGuy::BigGuy(GameObject &associated, int hp, const Vec2 &initialPosition, float maxDistance) : Enemy(associated, hp, initialPosition),
-                                                                                                 going(true), initialPosition(initialPosition),
-                                                                                                 maxDistance(maxDistance), damaged(false), canDamage(true) {
+BigGuy::BigGuy(GameObject &associated, int hp, const Vec2 &initialPosition, float maxDistance) : Enemy(associated, hp, initialPosition) {
+
+    this->going = true;
+    this->initialPosition = initialPosition;
+    this->maxDistance = maxDistance;
+    this->damaged = false;
+    this->canDamage = true;
 
     walking = StaticSprite("img/enemy/BigGuy/walking.png", 6, 0.1f);
     attacking = StaticSprite("img/enemy/BigGuy/attack.png", 9, 0.1f);
@@ -48,7 +52,7 @@ void BigGuy::Update(float dt) {
             if (going) {
                 if (collider->box.x < maxDistance + initialPosition.x) {
                     associated.orientation = RIGHT;
-                    collider->box.x += SPEED * dt;
+                    collider->box.x += BG_SPEED * dt;
                 } else {
                     going = false;
                 }
@@ -56,11 +60,11 @@ void BigGuy::Update(float dt) {
             } else {
                 if (collider->box.x > initialPosition.x) {
                     associated.orientation = LEFT;
-                    collider->box.x -= SPEED * dt;
+                    collider->box.x -= BG_SPEED * dt;
                 } else going = true;
             }
 
-            if (IsCloseEnoughToPlayer(PLAYER_DISTANCE_OFFSET)) {
+            if (IsCloseEnoughToPlayer(BG_PLAYER_DISTANCE_OFFSET)) {
                 if (attackCooldown.Get() > 3)
                     state = E_ATTACKING;
             }

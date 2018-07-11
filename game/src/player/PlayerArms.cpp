@@ -18,7 +18,9 @@
 using std::string;
 using std::weak_ptr;
 
-PlayerArms::PlayerArms(GameObject &associated, weak_ptr<GameObject> player) : Component(associated), player(*player.lock()), isAttacking(false) {
+PlayerArms::PlayerArms(GameObject &associated, weak_ptr<GameObject> player) : Component(associated), player(*player.lock()) {
+
+    this->isAttacking = false;
 
     gun = SpriteSheet::pistol;
 

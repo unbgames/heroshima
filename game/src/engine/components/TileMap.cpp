@@ -53,10 +53,12 @@ void TileMap::Start() {
             auto index = (unsigned)At(i, j, mapDepth - 1);
             if (index < (unsigned)(tileSet->GetRows() * tileSet->GetColumns()) - 1) {
                 auto *collisionGO = new GameObject;
-                collisionGO->box = {(int)(i * tileSet->GetTileWidth() - Camera::pos.x),
-                                    (int)(j * tileSet->GetTileHeight() - Camera::pos.y),
-                                    tileSet->GetTileWidth(),
-                                    tileSet->GetTileHeight()};
+                collisionGO->box = {
+                    (float)(i * tileSet->GetTileWidth()) - Camera::pos.x,
+                    (float)(j * tileSet->GetTileHeight()) - Camera::pos.y,
+                    (float)tileSet->GetTileWidth(),
+                    (float)tileSet->GetTileHeight()
+                };
                 collisionGO->AddComponent(new Collider(*collisionGO));
                 collisionGO->AddComponent(new CollisionTile(*collisionGO));
                 Game::GetInstance().GetCurrentState().AddTileObject(collisionGO);

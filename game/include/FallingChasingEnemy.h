@@ -6,9 +6,9 @@
 #define SRC_ENEMY1_H
 
 #define PLAYER_DISTANCE_THRESHOLD 80
-#define PLAYER_DISTANCE_OFFSET 300
+#define FCE_PLAYER_DISTANCE_OFFSET 300
 #define IDLE_TIME 1
-#define SPEED 200
+#define FCE_SPEED 200
 
 #include "Enemy.h"
 

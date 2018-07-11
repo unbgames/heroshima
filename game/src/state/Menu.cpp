@@ -57,7 +57,7 @@ void Menu::Update(float dt){
         if(optSelected == (int) options.size()) optSelected = 0;
     }
 
-    for (auto i = 0; i < options.size(); i++) {
+    for (unsigned i = 0; i < options.size(); i++) {
         if (options[i]->GetAssociatedBox().Contains(inputManager.GetMouse())) {
             optSelected = FindOption(options[i]->GetText());
             if (inputManager.MouseRelease(LEFT_MOUSE_BUTTON) || inputManager.KeyPress(ENTER_KEY)) {

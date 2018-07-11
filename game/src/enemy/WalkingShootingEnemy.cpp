@@ -37,7 +37,7 @@ void WalkingShootingEnemy::Update(float dt) {
         auto playerBox = Player::player->GetAssociatedBox();
 
         if (state == E_STOPPED) {
-            if (playerBox.x > collider->box.x - PLAYER_DISTANCE_OFFSET) {
+            if (playerBox.x > collider->box.x - WSE_PLAYER_DISTANCE_OFFSET) {
                 state = E_ATTACKING;
             }
         } else if (state == E_ATTACKING) {

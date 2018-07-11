@@ -24,10 +24,16 @@ using std::string;
 
 Player *Player::player = nullptr;
 PlayerArms *Player::playerArms = nullptr;
-Player::Player(GameObject &associated) : Component(associated), hp(PLAYER_MAX_LIVES-2), usedSecondJump(false), landed(false), movementState(IDLE), jumpState(ONGROUND), horizontalSpeed(0.0), verticalSpeed(0.0) {
+Player::Player(GameObject &associated) : Component(associated), hp(PLAYER_MAX_LIVES-2) {
 
+    landed = false;
+    usedSecondJump = false;
     currentSprite = SpriteSheet::soldier;
     bodyState = INITIAL;
+    movementState = IDLE;
+    jumpState = ONGROUND;
+    horizontalSpeed = 0.0;
+    verticalSpeed = 0.0;
 
     Sprite* body = new Sprite(associated, currentSprite.sprite, currentSprite.frameCount, currentSprite.frameTime);
     associated.box.w = body->GetWidth();

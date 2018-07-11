@@ -14,7 +14,7 @@
 #include "Soldier.h"
 
 Soldier::Soldier(GameObject &associated, int hp, const Vec2 &initialPosition, float maxDistance) : Enemy(associated, hp,
-                                                                                                         initialPosition), maxDistance(maxDistance), verticalSpeed(verticalSpeed), speed(Vec2(0,0)) {
+                                                                                                         initialPosition), maxDistance(maxDistance), verticalSpeed(0.0), speed(Vec2(0,0)) {
 
     walking = StaticSprite("img/enemy/Soldier/soldier_walk.png", 6, 0.1f);
     attacking = StaticSprite("img/enemy/Soldier/soldier_shooting1.png", 10, 0.1f);
@@ -150,5 +150,5 @@ void Soldier::Shoot(float angle) {
     auto sound(new Sound(*bulletGo, "audio/GUN SHOT.ogg"));
     sound->Play();
     bulletGo->AddComponent(sound);
-    Game::GetInstance().GetCurrentState().AddCollisionObject(bulletGo, {1,1}, {0, -COLLISION_OFFSET * (associated.orientation == Orientation::RIGHT ? 1 : -1)});
+    Game::GetInstance().GetCurrentState().AddCollisionObject(bulletGo, {1,1}, {0, -COLLISION_OFFSET * (associated.orientation == Orientation::RIGHT ? 1.0f : -1.0f)});
 }

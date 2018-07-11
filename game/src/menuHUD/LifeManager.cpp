@@ -33,7 +33,7 @@ void LifeManager::Update() {
         }
     }
 
-    for (unsigned i = 0; i < life; i++) {
+    for (int i = 0; i < life; i++) {
         auto *heartGO = new GameObject;
         heartGO->AddComponent(new Sprite(*heartGO, "img/hud_vidas.png"));
 

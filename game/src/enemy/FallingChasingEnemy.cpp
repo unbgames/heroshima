@@ -13,7 +13,13 @@
 #include "FallingChasingEnemy.h"
 
 FallingChasingEnemy::FallingChasingEnemy(GameObject &associated, int hp, Vec2 initialPosition, bool startFalling)
-        : Enemy(associated, hp, initialPosition), fell(false), landed(false), hit(false), speed({0, 0}), playDeadByBulledSound(true) {
+        : Enemy(associated, hp, initialPosition) {
+
+    this->speed = {0,0};
+    this->playDeadByBulledSound = true;
+    this->fell = false;
+    this->landed = false;
+    this->hit = false;
 
     falling = StaticSprite("img/assassin_idel.png", 4, 0.2f);
     chasing = StaticSprite("img/assassin_andando.png", 6, 0.06f);
@@ -42,7 +48,7 @@ void FallingChasingEnemy::Update(float dt) {
         auto playerBox = Player::player->GetAssociatedBox();
 
         if (state == E_STOPPED) {
-            if (playerBox.x > collider->box.x - PLAYER_DISTANCE_OFFSET && !fell) {
+            if (playerBox.x > collider->box.x - FCE_PLAYER_DISTANCE_OFFSET && !fell) {
                 state = E_FALLING;
                 if (!fell) {
                     fell = true;
@@ -66,10 +72,10 @@ void FallingChasingEnemy::Update(float dt) {
                 if (!IsCloseEnoughToPlayer(PLAYER_DISTANCE_THRESHOLD)) {
                     if (collider->box.x > playerBox.x + PLAYER_DISTANCE_THRESHOLD) {
                         associated.orientation = LEFT;
-                        collider->box.x -= SPEED * dt;
+                        collider->box.x -= FCE_SPEED * dt;
                     } else if (collider->box.x < playerBox.x - PLAYER_DISTANCE_THRESHOLD + collider->box.w / 2) {
                         associated.orientation = RIGHT;
-                        collider->box.x += SPEED * dt;
+                        collider->box.x += FCE_SPEED * dt;
                     }
                 } else {
                     state = E_PREPARING;
@@ -95,7 +101,7 @@ void FallingChasingEnemy::Update(float dt) {
                     state = E_IDLE;
                     attackingTimer.Restart();
                 } else if (abs(collider->box.x - playerBox.x) > 25) {
-                    collider->box.x += (associated.orientation == RIGHT ? 0.5 : -0.5) * SPEED * dt;
+                    collider->box.x += (associated.orientation == RIGHT ? 0.5 : -0.5) * FCE_SPEED * dt;
                 }
 
             } else if (state == E_DEAD_BY_BULLET) {

@@ -10,7 +10,11 @@
 #include "MenuHUD.h"
 
 MenuHUD::MenuHUD(GameObject &associated, bool isFace, bool isLifeIndicator, bool isClock) :
-        Component(associated), isClock(isClock), isFace(isFace) {
+        Component(associated) {
+
+    this->isClock = isClock;
+    this->isFace = isFace;
+
     if(isFace){
         AddFace();
     }
@@ -38,8 +42,6 @@ void MenuHUD::Update(float dt) {
     }
 
     if(isFace) {
-        Sprite* faceSprite = (Sprite*)(faceGO->GetComponent(SPRITE_TYPE));
-        //TODO set sprites according to player's emotions
     }
 }
 
