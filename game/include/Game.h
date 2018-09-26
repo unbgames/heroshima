@@ -11,12 +11,11 @@
 #define INCLUDE_SDL
 #include "SDL_include.h"
 #include "State.h"
+#include "config.h"
 
 #define GAME_NAME "HEROshima"
 #define GAME_WIDTH 1280
 #define GAME_HEIGHT 720
-
-#define ASSETS_PATH "assets/"
 
 
 class Game {

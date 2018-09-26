@@ -91,7 +91,7 @@ void Player::Update(float dt) {
             InputManager::GetInstance().IsKeyDown(S_KEY)) {
             bodyState = TRANSFORMING;
             auto transformGO(new GameObject);
-            auto transformSound(new Sound(*transformGO, "audio/TRANSFORMAÇÃO.ogg"));
+            auto transformSound(new Sound(*transformGO, "audio/TRANSFORMACAO.ogg"));
             transformSound->Play();
             transformGO->AddComponent(transformSound);
             Game::GetInstance().GetCurrentState().AddObject(transformGO);
